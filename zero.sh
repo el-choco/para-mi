@@ -430,7 +430,7 @@ sleep 3
 ${apt} upgrade -y
 ${apt} install -y \
 apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript git gpg gnupg gnupg2 htop \
-libfile-fcntllock-perl libfontconfig1 libfuse2 locate lsb-release net-tools screen smbclient socat software-properties-common \
+libfile-fcntllock-perl libfontconfig1 libfuse2 locate lsb-release net-tools rsyslog screen smbclient socat software-properties-common \
 ssl-cert tree ubuntu-keyring unzip wget zip
 
 ###########################
