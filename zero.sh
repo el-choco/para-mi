@@ -301,7 +301,10 @@ ${mv} /etc/hosts.bak /etc/hosts
 ${apt} remove --purge --allow-change-held-packages -y nginx* php* mariadb-* mysql-common libdbd-mariadb-perl galera-* postgresql-* redis* fail2ban ufw
 ${rm} -Rf /etc/ufw /etc/fail2ban /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/$BENUTZERNAME/Nextcloud-Installationsskript/install.log /home/$BENUTZERNAME/Nextcloud-Installationsskript/update.sh
 ${rm} -Rf /etc/nginx /usr/share/keyrings/nginx-archive-keyring.gpg
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
+then
 ${addaptrepository} ppa:ondrej/php -ry
+fi
 ${rm} -f /etc/ssl/certs/dhparam.pem /etc/apt/sources.list.d/* /etc/motd /root/.bash_aliases
 deluser --remove-all-files acmeuser
 crontab -u www-data -r
@@ -399,7 +402,7 @@ function restart_all_services() {
         ${service} postgresql restart
   fi
   ${service} redis-server restart
-  ${service} php8.0-fpm restart
+  ${service} php8.1-fpm restart
   }
 
 ###########################
@@ -442,9 +445,10 @@ ${systemctl} mask sleep.target suspend.target hibernate.target hybrid-sleep.targ
 ###########################
 # PHP 8 Repositories      #
 ###########################
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
+then
 ${addaptrepository} ppa:ondrej/php -y
-# ${echo} "deb https://ppa.launchpadcontent.net/ondrej/php/ubuntu $(lsb_release -cs) main" | /usr/bin/tee /etc/apt/sources.list.d/php.list
-# ${aptkey} adv --keyserver keyserver.ubuntu.com --recv-keys 4f4ea0aae5267a6c
+fi
 
 ###########################
 # NGINX Repositories      #
@@ -459,13 +463,12 @@ ${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
 ###########################
 if [ $DATABASE == "m" ]
 then
-        ${echo} "MariaDB aus dem PPA"
+        ${echo} "MariaDB from Ubuntu"
         # ${echo} "deb [arch=amd64] https://mirror.kumi.systems/mariadb/repo/10.7/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/mariadb.list
         # ${aptkey} adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
 else
-        ${echo} "postgreSQL aus dem PPA"
-        # ${echo} "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
-        # ${wget} --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
+        wget -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null        
 fi
 
 ###########################
@@ -564,55 +567,55 @@ ${clear}
 ${echo} "PHP-Installation"
 ${echo} ""
 sleep 3
-${apt} install -y php-common php8.0-{fpm,gd,curl,xml,zip,intl,mbstring,bz2,ldap,apcu,bcmath,gmp,imagick,igbinary,redis,smbclient,cli,common,opcache,readline} imagemagick ldap-utils nfs-common cifs-utils --allow-change-held-packages
+${apt} install -y php-common php8.1-{fpm,gd,curl,xml,zip,intl,mbstring,bz2,ldap,apcu,bcmath,gmp,imagick,igbinary,redis,smbclient,cli,common,opcache,readline} imagemagick ldap-utils nfs-common cifs-utils --allow-change-held-packages
 AvailableRAM=$(/usr/bin/awk '/MemAvailable/ {printf "%d", $2/1024}' /proc/meminfo)
-AverageFPM=$(/usr/bin/ps --no-headers -o 'rss,cmd' -C php-fpm8.0 | /usr/bin/awk '{ sum+=$1 } END { printf ("%d\n", sum/NR/1024,"M") }')
+AverageFPM=$(/usr/bin/ps --no-headers -o 'rss,cmd' -C php-fpm8.1 | /usr/bin/awk '{ sum+=$1 } END { printf ("%d\n", sum/NR/1024,"M") }')
 FPMS=$((AvailableRAM/AverageFPM))
 PMaxSS=$((FPMS*2/3))
 PMinSS=$((PMaxSS/2))
 PStartS=$(((PMaxSS+PMinSS)/2))
-${cp} /etc/php/8.0/fpm/pool.d/www.conf /etc/php/8.0/fpm/pool.d/www.conf.bak
-${cp} /etc/php/8.0/fpm/php-fpm.conf /etc/php/8.0/fpm/php-fpm.conf.bak
-${cp} /etc/php/8.0/cli/php.ini /etc/php/8.0/cli/php.ini.bak
-${cp} /etc/php/8.0/fpm/php.ini /etc/php/8.0/fpm/php.ini.bak
-${cp} /etc/php/8.0/fpm/php-fpm.conf /etc/php/8.0/fpm/php-fpm.conf.bak
+${cp} /etc/php/8.1/fpm/pool.d/www.conf /etc/php/8.1/fpm/pool.d/www.conf.bak
+${cp} /etc/php/8.1/fpm/php-fpm.conf /etc/php/8.1/fpm/php-fpm.conf.bak
+${cp} /etc/php/8.1/cli/php.ini /etc/php/8.1/cli/php.ini.bak
+${cp} /etc/php/8.1/fpm/php.ini /etc/php/8.1/fpm/php.ini.bak
+${cp} /etc/php/8.1/fpm/php-fpm.conf /etc/php/8.1/fpm/php-fpm.conf.bak
 ${cp} /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xml.bak
-${sed} -i 's/;env\[HOSTNAME\] = /env[HOSTNAME] = /' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/;env\[TMP\] = /env[TMP] = /' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/;env\[TMPDIR\] = /env[TMPDIR] = /' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/;env\[TEMP\] = /env[TEMP] = /' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/;env\[PATH\] = /env[PATH] = /' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/pm.max_children =.*/pm.max_children = '$FPMS'/' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/pm.start_servers =.*/pm.start_servers = '$PStartS'/' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/pm.min_spare_servers =.*/pm.min_spare_servers = '$PMinSS'/' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/pm.max_spare_servers =.*/pm.max_spare_servers = '$PMaxSS'/' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 2000/' /etc/php/8.0/fpm/pool.d/www.conf
-${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/8.0/cli/php.ini
-${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/8.0/cli/php.ini
-${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/8.0/cli/php.ini
-${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/8.0/cli/php.ini
-${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = 10240M/' /etc/php/8.0/cli/php.ini
-${sed} -i "s|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|" /etc/php/8.0/cli/php.ini
-${sed} -i 's/memory_limit = 128M/memory_limit = 2G/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = 10240M/' /etc/php/8.0/fpm/php.ini
-${sed} -i "s|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|" /etc/php/8.0/fpm/php.ini
-${sed} -i 's/;session.cookie_secure.*/session.cookie_secure = True/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/;opcache.enable=.*/opcache.enable=1/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/;opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/;opcache.memory_consumption=.*/opcache.memory_consumption=128/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/;opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=16/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/;opcache.max_accelerated_files=.*/opcache.max_accelerated_files=10000/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/;opcache.revalidate_freq=.*/opcache.revalidate_freq=1/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/;opcache.save_comments=.*/opcache.save_comments=1/' /etc/php/8.0/fpm/php.ini
-${sed} -i 's/allow_url_fopen =.*/allow_url_fopen = 1/' /etc/php/8.0/fpm/php.ini
-${sed} -i '$aapc.enable_cli=1' /etc/php/8.0/mods-available/apcu.ini
-${sed} -i "s|;emergency_restart_threshold.*|emergency_restart_threshold = 10|g" /etc/php/8.0/fpm/php-fpm.conf
-${sed} -i "s|;emergency_restart_interval.*|emergency_restart_interval = 1m|g" /etc/php/8.0/fpm/php-fpm.conf
-${sed} -i "s|;process_control_timeout.*|process_control_timeout = 10|g" /etc/php/8.0/fpm/php-fpm.conf
+${sed} -i 's/;env\[HOSTNAME\] = /env[HOSTNAME] = /' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/;env\[TMP\] = /env[TMP] = /' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/;env\[TMPDIR\] = /env[TMPDIR] = /' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/;env\[TEMP\] = /env[TEMP] = /' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/;env\[PATH\] = /env[PATH] = /' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/pm.max_children =.*/pm.max_children = '$FPMS'/' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/pm.start_servers =.*/pm.start_servers = '$PStartS'/' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/pm.min_spare_servers =.*/pm.min_spare_servers = '$PMinSS'/' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/pm.max_spare_servers =.*/pm.max_spare_servers = '$PMaxSS'/' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 2000/' /etc/php/8.1/fpm/pool.d/www.conf
+${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/8.1/cli/php.ini
+${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/8.1/cli/php.ini
+${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/8.1/cli/php.ini
+${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/8.1/cli/php.ini
+${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = 10240M/' /etc/php/8.1/cli/php.ini
+${sed} -i "s|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|" /etc/php/8.1/cli/php.ini
+${sed} -i 's/memory_limit = 128M/memory_limit = 2G/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = 10240M/' /etc/php/8.1/fpm/php.ini
+${sed} -i "s|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|" /etc/php/8.1/fpm/php.ini
+${sed} -i 's/;session.cookie_secure.*/session.cookie_secure = True/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/;opcache.enable=.*/opcache.enable=1/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/;opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/;opcache.memory_consumption=.*/opcache.memory_consumption=128/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/;opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=16/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/;opcache.max_accelerated_files=.*/opcache.max_accelerated_files=10000/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/;opcache.revalidate_freq=.*/opcache.revalidate_freq=1/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/;opcache.save_comments=.*/opcache.save_comments=1/' /etc/php/8.1/fpm/php.ini
+${sed} -i 's/allow_url_fopen =.*/allow_url_fopen = 1/' /etc/php/8.1/fpm/php.ini
+${sed} -i '$aapc.enable_cli=1' /etc/php/8.1/mods-available/apcu.ini
+${sed} -i "s|;emergency_restart_threshold.*|emergency_restart_threshold = 10|g" /etc/php/8.1/fpm/php-fpm.conf
+${sed} -i "s|;emergency_restart_interval.*|emergency_restart_interval = 1m|g" /etc/php/8.1/fpm/php-fpm.conf
+${sed} -i "s|;process_control_timeout.*|process_control_timeout = 10|g" /etc/php/8.1/fpm/php-fpm.conf
 ${sed} -i 's/rights=\"none\" pattern=\"PS\"/rights=\"read|write\" pattern=\"PS\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"EPS\"/rights=\"read|write\" pattern=\"EPS\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"PDF\"/rights=\"read|write\" pattern=\"PDF\"/' /etc/ImageMagick-6/policy.xml
@@ -622,7 +625,7 @@ ${ln} -s /usr/local/bin/gs /usr/bin/gs
 ###########################
 # Neustart/Restart PHP    #
 ###########################
-${service} php8.0-fpm restart
+${service} php8.1-fpm restart
 ${service} nginx restart
 
 ###########################
@@ -634,7 +637,7 @@ ${echo} ""
 sleep 3
 if [ $DATABASE == "m" ]
 then
-        ${apt} install -y php8.0-mysql mariadb-server --allow-change-held-packages
+        ${apt} install -y php8.1-mysql mariadb-server --allow-change-held-packages
         ${service} mysql stop
         ${mv} /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
         ${cat} <<EOF >/etc/mysql/my.cnf
@@ -737,9 +740,9 @@ EOF
 else
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
 then
-${apt} install -y php8.0-pgsql postgresql-12 --allow-change-held-packages
+${apt} install -y php8.1-pgsql postgresql-14 --allow-change-held-packages
 else
-${apt} install -y php8.0-pgsql postgresql-14 --allow-change-held-packages
+${apt} install -y php8.1-pgsql postgresql-14 --allow-change-held-packages
 fi
 sudo -u postgres psql <<EOF
 CREATE USER ${NCDBUSER} WITH PASSWORD '${NCDBPASSWORD}';
@@ -780,7 +783,7 @@ ${touch} /etc/nginx/conf.d/default.conf
 ${touch} /etc/nginx/conf.d/http.conf
 ${cat} <<EOF >/etc/nginx/conf.d/http.conf
 upstream php-handler {
-  server unix:/run/php/php8.0-fpm.sock;
+  server unix:/run/php/php8.1-fpm.sock;
   }
 map \$arg_v \$asset_immutable {
     "" "";
