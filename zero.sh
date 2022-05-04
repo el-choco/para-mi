@@ -300,7 +300,7 @@ ${rm} -Rf $NEXTCLOUDDATAPATH
 ${mv} /etc/hosts.bak /etc/hosts
 ${apt} remove --purge --allow-change-held-packages -y nginx* php* mariadb-* mysql-common libdbd-mariadb-perl galera-* postgresql-* redis* fail2ban ufw
 ${rm} -Rf /etc/ufw /etc/fail2ban /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/$BENUTZERNAME/Nextcloud-Installationsskript/install.log /home/$BENUTZERNAME/Nextcloud-Installationsskript/update.sh
-${rm} -Rf /etc/nginx /usr/share/keyrings/nginx-archive-keyring.gpg
+${rm} -Rf /etc/nginx /usr/share/keyrings/nginx-archive-keyring.gpg /usr/share/keyrings/postgresql-archive-keyring.gpg
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
 then
 ${addaptrepository} ppa:ondrej/php -ry
