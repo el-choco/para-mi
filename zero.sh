@@ -598,14 +598,14 @@ ${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/$PHPVER
 ${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = 10240M/' /etc/php/$PHPVERSION/cli/php.ini
-${sed} -i "s|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|" /etc/php/$PHPVERSION/cli/php.ini
+${sed} -i 's|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/memory_limit = 128M/memory_limit = 2G/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = 10240M/' /etc/php/$PHPVERSION/fpm/php.ini
-${sed} -i "s|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|" /etc/php/$PHPVERSION/fpm/php.ini
+${sed} -i 's|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;session.cookie_secure.*/session.cookie_secure = True/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.enable=.*/opcache.enable=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/php/$PHPVERSION/fpm/php.ini
@@ -616,9 +616,9 @@ ${sed} -i 's/;opcache.revalidate_freq=.*/opcache.revalidate_freq=1/' /etc/php/$P
 ${sed} -i 's/;opcache.save_comments=.*/opcache.save_comments=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/allow_url_fopen =.*/allow_url_fopen = 1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i '$aapc.enable_cli=1' /etc/php/$PHPVERSION/mods-available/apcu.ini
-${sed} -i "s|;emergency_restart_threshold.*|emergency_restart_threshold = 10|g" /etc/php/$PHPVERSION/fpm/php-fpm.conf
-${sed} -i "s|;emergency_restart_interval.*|emergency_restart_interval = 1m|g" /etc/php/$PHPVERSION/fpm/php-fpm.conf
-${sed} -i "s|;process_control_timeout.*|process_control_timeout = 10|g" /etc/php/$PHPVERSION/fpm/php-fpm.conf
+${sed} -i 's|;emergency_restart_threshold.*|emergency_restart_threshold = 10|g' /etc/php/$PHPVERSION/fpm/php-fpm.conf
+${sed} -i 's|;emergency_restart_interval.*|emergency_restart_interval = 1m|g' /etc/php/$PHPVERSION/fpm/php-fpm.conf
+${sed} -i 's|;process_control_timeout.*|process_control_timeout = 10|g' /etc/php/$PHPVERSION/fpm/php-fpm.conf
 ${sed} -i 's/rights=\"none\" pattern=\"PS\"/rights=\"read|write\" pattern=\"PS\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"EPS\"/rights=\"read|write\" pattern=\"EPS\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"PDF\"/rights=\"read|write\" pattern=\"PDF\"/' /etc/ImageMagick-6/policy.xml
