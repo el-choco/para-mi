@@ -26,25 +26,19 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <code>nano zero.sh</code><br> <br>
 <code>NEXTCLOUDDATAPATH="/data"</code><br>
 <code>NEXTCLOUDADMINUSER="nc_admin"</code><br>
-<code># e.g. NEXTCLOUDADMINUSERPASSWORD="Nc-AdMi!n65#" or it wil be gerated by the script</code><br>
 <code>NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)</code><br>
-<code># Nextcloud Releases can be found here: https://download.nextcloud.com/server/releases/</code><br>
-<code># e.g. NCRELEASE="nextcloud-24.0.0.tar.bz2" or choose the latest/current release</code><br>
 <code>NCRELEASE="latest.tar.bz2"</code><br>
+<code>PHPVERSION="8.1"</code><br>
 <code>NEXTCLOUDDNS="ihre.domain.de"</code><br>
-<code># Let'sEncrypt-SSL/TLS: [y|n]</code><br>
 <code>LETSENCRYPT="n"</code><br>
-<code># NEXTCLOUDEXTIP="123.124.125.120" or read from the system</code><br>
 <code>NEXTCLOUDEXTIP=$(dig +short txt ch whoami.cloudflare @1.0.0.1)</code><br>
-<code># e.g. MARIADBROOTPASSWORD="MaRiAdB-RooT-PwD" or it wil be gerated by the script</code><br>
 <code>MARIADBROOTPASSWORD=$(openssl rand -hex 16)</code><br>
-<code># MariaDB "m" or postgreSQL "p"</code><br>
 <code>DATABASE="m"</code><br>
 <code>NCDBUSER="ncdbuser"</code><br>
-<code># e.g. NCDBPASSWORD="YouR#P@ssworT" or it wil be gerated by the script</code><br>
 <code>NCDBPASSWORD=$(openssl rand -hex 16)</code><br>
 <code>CURRENTTIMEZONE='Europe/Berlin'</code><br>
 <code>PHONEREGION='DE'</code><br>
+
 <h3>Installation:</h3>
 <code>./zero.sh</code>
 <h2>D/E: DEINSTALLATION/UNINSTALL:</h2>
