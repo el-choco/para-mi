@@ -8,11 +8,12 @@ D: Installieren Sie Ihren eigenen Nextcloud-Server in weniger als 10 Minuten.<br
 E: Install your own Nextcloud server in less than 10 minutes.
 
 * Ubuntu 20.04 LTS / 22.04 LTS x86_64
-* NGINX 1.2x from PPA
-* PHP 8.x from PPA
-* Auswahl / Option: MariaDB // postgreSQL
+* NGINX 1.21 from nginx
+* PHP 8.1 from Ubuntu (PPA on Ubuntu 20.04)
+* Auswahl / Option: MariaDB (from Ubuntu) // postgreSQL (from postgreSQL)
 * Auswahl / Option: Self-signed // Let's Encrypt certificates
-* Auswahl / Option: Nextcloud Release
+* Auswahl / Option: Nextcloud Release 24.x<br>
+  <small>(Nextcloud Versions less than 24 aren't compatible with PHP 8.1!)</small>
 * etc...
 
 <h2>INSTALLATION:</h2>
@@ -27,8 +28,8 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <code>NEXTCLOUDADMINUSER="nc_admin"</code><br>
 <code># e.g. NEXTCLOUDADMINUSERPASSWORD="Nc-AdMi!n65#" or it wil be gerated by the script</code><br>
 <code>NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)</code><br>
-<code># Nextcloud Release (https://nextcloud.com/changelog/)</code><br>
-<code># e.g. NCRELEASE="nextcloud-23.0.4.tar.bz2" or choose the latest/current release</code><br>
+<code># Nextcloud Releases can be found here: https://download.nextcloud.com/server/releases/</code><br>
+<code># e.g. NCRELEASE="nextcloud-24.0.0.tar.bz2" or choose the latest/current release</code><br>
 <code>NCRELEASE="latest.tar.bz2"</code><br>
 <code>NEXTCLOUDDNS="ihre.domain.de"</code><br>
 <code># Let'sEncrypt-SSL/TLS: [y|n]</code><br>
