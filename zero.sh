@@ -1281,7 +1281,7 @@ history -w
 # Laufzeit Berechnung     #
 # Calculating runtime     #
 ###########################
-
+${echo} ""
 end=$(date +%s)
 runtime=$((end-start))
 echo ""
@@ -1291,5 +1291,6 @@ else
 echo "Installation process completed in $((runtime/60)) minute and $((runtime%60)) seconds."
 echo ""
 fi
-
+${echo} "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+${echo} ""
 exit 0
