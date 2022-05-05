@@ -1,7 +1,7 @@
 #!/bin/bash
 ##########################################################################################
 # Ubuntu 20.04+ / 22.04+ LTS x86_64
-# Nextcloud 23+ and 24+ (if released!)
+# Nextcloud 24+
 # Carsten Rieger IT-Services (www.c-rieger.de)
 # Vielen Dank an / many thanks to:
 # https://github.com/MrEddX
@@ -35,9 +35,9 @@ NEXTCLOUDADMINUSER="nc_admin"
 NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)
 
 # Nextcloud Release (https://nextcloud.com/changelog/)
-# D: bspw. NCRELEASE="nextcloud-23.0.4.tar.bz2"
+# D: bspw. NCRELEASE="nextcloud-24.0.0.tar.bz2"
 #    oder das aktuelle/letzte (latest.tar.bz2) Release:
-# E: e.g. NCRELEASE="nextcloud-23.0.4.tar.bz2"
+# E: e.g. NCRELEASE="nextcloud-24.0.0.tar.bz2"
 #    or the current/latest (latest.tar.bz2) release:
 NCRELEASE="latest.tar.bz2"
 
