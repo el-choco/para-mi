@@ -1266,9 +1266,16 @@ ${sudo} -u www-data ${touch} /var/log/nextcloud/nextcloud.log
 ###########################
 # occ Aliases (nocc)      #
 ###########################
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
+then
 ${cat} <<EOF >> /root/.bash_aliases
-alias nocc="${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ"
+alias nocc="sudo -u www-data /usr/bin/php /var/www/nextcloud/occ"
 EOF
+else
+${cat} <<EOF >> /root/.bashrc
+alias nocc="sudo -u www-data /usr/bin/php /var/www/nextcloud/occ"
+EOF
+fi
 
 ###########################
 # D: Update-Skript anlegen#
