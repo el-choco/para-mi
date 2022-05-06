@@ -57,5 +57,5 @@ E: All data, databases and software from the previous installation will be remov
 
 D: Weitere Optimierungs-, Härtungs- und Erweiterungsmöglichkeiten finden Sie hier:<br>
 E: Further hardening, optimization and enhancement information can be found here:<br>
-https://www.c-rieger.de/nextcloud24-installationsanleitung/<br>
+https://www.c-rieger.de/nextcloud-installationsanleitung/<br>
 Carsten Rieger IT-Services
