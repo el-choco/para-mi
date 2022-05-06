@@ -1,6 +1,6 @@
 #!/bin/bash
 ##########################################################################################
-# Ubuntu 20.04+ / 22.04+ LTS x86_64
+# Ubuntu 20.04+ / 22.04+ LTS x86_64 / Debian 11 x86_64
 # Nextcloud 24+ (or older Versions)
 # Carsten Rieger IT-Services (www.c-rieger.de)
 # Vielen Dank an / many thanks to:
@@ -133,7 +133,7 @@ echo ""
 exit 1
 fi
 
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 then
 clear
 echo "*************************************************"
@@ -143,7 +143,18 @@ echo "*************************************************"
 echo ""
 echo "* Test: Root ...............:::::::::::::::: OK *"
 echo ""
-echo "* Test: Ubuntu 2X.04 LTS .........:::::::::: OK *"
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
+then
+echo "* Test: Debian 11 was found ........:::::::: OK *"
+fi
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
+then
+echo "* Test: Ubuntu 20 was found ........:::::::: OK *"
+fi
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
+then
+echo "* Test: Ubuntu 22 was found ........:::::::: OK *"
+fi
 echo ""
 else
 clear
@@ -227,7 +238,7 @@ if [ ! -d "/home/$BENUTZERNAME/Nextcloud-Installationsskript/" ]; then
 # D: Resolver ermitteln   #
 # E: Identify the resolver#
 ###########################
-RESOLVER=$(grep "nameserver" /etc/resolv.conf| awk '{ print $2 }')
+RESOLVER=$(grep "nameserver" /etc/resolv.conf -m 1 | awk '{ print $2 }')
 
 ###########################
 # D: Lokale IP ermitteln  #
@@ -439,6 +450,13 @@ apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmn
 libfile-fcntllock-perl libfontconfig1 libfuse2 locate lsb-release net-tools rsyslog screen smbclient socat software-properties-common \
 ssl-cert tree ubuntu-keyring unzip wget zip
 
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
+then
+${apt} install -y ubuntu-keyring
+else
+${apt} install -y debian-keyring
+fi
+
 ###########################
 # D: Energiesparmodus: aus#
 # E: Energy mode: off     #
@@ -452,23 +470,38 @@ if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ $PHPVERSION != "8
 then
 ${addaptrepository} ppa:ondrej/php -y
 fi
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
+then
+${echo} "deb https://packages.sury.org/php/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/php.list
+${wget} -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+fi
 
 ###########################
 # NGINX Repositories      #
 ###########################
-${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
-${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
-  http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
-  | sudo tee /etc/apt/sources.list.d/nginx.list
+${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor | tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
+then
+${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" | tee /etc/apt/sources.list.d/nginx.list
+else
+${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | tee /etc/apt/sources.list.d/nginx.list
+fi
 
 ###########################
 # DB Repositories         #
 ###########################
 if [ $DATABASE == "m" ]
 then
-        ${echo} "MariaDB from Ubuntu"
-        # ${echo} "deb [arch=amd64] https://mirror.kumi.systems/mariadb/repo/10.7/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/mariadb.list
-        # ${aptkey} adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+	if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
+		then
+		${wget} https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+		${chmod} +x mariadb_repo_setup
+		./mariadb_repo_setup --mariadb-server-version="mariadb-10.6"
+		else
+		${echo} "MariaDB from Ubuntu"
+		# ${echo} "deb [arch=amd64] https://mirror.kumi.systems/mariadb/repo/10.7/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/mariadb.list
+		# ${aptkey} adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+	fi
 else
         echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
         wget -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null        
@@ -741,12 +774,7 @@ y
 EOF
         mysql -u root -e "SET PASSWORD FOR root@'localhost' = PASSWORD('$MARIADBROOTPASSWORD'); FLUSH PRIVILEGES;"
 else
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
-then
 ${apt} install -y php$PHPVERSION-pgsql postgresql-14 --allow-change-held-packages
-else
-${apt} install -y php$PHPVERSION-pgsql postgresql-14 --allow-change-held-packages
-fi
 sudo -u postgres psql <<EOF
 CREATE USER ${NCDBUSER} WITH PASSWORD '${NCDBPASSWORD}';
 CREATE DATABASE nextcloud TEMPLATE template0 ENCODING 'UNICODE';
