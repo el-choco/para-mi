@@ -1238,7 +1238,7 @@ ${echo} "***********************************************************************
 ${echo} ""
 ${echo} "Nextcloud User/Pwd: $NEXTCLOUDADMINUSER // $NEXTCLOUDADMINUSERPASSWORD"
 ${echo} ""
-${echo} "Passwordreset     : nocc user:resetpassword $NEXTCLOUDADMINUSER"
+${echo} "Passwordreset     : sudo -u www-data php /var/www/nextcloud/occ user:resetpassword $NEXTCLOUDADMINUSER"
 ${echo} ""
 ${echo} "Nextcloud datapath: $NEXTCLOUDDATAPATH"
 ${echo} ""
