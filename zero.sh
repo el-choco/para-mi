@@ -448,8 +448,7 @@ ${apt} upgrade -y
 ${apt} install -y \
 apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript git gpg gnupg gnupg2 htop \
 libfile-fcntllock-perl libfontconfig1 libfuse2 locate lsb-release net-tools rsyslog screen smbclient socat software-properties-common \
-ssl-cert tree ubuntu-keyring unzip wget zip
-
+ssl-cert tree unzip wget zip
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
 then
 ${apt} install -y ubuntu-keyring
