@@ -104,6 +104,10 @@ CURRENTTIMEZONE='Europe/Berlin'
 # E: Which region is to be se for the "Nextcloud Phone Region"
 PHONEREGION='DE'
 
+# D: Soll Nextcloud Office heruntergalden und aktiviert werden?
+# E: Should we download and enable Nextcloud office for you?
+NEXTCLOUDOFFICE="n"
+
 #########################################################################
 ### ! DO NOT CHANGE ANYTHING FROM HERE! // KEINE ÄNDERUNGEN AB HIER ! ###
 #########################################################################
@@ -1171,6 +1175,11 @@ ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ config:app:set settings 
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable admin_audit
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable files_pdfviewer
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable contacts
+if [ $NEXTCLOUDOFFICE == "y" ]
+then
+${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:install richdocuments
+${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:install richdocumentscode
+fi
 rediscli=$(command -v redis-cli)
 ${rediscli} -s /var/run/redis/redis-server.sock <<EOF
 FLUSHALL
