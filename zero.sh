@@ -774,7 +774,7 @@ ${mysql} -e "CREATE DATABASE nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_gen
 ${mysql} -e "CREATE USER ${NCDBUSER}@localhost IDENTIFIED BY '${NCDBPASSWORD}';"
 ${mysql} -e "GRANT ALL PRIVILEGES ON nextcloud.* TO '${NCDBUSER}'@'localhost';"
 ${mysql} -e "FLUSH PRIVILEGES;"
-mysql_secure_installation=${command -v mysql_secure_installation}
+mysql_secure_installation=$(command -v mysql_secure_installation)
 cat <<EOF | ${mysql_secure_installation}
 \n
 n
