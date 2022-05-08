@@ -1183,6 +1183,8 @@ ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ config:app:set settings 
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable admin_audit
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable files_pdfviewer
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable contacts
+${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable calendar
+${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable groupfolders
 if [ $NEXTCLOUDOFFICE == "y" ]
 then
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:install richdocuments
