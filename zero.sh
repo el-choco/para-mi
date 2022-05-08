@@ -265,10 +265,11 @@ chown=$(command -v chown)
 clear=$(command -v clear)
 cp=$(command -v cp)
 curl=$(command -v curl)
+date=$(command -v date)
 echo=$(command -v echo)
 ip=$(command -v ip)
+lsbrelease=$(command -v lsb_release)
 ln=$(command -v ln)
-mysql_secure_installation=$(command -v mysql_secure_installation)
 mkdir=$(command -v mkdir)
 mv=$(command -v mv)
 rm=$(command -v rm)
@@ -278,9 +279,15 @@ sudo=$(command -v sudo)
 su=$(command -v su)
 systemctl=$(command -v systemctl)
 tar=$(command -v tar)
+timedatectl=$(command -v timedatectl)
 touch=$(command -v touch)
 usermod=$(command -v usermod)
 wget=$(command -v wget)
+
+###########################
+# Timezone
+###########################
+timedatectl set-timezone "$CURRENTTIMEZONE"
 
 ###########################
 # Uninstall-Skript        #
@@ -767,6 +774,7 @@ ${mysql} -e "CREATE DATABASE nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_gen
 ${mysql} -e "CREATE USER ${NCDBUSER}@localhost IDENTIFIED BY '${NCDBPASSWORD}';"
 ${mysql} -e "GRANT ALL PRIVILEGES ON nextcloud.* TO '${NCDBUSER}'@'localhost';"
 ${mysql} -e "FLUSH PRIVILEGES;"
+mysql_secure_installation=${command -v mysql_secure_installation}
 cat <<EOF | ${mysql_secure_installation}
 \n
 n
@@ -1224,6 +1232,14 @@ ${sed} -i '/ssl-cert-snakeoil/d' /etc/nginx/conf.d/nextcloud.conf
 ${sed} -i s/#\ssl/\ssl/g /etc/nginx/conf.d/nextcloud.conf
 ${service} nginx restart
 fi
+
+###########################
+# System information-just #
+# for logging purposes    #
+###########################
+${echo} "$CURRENTTIMEZONE"
+${date}
+$lsbrelease -ar
 
 ###########################
 # D: Abschlußbildschirm   #
