@@ -1239,8 +1239,11 @@ fi
 # System information-just #
 # for logging purposes    #
 ###########################
+${echo} ""
 ${echo} "$CURRENTTIMEZONE"
+${echo} ""
 ${date}
+${echo} ""
 $lsbrelease -ar
 
 ###########################
