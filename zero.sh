@@ -464,7 +464,7 @@ if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r
 then
 ${apt} install -y ubuntu-keyring
 else
-${apt} install -y debian-keyring
+${apt} install -y debian-archive-keyring debian-keyring
 fi
 
 ###########################
