@@ -547,7 +547,8 @@ ${clear}
 ${echo} "NGINX-Installation"
 ${echo} ""
 sleep 3
-${apt} upodate && ${apt} install -y nginx --allow-change-held-packages
+${apt} update
+${apt} install -y nginx --allow-change-held-packages
 ${systemctl} enable nginx.service
 ${mv} /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 ${touch} /etc/nginx/nginx.conf
