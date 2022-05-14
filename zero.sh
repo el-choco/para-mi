@@ -489,11 +489,15 @@ fi
 ###########################
 # NGINX Repositories      #
 ###########################
-${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor | tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 then
-${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" | tee /etc/apt/sources.list.d/nginx.list
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+    | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" \
+    | sudo tee /etc/apt/sources.list.d/nginx.list
 else
+${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor | tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
 ${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | tee /etc/apt/sources.list.d/nginx.list
 fi
 
@@ -543,7 +547,7 @@ ${clear}
 ${echo} "NGINX-Installation"
 ${echo} ""
 sleep 3
-${apt} install -y nginx --allow-change-held-packages
+${apt} upodate && ${apt} install -y nginx --allow-change-held-packages
 ${systemctl} enable nginx.service
 ${mv} /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 ${touch} /etc/nginx/nginx.conf
