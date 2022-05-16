@@ -14,7 +14,7 @@ E: Install your own Nextcloud server in less than 10 minutes.
 * Auswahl / Option: Self-signed // Let's Encrypt certificates
 * Auswahl / Option: Nextcloud Release 24.x<br>
   <small>(Nextcloud Versions less than 24 aren't compatible with PHP 8.1, configurable php version!)</small>
-* Auswahl / Option: Nextcloud Office<sup>new</sup>
+* Auswahl / Option: Nextcloud Office/OnlyOffice<sup>new</sup>
 * etc...
 
 <h2>INSTALLATION:</h2>
