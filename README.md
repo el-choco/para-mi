@@ -40,6 +40,7 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <code>CURRENTTIMEZONE='Europe/Berlin'</code><br>
 <code>PHONEREGION='DE'</code><br>
 <code>NEXTCLOUDOFFICE="n"</code><br>
+<code>ONLYOFFICE="n"</code><br>
 
 <h3>Installation:</h3>
 <code>./zero.sh</code>
