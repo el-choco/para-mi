@@ -107,6 +107,7 @@ PHONEREGION='DE'
 # D: Soll Nextcloud Office heruntergalden und aktiviert werden?
 # E: Should we download and enable Nextcloud office for you?
 NEXTCLOUDOFFICE="n"
+ONLYOFFICE="n"
 
 #########################################################################
 ### ! DO NOT CHANGE ANYTHING FROM HERE! // KEINE ÄNDERUNGEN AB HIER ! ###
@@ -1194,6 +1195,11 @@ if [ $NEXTCLOUDOFFICE == "y" ]
 then
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:install richdocuments
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:install richdocumentscode
+fi
+if [ $ONLYOFFICE == "y" ]
+then
+${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:install documentserver_community
+${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:install onlyoffice
 fi
 rediscli=$(command -v redis-cli)
 ${rediscli} -s /var/run/redis/redis-server.sock <<EOF
