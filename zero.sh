@@ -458,7 +458,7 @@ ${echo} ""
 sleep 3
 ${apt} upgrade -y
 ${apt} install -y \
-apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript git gpg gnupg gnupg2 htop \
+apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript git gpg gnupg gnupg2 htop jq \
 libfile-fcntllock-perl libfontconfig1 libfuse2 locate lsb-release net-tools rsyslog screen smbclient socat software-properties-common \
 ssl-cert tree unzip wget zip
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
@@ -492,14 +492,17 @@ fi
 ###########################
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 then
-curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
-    | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
-echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+    | ${sudo} tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
 http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" \
-    | sudo tee /etc/apt/sources.list.d/nginx.list
+    | ${sudo} tee /etc/apt/sources.list.d/nginx.list
 else
-${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor | tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
-${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | tee /etc/apt/sources.list.d/nginx.list
+${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+    | ${sudo} tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
+    | ${sudo} tee /etc/apt/sources.list.d/nginx.list
 fi
 
 ###########################
@@ -562,8 +565,20 @@ events {
   multi_accept on; use epoll;
   }
 http {
+  log_format criegerde escape=json
+  '{'
+    '"time_local":"$time_local",'
+    '"remote_addr":"$remote_addr",'
+    '"remote_user":"$remote_user",'
+    '"request":"$request",'
+    '"status": "$status",'
+    '"body_bytes_sent":"$body_bytes_sent",'
+    '"request_time":"$request_time",'
+    '"http_referrer":"$http_referer",'
+    '"http_user_agent":"$http_user_agent"'
+  '}';
   server_names_hash_bucket_size 64;
-  access_log /var/log/nginx/access.log;
+  access_log /var/log/nginx/access.log criegerde;
   error_log /var/log/nginx/error.log warn;
   #set_real_ip_from 127.0.0.1;
   real_ip_header X-Forwarded-For;
