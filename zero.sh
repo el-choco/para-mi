@@ -567,15 +567,15 @@ events {
 http {
   log_format criegerde escape=json
   '{'
-    '"time_local":"$time_local",'
-    '"remote_addr":"$remote_addr",'
-    '"remote_user":"$remote_user",'
-    '"request":"$request",'
-    '"status": "$status",'
-    '"body_bytes_sent":"$body_bytes_sent",'
-    '"request_time":"$request_time",'
-    '"http_referrer":"$http_referer",'
-    '"http_user_agent":"$http_user_agent"'
+    '"time_local":"\$time_local",'
+    '"remote_addr":"\$remote_addr",'
+    '"remote_user":"\$remote_user",'
+    '"request":"\$request",'
+    '"status": "\$status",'
+    '"body_bytes_sent":"\$body_bytes_sent",'
+    '"request_time":"\$request_time",'
+    '"http_referrer":"\$http_referer",'
+    '"http_user_agent":"\$http_user_agent"'
   '}';
   server_names_hash_bucket_size 64;
   access_log /var/log/nginx/access.log criegerde;
