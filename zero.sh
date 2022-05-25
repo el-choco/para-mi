@@ -514,15 +514,15 @@ then
 		then
 		${wget} https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
 		${chmod} +x mariadb_repo_setup
-		./mariadb_repo_setup --mariadb-server-version="mariadb-10.6"
+		./mariadb_repo_setup --mariadb-server-version="mariadb-10.8"
 		else
-		${echo} "MariaDB from Ubuntu"
-		# ${echo} "deb [arch=amd64] https://mirror.kumi.systems/mariadb/repo/10.7/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/mariadb.list
-		# ${aptkey} adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+		${wget} -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | ${sudo} tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
+    ${echo} "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.8/ubuntu $(lsb_release -cs) main" | ${sudo} tee /etc/apt/sources.list.d/mariadb.list
 	fi
 else
-        echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
-        wget -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null        
+    ${wget}  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | ${sudo} tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
+    ${echo} "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | ${sudo} tee /etc/apt/sources.list.d/pgdg.list
+        
 fi
 
 ###########################
@@ -785,10 +785,10 @@ quote-names
 [isamchk]
 key_buffer = 16M
 EOF
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
-then
-sed -i '/innodb_read_only_compressed=OFF/d' /etc/mysql/my.cnf
-fi
+# if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
+# then
+# sed -i '/innodb_read_only_compressed=OFF/d' /etc/mysql/my.cnf
+# fi
 ${service} mysql restart
 mysql=$(command -v mysql)
 ${mysql} -e "CREATE DATABASE nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
