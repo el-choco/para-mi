@@ -663,6 +663,7 @@ ${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/$PHPVERSION/cli
 ${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = 10240M/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|' /etc/php/$PHPVERSION/cli/php.ini
+${sed} -i 's/;cgi.fix_pathinfo.*/cgi.fix_pathinfo=0/' /etc/php/8.1/cli/php.ini
 ${sed} -i 's/memory_limit = 128M/memory_limit = 2G/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/$PHPVERSION/fpm/php.ini
@@ -679,6 +680,7 @@ ${sed} -i 's/;opcache.max_accelerated_files=.*/opcache.max_accelerated_files=100
 ${sed} -i 's/;opcache.revalidate_freq=.*/opcache.revalidate_freq=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.save_comments=.*/opcache.save_comments=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/allow_url_fopen =.*/allow_url_fopen = 1/' /etc/php/$PHPVERSION/fpm/php.ini
+${sed} -i 's/;cgi.fix_pathinfo.*/cgi.fix_pathinfo=0/' /etc/php/8.1/fpm/php.ini
 ${sed} -i '$aapc.enable_cli=1' /etc/php/$PHPVERSION/mods-available/apcu.ini
 ${sed} -i 's|;emergency_restart_threshold.*|emergency_restart_threshold = 10|g' /etc/php/$PHPVERSION/fpm/php-fpm.conf
 ${sed} -i 's|;emergency_restart_interval.*|emergency_restart_interval = 1m|g' /etc/php/$PHPVERSION/fpm/php-fpm.conf
@@ -1098,6 +1100,7 @@ array (
 'logfile' => '/var/log/nextcloud/nextcloud.log',
 'loglevel' => 2,
 'logtimezone' => '$CURRENTTIMEZONE',
+'maintenance_window_start' => 1,
 'memcache.local' => '\\OC\\Memcache\\APCu',
 'memcache.locking' => '\\OC\\Memcache\\Redis',
 'overwriteprotocol' => 'https',
