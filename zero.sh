@@ -514,15 +514,15 @@ then
 		then
 		${wget} https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
 		${chmod} +x mariadb_repo_setup
-		./mariadb_repo_setup --mariadb-server-version="mariadb-10.6"
+		./mariadb_repo_setup --mariadb-server-version="mariadb-10.8"
 		else
-		${echo} "MariaDB from Ubuntu"
-		# ${echo} "deb [arch=amd64] https://mirror.kumi.systems/mariadb/repo/10.7/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/mariadb.list
-		# ${aptkey} adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+		${wget} -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | ${sudo} tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
+    ${echo} "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.8/ubuntu $(lsb_release -cs) main" | ${sudo} tee /etc/apt/sources.list.d/mariadb.list
 	fi
 else
-        echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
-        wget -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null        
+    ${wget}  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | ${sudo} tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
+    ${echo} "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | ${sudo} tee /etc/apt/sources.list.d/pgdg.list
+        
 fi
 
 ###########################
@@ -663,6 +663,7 @@ ${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/$PHPVERSION/cli
 ${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = 10240M/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|' /etc/php/$PHPVERSION/cli/php.ini
+${sed} -i 's/;cgi.fix_pathinfo.*/cgi.fix_pathinfo=0/' /etc/php/8.1/cli/php.ini
 ${sed} -i 's/memory_limit = 128M/memory_limit = 2G/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/$PHPVERSION/fpm/php.ini
@@ -679,6 +680,7 @@ ${sed} -i 's/;opcache.max_accelerated_files=.*/opcache.max_accelerated_files=100
 ${sed} -i 's/;opcache.revalidate_freq=.*/opcache.revalidate_freq=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.save_comments=.*/opcache.save_comments=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/allow_url_fopen =.*/allow_url_fopen = 1/' /etc/php/$PHPVERSION/fpm/php.ini
+${sed} -i 's/;cgi.fix_pathinfo.*/cgi.fix_pathinfo=0/' /etc/php/8.1/fpm/php.ini
 ${sed} -i '$aapc.enable_cli=1' /etc/php/$PHPVERSION/mods-available/apcu.ini
 ${sed} -i 's|;emergency_restart_threshold.*|emergency_restart_threshold = 10|g' /etc/php/$PHPVERSION/fpm/php-fpm.conf
 ${sed} -i 's|;emergency_restart_interval.*|emergency_restart_interval = 1m|g' /etc/php/$PHPVERSION/fpm/php-fpm.conf
@@ -785,10 +787,10 @@ quote-names
 [isamchk]
 key_buffer = 16M
 EOF
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
-then
-sed -i '/innodb_read_only_compressed=OFF/d' /etc/mysql/my.cnf
-fi
+# if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
+# then
+# sed -i '/innodb_read_only_compressed=OFF/d' /etc/mysql/my.cnf
+# fi
 ${service} mysql restart
 mysql=$(command -v mysql)
 ${mysql} -e "CREATE DATABASE nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
@@ -1098,6 +1100,7 @@ array (
 'logfile' => '/var/log/nextcloud/nextcloud.log',
 'loglevel' => 2,
 'logtimezone' => '$CURRENTTIMEZONE',
+'maintenance_window_start' => 1,
 'memcache.local' => '\\OC\\Memcache\\APCu',
 'memcache.locking' => '\\OC\\Memcache\\Redis',
 'overwriteprotocol' => 'https',
