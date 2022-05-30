@@ -1,12 +1,8 @@
 #!/bin/bash
 ##########################################################################################
 # Ubuntu 20.04+ / 22.04+ LTS x86_64 / Debian 11 x86_64
-# Nextcloud 24+ (or older Versions)
+# Nextcloud latest or older Versions
 # Carsten Rieger IT-Services (www.c-rieger.de)
-# Vielen Dank an / many thanks to:
-# https://github.com/MrEddX
-# https://github.com/DasCanard
-# https://codeberg.org/DecaTec
 ##########################################################################################
 
 ##############################
@@ -1308,10 +1304,6 @@ then
 ${echo} ""
 ${echo} "MariaDB-Rootpwd   : $MARIADBROOTPASSWORD"
 fi
-${echo} ""
-${echo} "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-${echo} ""
-${figlet} '(c) c-rieger.de'
 ${echo} ""
 ${echo} "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 ${echo} ""
