@@ -135,6 +135,12 @@ echo ""
 exit 1
 fi
 
+# D: Sicherstellen, dass lsb_release verfügbar ist
+# E: Ensure, lsb_release is available on the server
+apt install -y lsb_release
+
+# D: Systemvoraussetzungen prüfen
+# E: Check system requirements
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 then
 clear
