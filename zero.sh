@@ -137,7 +137,7 @@ fi
 
 # D: Sicherstellen, dass lsb_release verfügbar ist
 # E: Ensure, lsb_release is available on the server
-apt-get install -y lsb_release
+apt-get install -y lsb-release
 
 # D: Systemvoraussetzungen prüfen
 # E: Check system requirements
