@@ -137,7 +137,7 @@ fi
 
 # D: Sicherstellen, dass lsb_release verfügbar ist
 # E: Ensure, lsb_release is available on the server
-apt-get install -y lsb-release
+apt install -y lsb-release
 
 # D: Systemvoraussetzungen prüfen
 # E: Check system requirements
@@ -462,7 +462,7 @@ sleep 3
 ${apt} upgrade -y
 ${apt} install -y \
 apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript git gpg gnupg gnupg2 htop jq \
-libfile-fcntllock-perl libfontconfig1 libfuse2 locate lsb-release net-tools rsyslog screen smbclient socat software-properties-common \
+libfile-fcntllock-perl libfontconfig1 libfuse2 locate net-tools rsyslog screen smbclient socat software-properties-common \
 ssl-cert tree unzip wget zip
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
 then
