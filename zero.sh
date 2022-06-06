@@ -135,11 +135,19 @@ echo ""
 exit 1
 fi
 
-# D: Sicherstellen, dass lsb_release verfügbar ist
-# E: Ensure, lsb_release is available on the server
-if [ -z "$(command -v lsb)" ]
+# D: Sicherstellen, dass Basissoftware verfügbar ist
+# E: Ensure, admin software is available on the server
+if [ -z "$(command -v lsb_release)" ]
 then
 apt install -y lsb_release
+fi
+if [ -z "$(command -v nano)" ]
+then
+apt install -y nano
+fi
+if [ -z "$(command -v vim)" ]
+then
+apt install -y vim
 fi
 
 # D: Systemvoraussetzungen prüfen
