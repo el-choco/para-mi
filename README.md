@@ -44,16 +44,16 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <code>ONLYOFFICE="n"</code><br>
 
 <h3>Installation:</h3>
-<code>./zero.sh</code>
+<code>sudo ./zero.sh</code>
 <h2>D/E: DEINSTALLATION/UNINSTALL:</h2>
 D. Sofern Sie das Skript erneut ausführen möchten, so führen Sie bitte zuerst die Deinstallation durch:<br>
 E: If you want to re-install your server - please uninstall your software first.<br> <br>
-<code>/home/*benutzer*/Nextcloud-Installationsskript/uninstall.sh</code><br>
-<code>rm -f /home/*benutzer*/Nextcloud-Installationsskript/uninstall.sh</code><br> <br>
+<code>sudo /home/*benutzer*/Nextcloud-Installationsskript/uninstall.sh</code><br>
+<code>sudo rm -f /home/*benutzer*/Nextcloud-Installationsskript/uninstall.sh</code><br> <br>
 D: Dabei werden alle Softwarepakete (inkl. DB) sowie alle Verzeichnisse und Daten aus der vorherigen Installation entfernt. Im Anschluss daran kann die Installation erneut durchgeführt werden.<br>
 E: All data, databases and software from the previous installation will be removed. Afterwards you can re-run the installation script.<br>
 <h2>D/E: ERNEUTE INSTALLATION/RE-INSTALLATION:</h2>
-<code>./zero.sh</code><br>
+<code>sudo ./zero.sh</code><br>
 <h2>D/E: LOGDATEI/LOGFILE:</h2>
 <code>nano /home/*benutzer*/Nextcloud-Installationsskript/install.log</code><br>
 
