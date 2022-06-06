@@ -149,6 +149,10 @@ if [ -z "$(command -v vim)" ]
 then
 apt install -y vim
 fi
+if [ -z "$(command -v ping)" ]
+then
+apt install -y iputils-ping net-tools
+fi
 
 # D: Systemvoraussetzungen prüfen
 # E: Check system requirements
