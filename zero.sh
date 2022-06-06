@@ -137,7 +137,10 @@ fi
 
 # D: Sicherstellen, dass lsb_release verfügbar ist
 # E: Ensure, lsb_release is available on the server
-apt install -y lsb-release
+if [ -z "$(command -v lsb)" ]
+then
+apt install -y lsb_release
+fi
 
 # D: Systemvoraussetzungen prüfen
 # E: Check system requirements
