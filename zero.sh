@@ -445,12 +445,6 @@ function nextcloud_scan_data() {
   }
 
 ###########################
-# D: Verwende IPv4 f. apt #
-# E: Use IPv4 for apt     #
-###########################
-${echo} 'Acquire::ForceIPv4 "true";' >> /etc/apt/apt.conf.d/99force-ipv4
-
-###########################
 # D: Basissoftware        #
 # E: Required software    #
 ###########################
