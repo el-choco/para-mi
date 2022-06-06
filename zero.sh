@@ -139,7 +139,7 @@ fi
 # E: Ensure, admin software is available on the server
 if [ -z "$(command -v lsb_release)" ]
 then
-apt install -y lsb_release
+apt install -y lsb-release
 fi
 if [ -z "$(command -v nano)" ]
 then
