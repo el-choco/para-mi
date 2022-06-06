@@ -701,7 +701,10 @@ ${sed} -i 's/rights=\"none\" pattern=\"PS\"/rights=\"read|write\" pattern=\"PS\"
 ${sed} -i 's/rights=\"none\" pattern=\"EPS\"/rights=\"read|write\" pattern=\"EPS\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"PDF\"/rights=\"read|write\" pattern=\"PDF\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"XPS\"/rights=\"read|write\" pattern=\"XPS\"/' /etc/ImageMagick-6/policy.xml
+
+if [ ! -e "/usr/bin/gs" ]; then
 ${ln} -s /usr/local/bin/gs /usr/bin/gs
+fi
 
 ###########################
 # Neustart/Restart PHP    #
@@ -720,7 +723,7 @@ if [ $DATABASE == "m" ]
 then
         ${apt} install -y php$PHPVERSION-mysql mariadb-server --allow-change-held-packages
         ${service} mysql stop
-        ${mv} /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
+        ${cp} /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
         ${cat} <<EOF >/etc/mysql/my.cnf
 [client]
 default-character-set = utf8mb4
