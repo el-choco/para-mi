@@ -7,17 +7,18 @@
 D: Installieren Sie Ihren eigenen Nextcloud-Server in weniger als 10 Minuten.<br>
 E: Install your own Nextcloud server in less than 10 minutes.
 
-* Ubuntu 20.04 LTS / 22.04 LTS x86_64 / Debian 11<sup>new</sup>
+* Ubuntu 20.04 LTS / 22.04 LTS x86_64 / Debian 11
+<br><b>kein LXC-Support!</b>
 * NGINX 1.21 from nginx
 * Auswahl / Option: PHP 8.1 // PHP 8.0 // PHP 7.4
 * Auswahl / Option: MariaDB // postgreSQL
 * Auswahl / Option: Self-signed // Let's Encrypt certificates
 * Auswahl / Option: Nextcloud Release 24.x<br>
   <small>(Nextcloud Versions less than 24 aren't compatible with PHP 8.1, configurable php version!)</small>
-* Auswahl / Option: Nextcloud Office/OnlyOffice<sup>new</sup>
+* Auswahl / Option: Nextcloud Office/OnlyOffice
 * etc...
 
-<h2>INSTALLATION:</h2>
+<h2>INSTALLATION (Ubuntu/Debian):</h2>
 <h3>D/E: Vorbereitungen/Preparations:</h3>
 <code>sudo -s</code><br>
 <code>git clone https://codeberg.org/criegerde/nextcloud-zero</code><br>
