@@ -141,13 +141,13 @@ if [ -z "$(command -v lsb_release)" ]
 then
 apt install -y lsb-release
 fi
-if [ -z "$(command -v nano)" ]
+if [ -z "$(command -v curl)" ]
 then
-apt install -y nano
+apt install -y curl
 fi
-if [ -z "$(command -v vim)" ]
+if [ -z "$(command -v wget)" ]
 then
-apt install -y vim
+apt install -y wget
 fi
 if [ -z "$(command -v ping)" ]
 then
