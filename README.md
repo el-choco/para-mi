@@ -7,7 +7,7 @@
 D: Installieren Sie Ihren eigenen Nextcloud-Server in weniger als 10 Minuten.<br>
 E: Install your own Nextcloud server in less than 10 minutes.
 
-* Ubuntu 20.04 LTS / 22.04 LTS x86_64 / Debian 11<sup>new</sup>
+* Ubuntu 20.04 LTS / 22.04 LTS x86_64 / Debian 11
 <br><b>kein LXC-Support!</b>
 * NGINX 1.21 from nginx
 * Auswahl / Option: PHP 8.1 // PHP 8.0 // PHP 7.4
@@ -15,11 +15,11 @@ E: Install your own Nextcloud server in less than 10 minutes.
 * Auswahl / Option: Self-signed // Let's Encrypt certificates
 * Auswahl / Option: Nextcloud Release 24.x<br>
   <small>(Nextcloud Versions less than 24 aren't compatible with PHP 8.1, configurable php version!)</small>
-* Auswahl / Option: Nextcloud Office/OnlyOffice<sup>new</sup>
+* Auswahl / Option: Nextcloud Office/OnlyOffice
 * etc...
 
-<h2>INSTALLATION:</h2>
-<h3>D/E: Vorbereitungen (sudo)/Preparations (sudo):</h3>
+<h2>INSTALLATION (Ubuntu/Debian):</h2>
+<h3>D/E: Vorbereitungen/Preparations:</h3>
 <code>sudo -s</code><br>
 <code>git clone https://codeberg.org/criegerde/nextcloud-zero</code><br>
 <code>cp nextcloud-zero/zero.sh .</code><br>
@@ -43,16 +43,16 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <code>NEXTCLOUDOFFICE="n"</code><br>
 <code>ONLYOFFICE="n"</code><br>
 
-<h3>Installation (sudo):</h3>
+<h3>Installation:</h3>
 <code>./zero.sh</code>
-<h2>D/E: DEINSTALLATION/UNINSTALL (sudo):</h2>
+<h2>D/E: DEINSTALLATION/UNINSTALL:</h2>
 D. Sofern Sie das Skript erneut ausführen möchten, so führen Sie bitte zuerst die Deinstallation durch:<br>
 E: If you want to re-install your server - please uninstall your software first.<br> <br>
 <code>/home/*benutzer*/Nextcloud-Installationsskript/uninstall.sh</code><br>
 <code>rm -f /home/*benutzer*/Nextcloud-Installationsskript/uninstall.sh</code><br> <br>
 D: Dabei werden alle Softwarepakete (inkl. DB) sowie alle Verzeichnisse und Daten aus der vorherigen Installation entfernt. Im Anschluss daran kann die Installation erneut durchgeführt werden.<br>
 E: All data, databases and software from the previous installation will be removed. Afterwards you can re-run the installation script.<br>
-<h2>D/E: ERNEUTE INSTALLATION/RE-INSTALLATION (sudo):</h2>
+<h2>D/E: ERNEUTE INSTALLATION/RE-INSTALLATION:</h2>
 <code>./zero.sh</code><br>
 <h2>D/E: LOGDATEI/LOGFILE:</h2>
 <code>nano /home/*benutzer*/Nextcloud-Installationsskript/install.log</code><br>
