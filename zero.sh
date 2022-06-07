@@ -495,8 +495,8 @@ ${addaptrepository} ppa:ondrej/php -y
 fi
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 then
-${echo} "deb https://packages.sury.org/php/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/php.list
-${wget} -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+echo "deb https://packages.sury.org/php/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/php.list
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 fi
 
 ###########################
@@ -504,17 +504,11 @@ fi
 ###########################
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 then
-${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
-    | ${sudo} tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
-${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
-http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" \
-    | ${sudo} tee /etc/apt/sources.list.d/nginx.list
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
 else
-${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
-    | ${sudo} tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
-${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
-http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
-    | ${sudo} tee /etc/apt/sources.list.d/nginx.list
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
 fi
 
 ###########################
@@ -524,16 +518,16 @@ if [ $DATABASE == "m" ]
 then
 	if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 		then
-		${wget} https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-		${chmod} +x mariadb_repo_setup
+		wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+		chmod +x mariadb_repo_setup
 		./mariadb_repo_setup --mariadb-server-version="mariadb-10.8"
 		else
-		${wget} -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | ${sudo} tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
-    ${echo} "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.8/ubuntu $(lsb_release -cs) main" | ${sudo} tee /etc/apt/sources.list.d/mariadb.list
+		wget -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
+    echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.8/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
 	fi
 else
-    ${wget}  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | ${sudo} tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
-    ${echo} "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | ${sudo} tee /etc/apt/sources.list.d/pgdg.list
+    wget  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
+    echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
         
 fi
 
