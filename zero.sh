@@ -135,9 +135,24 @@ echo ""
 exit 1
 fi
 
-# D: Sicherstellen, dass lsb_release verfügbar ist
-# E: Ensure, lsb_release is available on the server
+# D: Sicherstellen, dass Basissoftware verfügbar ist
+# E: Ensure, admin software is available on the server
+if [ -z "$(command -v lsb_release)" ]
+then
 apt install -y lsb-release
+fi
+if [ -z "$(command -v curl)" ]
+then
+apt install -y curl
+fi
+if [ -z "$(command -v wget)" ]
+then
+apt install -y wget
+fi
+if [ -z "$(command -v ping)" ]
+then
+apt install -y iputils-ping net-tools
+fi
 
 # D: Systemvoraussetzungen prüfen
 # E: Check system requirements
@@ -445,12 +460,6 @@ function nextcloud_scan_data() {
   }
 
 ###########################
-# D: Verwende IPv4 f. apt #
-# E: Use IPv4 for apt     #
-###########################
-${echo} 'Acquire::ForceIPv4 "true";' >> /etc/apt/apt.conf.d/99force-ipv4
-
-###########################
 # D: Basissoftware        #
 # E: Required software    #
 ###########################
@@ -461,7 +470,7 @@ ${echo} ""
 sleep 3
 ${apt} upgrade -y
 ${apt} install -y \
-apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript git gpg gnupg gnupg2 htop jq \
+apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript gpg gnupg gnupg2 htop jq \
 libfile-fcntllock-perl libfontconfig1 libfuse2 locate net-tools rsyslog screen smbclient socat software-properties-common \
 ssl-cert tree unzip wget zip
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
@@ -486,8 +495,8 @@ ${addaptrepository} ppa:ondrej/php -y
 fi
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 then
-${echo} "deb https://packages.sury.org/php/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/php.list
-${wget} -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+echo "deb https://packages.sury.org/php/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/php.list
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 fi
 
 ###########################
@@ -495,17 +504,11 @@ fi
 ###########################
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 then
-${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
-    | ${sudo} tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
-${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
-http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" \
-    | ${sudo} tee /etc/apt/sources.list.d/nginx.list
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
 else
-${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
-    | ${sudo} tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
-${echo} "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
-http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
-    | ${sudo} tee /etc/apt/sources.list.d/nginx.list
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
 fi
 
 ###########################
@@ -515,16 +518,16 @@ if [ $DATABASE == "m" ]
 then
 	if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 		then
-		${wget} https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-		${chmod} +x mariadb_repo_setup
+		wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+		chmod +x mariadb_repo_setup
 		./mariadb_repo_setup --mariadb-server-version="mariadb-10.8"
 		else
-		${wget} -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | ${sudo} tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
-    ${echo} "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.8/ubuntu $(lsb_release -cs) main" | ${sudo} tee /etc/apt/sources.list.d/mariadb.list
+		wget -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
+    echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.8/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
 	fi
 else
-    ${wget}  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | ${sudo} tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
-    ${echo} "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | ${sudo} tee /etc/apt/sources.list.d/pgdg.list
+    wget  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
+    echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
         
 fi
 
@@ -692,7 +695,10 @@ ${sed} -i 's/rights=\"none\" pattern=\"PS\"/rights=\"read|write\" pattern=\"PS\"
 ${sed} -i 's/rights=\"none\" pattern=\"EPS\"/rights=\"read|write\" pattern=\"EPS\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"PDF\"/rights=\"read|write\" pattern=\"PDF\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"XPS\"/rights=\"read|write\" pattern=\"XPS\"/' /etc/ImageMagick-6/policy.xml
+
+if [ ! -e "/usr/bin/gs" ]; then
 ${ln} -s /usr/local/bin/gs /usr/bin/gs
+fi
 
 ###########################
 # Neustart/Restart PHP    #
@@ -711,7 +717,7 @@ if [ $DATABASE == "m" ]
 then
         ${apt} install -y php$PHPVERSION-mysql mariadb-server --allow-change-held-packages
         ${service} mysql stop
-        ${mv} /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
+        ${cp} /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
         ${cat} <<EOF >/etc/mysql/my.cnf
 [client]
 default-character-set = utf8mb4
