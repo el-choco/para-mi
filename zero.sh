@@ -1,9 +1,9 @@
 #!/bin/bash
 ##########################################################################################
-# Ubuntu 20.04+ / 22.04+ LTS x86_64 / Debian 11 x86_64
-# Nextcloud latest or older Versions
+# Ubuntu 20.04+ / 22.04+ LTS x86_64 (recommended!) / Debian 11 x86_64
+# Nextcloud latest (or older Versions)
 # Based on nginx, PHP, MariaDB/postgreSQL, Redis, fail2ban, ufw
-# Carsten Rieger IT-Services (www.c-rieger.de)
+# Carsten Rieger IT-Services (https://www.c-rieger.de)
 ##########################################################################################
 
 ##############################
