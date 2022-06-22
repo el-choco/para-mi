@@ -902,6 +902,7 @@ server {
   ssl_stapling_verify on;
   client_max_body_size 10G;
   client_body_timeout 3600s;
+  client_body_buffer_size 512k;
   fastcgi_buffers 64 4K;
   gzip on;
   gzip_vary on;
