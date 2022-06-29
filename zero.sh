@@ -194,6 +194,87 @@ echo ""
 exit 1
 fi
 
+###########################
+# Prüfe Homeverzeichnis   #
+# Verify homedirectory    #
+###########################
+if [ ! -d "/home/$BENUTZERNAME/" ]; then
+  echo "* Erstelle:  Benutzerverzeichnis .....:::::: OK *"
+  echo "* Creating:  Home Directory ..........:::::: OK *"
+  mkdir -p /home/"$BENUTZERNAME"/
+  echo ""
+  else
+  echo "* Test: Benutzerverzeichnis ........:::::::: OK *"
+  echo "* Test: Home directory ..........::::::::::: OK *"
+  echo ""
+  fi
+
+if [ ! -d "/home/$BENUTZERNAME/Nextcloud-Installationsskript/" ]; then
+  echo "* Erstelle: Installationsskript-Verzeichnis: OK *"
+  echo "* Creating: Install directory .......::::::: OK *"
+  mkdir /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
+  echo ""
+  else
+  echo "* Test: Installationsskript-Verzeichnis ..:: OK *"
+  echo "* Test: Installscript directory .....::::::: OK *"
+  echo ""
+  fi
+
+###########################
+# Uninstall-Skript        #
+###########################
+mkdir /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
+touch /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
+cat <<EOF >/home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
+#!/bin/bash
+if [ "\$(id -u)" != "0" ]
+then
+clear
+echo ""
+echo "*****************************"
+echo "* BITTE ALS ROOT AUSFÜHREN! *"
+echo "*                           *"
+echo "* PLEASE OPERATE AS ROOT!   *"
+echo "*****************************"
+echo ""
+exit 1
+fi
+clear
+echo "*************************************************************************************"
+echo "*                        ACHTUNG! WARNING! ACHTUNG! WARNING!                        *"
+echo "*                                                                                   *"
+echo "*   Nextcloud und ALLE Benutzer-Daten und -Dateien werden unwiderruflich gelöscht!  *"
+echo "* Nextcloud as well as ALL user files will be IRREVERSIBLY REMOVED from the system! *"
+echo "*                                                                                   *"
+echo "*************************************************************************************"
+echo
+echo "Press Ctrl+C To Abort  // Drücke STRG+C um abzubrechen"
+echo
+seconds=$((10))
+while [ \$seconds -gt 0 ]; do
+   echo -ne "Removal begins after: \$seconds\033[0K\r"
+   sleep 1
+   : \$((seconds--))
+done
+rm -Rf $NEXTCLOUDDATAPATH
+mv /etc/hosts.bak /etc/hosts
+apt remove --purge --allow-change-held-packages -y nginx* php* mariadb-* mysql-common libdbd-mariadb-perl galera-* postgresql-* redis* fail2ban ufw
+rm -Rf /etc/ufw /etc/fail2ban /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/$BENUTZERNAME/Nextcloud-Installationsskript/install.log /home/$BENUTZERNAME/Nextcloud-Installationsskript/update.sh
+rm -Rf /etc/nginx /usr/share/keyrings/nginx-archive-keyring.gpg /usr/share/keyrings/postgresql-archive-keyring.gpg
+add-apt-repository ppa:ondrej/php -ry
+rm -f /etc/ssl/certs/dhparam.pem /etc/apt/sources.list.d/* /etc/motd /root/.bash_aliases
+deluser --remove-all-files acmeuser
+crontab -u www-data -r
+rm -f /etc/sudoers.d/acmeuser
+apt autoremove -y
+apt autoclean -y
+sed -i '/vm.overcommit_memory = 1/d' /etc/sysctl.conf
+echo ""
+echo "Done!"
+exit 0
+EOF
+chmod +x /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
+
 ##########################
 # Re-Install. verhindern #
 # Prevent Second Run     #
@@ -221,45 +302,13 @@ else
   echo "* No previous installation found ......::::: OK *"
   echo "*************************************************"
   echo ""
-fi
-
-###########################
-# Prüfe Homeverzeichnis   #
-# Verify homedirectory    #
-###########################
-if [ ! -d "/home/$BENUTZERNAME/" ]; then
-  echo "* Erstelle:  Benutzerverzeichnis .....:::::: OK *"
-  echo "* Creating:  Home Directory ..........:::::: OK *"
-  echo ""
-  mkdir /home/"$BENUTZERNAME"/
-  echo "* Test: Benutzerverzeichnis ........:::::::: OK *"
-  echo "* Test: Home directory ..........::::::::::: OK *"
-  echo ""
-  else
-  echo "* Test: Benutzerverzeichnis ........:::::::: OK *"
-  echo "* Test: Home directory ..........::::::::::: OK *"
-  echo ""
-  fi
-
-if [ ! -d "/home/$BENUTZERNAME/Nextcloud-Installationsskript/" ]; then
-  echo "* Erstelle: Installationsskript-Verzeichnis: OK *"
-  echo "* Creating: Install directory .......::::::: OK *"
-  echo ""
-  mkdir /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
-  echo "* Test: Installationsskript-Verzeichnis ..:: OK *"
-  echo "* Test: Installscript directory .....::::::: OK *"
-  echo ""
-  else
-  echo "* Test: Installationsskript-Verzeichnis ..:: OK *"
-  echo "* Test: Installscript directory .....::::::: OK *"
-  echo ""
-  fi
   echo "*************************************************"
   echo "*  Pre-Installationschecks erfolgreich!         *"
   echo "*  Pre-Installation checks successfull!         *"
   echo "*************************************************"
   echo ""
   sleep 3
+fi
 
 ###########################
 # D: Resolver ermitteln   #
@@ -311,60 +360,6 @@ wget=$(command -v wget)
 # Timezone
 ###########################
 timedatectl set-timezone "$CURRENTTIMEZONE"
-
-###########################
-# Uninstall-Skript        #
-###########################
-${touch} /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
-${cat} <<EOF >/home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
-#!/bin/bash
-if [ "\$(id -u)" != "0" ]
-then
-${clear}
-${echo} ""
-${echo} "*****************************"
-${echo} "* BITTE ALS ROOT AUSFÜHREN! *"
-${echo} "*                           *"
-${echo} "* PLEASE OPERATE AS ROOT!   *"
-${echo} "*****************************"
-${echo} ""
-exit 1
-fi
-${clear}
-${echo} "*************************************************************************************"
-${echo} "*                        ACHTUNG! WARNING! ACHTUNG! WARNING!                        *"
-${echo} "*                                                                                   *"
-${echo} "*   Nextcloud und ALLE Benutzer-Daten und -Dateien werden unwiderruflich gelöscht!  *"
-${echo} "* Nextcloud as well as ALL user files will be IRREVERSIBLY REMOVED from the system! *"
-${echo} "*                                                                                   *"
-${echo} "*************************************************************************************"
-${echo}
-${echo} "Press Ctrl+C To Abort  // Drücke STRG+C um abzubrechen"
-${echo}
-seconds=$((10))
-while [ \$seconds -gt 0 ]; do
-   ${echo} -ne "Removal begins after: \$seconds\033[0K\r"
-   sleep 1
-   : \$((seconds--))
-done
-${rm} -Rf $NEXTCLOUDDATAPATH
-${mv} /etc/hosts.bak /etc/hosts
-${apt} remove --purge --allow-change-held-packages -y nginx* php* mariadb-* mysql-common libdbd-mariadb-perl galera-* postgresql-* redis* fail2ban ufw
-${rm} -Rf /etc/ufw /etc/fail2ban /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/$BENUTZERNAME/Nextcloud-Installationsskript/install.log /home/$BENUTZERNAME/Nextcloud-Installationsskript/update.sh
-${rm} -Rf /etc/nginx /usr/share/keyrings/nginx-archive-keyring.gpg /usr/share/keyrings/postgresql-archive-keyring.gpg
-${addaptrepository} ppa:ondrej/php -ry
-${rm} -f /etc/ssl/certs/dhparam.pem /etc/apt/sources.list.d/* /etc/motd /root/.bash_aliases
-deluser --remove-all-files acmeuser
-crontab -u www-data -r
-${rm} -f /etc/sudoers.d/acmeuser
-${apt} autoremove -y
-${apt} autoclean -y
-${sed} -i '/vm.overcommit_memory = 1/d' /etc/sysctl.conf
-echo ""
-echo "Done!"
-exit 0
-EOF
-${chmod} +x /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
 
 ###########################
 # D: Hostdatei anpassen   #
