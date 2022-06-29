@@ -64,9 +64,11 @@ LETSENCRYPT="n"
 # D: Nextcloud Externe IP(v4)
 #    bspw. NEXTCLOUDEXTIP="123.124.125.120"
 #    oder vom System ausgelesen
+#    und sicherstellen, dass dig installiert ist
 # E: Nextcloud external ip (v4)
 #    e.g. NEXTCLOUDEXTIP="123.124.125.120"
 #    or read from the system
+#    and ensure, dig is already installed
 if [ -z "$(command -v dig)" ]
 then
 apt install -y dnsutils
