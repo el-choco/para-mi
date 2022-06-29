@@ -222,7 +222,7 @@ echo "Press Ctrl+C To Abort  // Drücke STRG+C um abzubrechen"
 echo
 seconds=$((10))
 while [ \$seconds -gt 0 ]; do
-   ${echo} -ne "Removal begins after: \$seconds\033[0K\r"
+   echo -ne "Removal begins after: \$seconds\033[0K\r"
    sleep 1
    : \$((seconds--))
 done
