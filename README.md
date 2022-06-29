@@ -22,6 +22,7 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <h2>INSTALLATION (Ubuntu/Debian):</h2>
 <h3>D/E: Vorbereitungen/Preparations:</h3>
 <code>sudo -s</code><br>
+<code>apt install -y git</code><br>
 <code>git clone https://codeberg.org/criegerde/nextcloud-zero</code><br>
 <code>cp nextcloud-zero/zero.sh .</code><br>
 <code>chmod +x zero.sh*.sh</code><br> <br>
