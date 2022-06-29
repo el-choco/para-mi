@@ -5,6 +5,7 @@
 # Based on nginx, PHP, MariaDB/postgreSQL, Redis, fail2ban, ufw
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
 ##########################################################################################
+
 ##############################
 # D: Konfigurationsvariablen #
 # E: Configuration variables #
