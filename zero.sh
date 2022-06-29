@@ -67,6 +67,10 @@ LETSENCRYPT="n"
 # E: Nextcloud external ip (v4)
 #    e.g. NEXTCLOUDEXTIP="123.124.125.120"
 #    or read from the system
+if [ -z "$(command -v dig)" ]
+then
+apt install -y dnsutils
+fi
 NEXTCLOUDEXTIP=$(dig +short txt ch whoami.cloudflare @1.0.0.1 | tr -d \")
 
 # D: MariaDB-Root-Passwort setzen,
