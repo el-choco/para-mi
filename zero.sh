@@ -195,6 +195,32 @@ exit 1
 fi
 
 ###########################
+# Prüfe Homeverzeichnis   #
+# Verify homedirectory    #
+###########################
+if [ ! -d "/home/$BENUTZERNAME/" ]; then
+  echo "* Erstelle:  Benutzerverzeichnis .....:::::: OK *"
+  echo "* Creating:  Home Directory ..........:::::: OK *"
+  mkdir -p /home/"$BENUTZERNAME"/
+  echo ""
+  else
+  echo "* Test: Benutzerverzeichnis ........:::::::: OK *"
+  echo "* Test: Home directory ..........::::::::::: OK *"
+  echo ""
+  fi
+
+if [ ! -d "/home/$BENUTZERNAME/Nextcloud-Installationsskript/" ]; then
+  echo "* Erstelle: Installationsskript-Verzeichnis: OK *"
+  echo "* Creating: Install directory .......::::::: OK *"
+  mkdir /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
+  echo ""
+  else
+  echo "* Test: Installationsskript-Verzeichnis ..:: OK *"
+  echo "* Test: Installscript directory .....::::::: OK *"
+  echo ""
+  fi
+
+###########################
 # Uninstall-Skript        #
 ###########################
 mkdir /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
@@ -276,39 +302,13 @@ else
   echo "* No previous installation found ......::::: OK *"
   echo "*************************************************"
   echo ""
-fi
-
-###########################
-# Prüfe Homeverzeichnis   #
-# Verify homedirectory    #
-###########################
-if [ ! -d "/home/$BENUTZERNAME/" ]; then
-  echo "* Erstelle:  Benutzerverzeichnis .....:::::: OK *"
-  echo "* Creating:  Home Directory ..........:::::: OK *"
-  mkdir -p /home/"$BENUTZERNAME"/
-  echo ""
-  else
-  echo "* Test: Benutzerverzeichnis ........:::::::: OK *"
-  echo "* Test: Home directory ..........::::::::::: OK *"
-  echo ""
-  fi
-
-if [ ! -d "/home/$BENUTZERNAME/Nextcloud-Installationsskript/" ]; then
-  echo "* Erstelle: Installationsskript-Verzeichnis: OK *"
-  echo "* Creating: Install directory .......::::::: OK *"
-  mkdir /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
-  echo ""
-  else
-  echo "* Test: Installationsskript-Verzeichnis ..:: OK *"
-  echo "* Test: Installscript directory .....::::::: OK *"
-  echo ""
-  fi
   echo "*************************************************"
   echo "*  Pre-Installationschecks erfolgreich!         *"
   echo "*  Pre-Installation checks successfull!         *"
   echo "*************************************************"
   echo ""
   sleep 3
+fi
 
 ###########################
 # D: Resolver ermitteln   #
