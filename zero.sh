@@ -630,7 +630,7 @@ ${sed} -i 's/;opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/php/$PHPVERSION/
 ${sed} -i 's/;opcache.memory_consumption=.*/opcache.memory_consumption=128/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=16/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.max_accelerated_files=.*/opcache.max_accelerated_files=10000/' /etc/php/$PHPVERSION/fpm/php.ini
-${sed} -i 's/;opcache.revalidate_freq=.*/opcache.revalidate_freq=1/' /etc/php/$PHPVERSION/fpm/php.ini
+${sed} -i 's/;opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.save_comments=.*/opcache.save_comments=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/allow_url_fopen =.*/allow_url_fopen = 1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;cgi.fix_pathinfo.*/cgi.fix_pathinfo = 0/' /etc/php/8.1/fpm/php.ini
