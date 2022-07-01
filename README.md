@@ -7,7 +7,7 @@
 D: Installieren Sie Ihren eigenen Nextcloud-Server in weniger als 10 Minuten.<br>
 E: Install your own Nextcloud server in less than 10 minutes.
 
-* <b>Ubuntu 20.04</b> LTS [x86_64] / <b>22.04 LTS</b> [x86_64] / <b>Debian 11.x</b> [x86_64]
+* <b>Ubuntu 20.04</b> LTS [AMD x86_64] / <b>22.04 LTS</b> [AMD x86_64] / <b>Debian 11.x</b> [AMD x86_64]
 <br>Proxmox LXC-support<b><sup>new</sup></b><br>
 <small>(Be aware, Debian requires a Proxmox-option called 'nesting=1')</small><br>
 * NGINX 1.21 from nginx
