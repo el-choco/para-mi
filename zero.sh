@@ -1011,62 +1011,66 @@ ${echo} "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ${cp} /var/www/nextcloud/.user.ini /usr/local/src/.user.ini.bak
 ${sudo} -u www-data ${sed} -i 's/output_buffering=.*/output_buffering=0/' /var/www/nextcloud/.user.ini
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ background:cron
-${sed} -i '/);/d' /var/www/nextcloud/config/config.php
-${cat} <<EOF >>/var/www/nextcloud/config/config.php
-'activity_expire_days' => 14,
-'allow_local_remote_servers' => true,
-'auth.bruteforce.protection.enabled' => true,
-'blacklisted_files' =>
-array (
-0 => '.htaccess',
-1 => 'Thumbs.db',
-2 => 'thumbs.db',
-),
-'cron_log' => true,
-'default_phone_region' => '$PHONEREGION',
-'enable_previews' => true,
-'enabledPreviewProviders' =>
-array (
-0 => 'OC\\Preview\\PNG',
-1 => 'OC\\Preview\\JPEG',
-2 => 'OC\\Preview\\GIF',
-3 => 'OC\\Preview\\BMP',
-4 => 'OC\\Preview\\XBitmap',
-5 => 'OC\\Preview\\Movie',
-6 => 'OC\\Preview\\PDF',
-7 => 'OC\\Preview\\MP3',
-8 => 'OC\\Preview\\TXT',
-9 => 'OC\\Preview\\MarkDown',
-),
-'filesystem_check_changes' => 0,
-'filelocking.enabled' => 'true',
-'htaccess.RewriteBase' => '/',
-'integrity.check.disabled' => false,
-'knowledgebaseenabled' => false,
-'log_rotate_size' => '104857600',
-'logfile' => '/var/log/nextcloud/nextcloud.log',
-'loglevel' => 2,
-'logtimezone' => '$CURRENTTIMEZONE',
-'maintenance_window_start' => 1,
-'memcache.local' => '\\OC\\Memcache\\APCu',
-'memcache.locking' => '\\OC\\Memcache\\Redis',
-'overwriteprotocol' => 'https',
-'preview_max_x' => 1024,
-'preview_max_y' => 768,
-'preview_max_scale_factor' => 1,
-'profile.enabled' => false,
-'redis' =>
-array (
-'host' => '/var/run/redis/redis-server.sock',
-'port' => 0,
-'timeout' => 0.5,
-'dbindex' => 1,
-),
-'quota_include_external_storage' => false,
-'share_folder' => '/Freigaben',
-'skeletondirectory' => '',
-'trashbin_retention_obligation' => 'auto, 7',
-);
+# ${sed} -i '/);/d' /var/www/nextcloud/config/config.php
+# ${cat} <<EOF >>/var/www/nextcloud/config/config.php
+${sudo} -u www-data ${touch} /var/www/nextcloud/config/tweaks.config.php
+${cat} <<EOF >>/var/www/nextcloud/config/tweaks.config.php
+<?php
+\$CONFIG = array (
+  'activity_expire_days' => 14,
+  'allow_local_remote_servers' => true,
+  'auth.bruteforce.protection.enabled' => true,
+  'blacklisted_files' =>
+  array (
+    0 => '.htaccess',
+    1 => 'Thumbs.db',
+    2 => 'thumbs.db',
+    ),
+    'cron_log' => true,
+    'default_phone_region' => '$PHONEREGION',
+    'enable_previews' => true,
+    'enabledPreviewProviders' =>
+    array (
+      0 => 'OC\\Preview\\PNG',
+      1 => 'OC\\Preview\\JPEG',
+      2 => 'OC\\Preview\\GIF',
+      3 => 'OC\\Preview\\BMP',
+      4 => 'OC\\Preview\\XBitmap',
+      5 => 'OC\\Preview\\Movie',
+      6 => 'OC\\Preview\\PDF',
+      7 => 'OC\\Preview\\MP3',
+      8 => 'OC\\Preview\\TXT',
+      9 => 'OC\\Preview\\MarkDown',
+      ),
+      'filesystem_check_changes' => 0,
+      'filelocking.enabled' => 'true',
+      'htaccess.RewriteBase' => '/',
+      'integrity.check.disabled' => false,
+      'knowledgebaseenabled' => false,
+      'log_rotate_size' => '104857600',
+      'logfile' => '/var/log/nextcloud/nextcloud.log',
+      'loglevel' => 2,
+      'logtimezone' => '$CURRENTTIMEZONE',
+      'maintenance_window_start' => 1,
+      'memcache.local' => '\\OC\\Memcache\\APCu',
+      'memcache.locking' => '\\OC\\Memcache\\Redis',
+      'overwriteprotocol' => 'https',
+      'preview_max_x' => 1024,
+      'preview_max_y' => 768,
+      'preview_max_scale_factor' => 1,
+      'profile.enabled' => false,
+      'redis' =>
+      array (
+        'host' => '/var/run/redis/redis-server.sock',
+        'port' => 0,
+        'timeout' => 0.5,
+        'dbindex' => 1,
+        ),
+        'quota_include_external_storage' => false,
+        'share_folder' => '/Freigaben',
+        'skeletondirectory' => '',
+        'trashbin_retention_obligation' => 'auto, 7',
+        );
 EOF
 ${sed} -i 's/^[ ]*//' /var/www/nextcloud/config/config.php
 ###########################
