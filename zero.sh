@@ -519,7 +519,8 @@ worker_processes auto;
 pid /var/run/nginx.pid;
 events {
   worker_connections 2048;
-  multi_accept on; use epoll;
+  multi_accept on;
+  use epoll;
   }
 http {
   log_format criegerde escape=json
