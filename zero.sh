@@ -632,10 +632,10 @@ ${sed} -i 's/;session.cookie_secure.*/session.cookie_secure = True/' /etc/php/$P
 ${sed} -i 's/;opcache.enable=.*/opcache.enable=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.enable_cli=.*/opcache.enable_cli=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.memory_consumption=.*/opcache.memory_consumption=256/' /etc/php/$PHPVERSION/fpm/php.ini
-${sed} -i 's/;opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=32/' /etc/php/$PHPVERSION/fpm/php.ini
+${sed} -i 's/;opcache.interned_strings_buffer=.*/opcache.interned_strings_buffer=64/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.max_accelerated_files=.*/opcache.max_accelerated_files=100000/' /etc/php/$PHPVERSION/fpm/php.ini
-${sed} -i 's/;opcache.validate_timestamps=.*/opcache.validate_timestamps=0/' /etc/php/$PHPVERSION/fpm/php.ini
-${sed} -i 's/;opcache.revalidate_freq=.*/opcache.revalidate_freq=60/' /etc/php/$PHPVERSION/fpm/php.ini
+${sed} -i 's/;opcache.validate_timestamps=.*/opcache.validate_timestamps=1/' /etc/php/$PHPVERSION/fpm/php.ini
+${sed} -i 's/;opcache.revalidate_freq=.*/opcache.revalidate_freq=0/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.save_comments=.*/opcache.save_comments=1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/allow_url_fopen =.*/allow_url_fopen = 1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;cgi.fix_pathinfo.*/cgi.fix_pathinfo = 0/' /etc/php/$PHPVERSION/fpm/php.ini
