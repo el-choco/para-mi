@@ -711,7 +711,7 @@ log_warnings = 2
 long_query_time = 1
 max_allowed_packet = 16M
 max_binlog_size = 100M
-max_connections = 200
+max_connections = 1000
 max_heap_table_size = 64M
 myisam_recover_options = BACKUP
 myisam_sort_buffer_size = 512M
@@ -1055,7 +1055,6 @@ ${cat} <<EOF >>/var/www/nextcloud/config/tweaks.config.php
       'logfile' => '/var/log/nextcloud/nextcloud.log',
       'loglevel' => 2,
       'logtimezone' => '$CURRENTTIMEZONE',
-      'maintenance_window_start' => 1,
       'memcache.local' => '\\OC\\Memcache\\APCu',
       'memcache.locking' => '\\OC\\Memcache\\Redis',
       'overwriteprotocol' => 'https',
