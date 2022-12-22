@@ -175,7 +175,7 @@ fi
 ###########################
 # Uninstall-Skript        #
 ###########################
-mkdir /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
+mkdir -p /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
 touch /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
 cat <<EOF >/home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
 #!/bin/bash
