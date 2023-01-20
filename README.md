@@ -10,11 +10,11 @@ E: Install your own Nextcloud server in less than 10 minutes.
 * <b>Ubuntu 20.04</b> LTS [AMD x86_64] / <b>22.04 LTS</b> [AMD x86_64] / <b>Debian 11.x</b> [AMD x86_64]
 <br>Proxmox LXC-support<b><sup>new</sup></b><br>
 <small>(Be aware, Debian requires a Proxmox-option called 'nesting=1')</small><br>
-* NGINX 1.21 from nginx
+* NGINX 1.2x from nginx
 * Auswahl / Option: PHP 8.1 // PHP 8.0 // PHP 7.4
 * Auswahl / Option: MariaDB // postgreSQL
 * Auswahl / Option: Self-signed // Let's Encrypt certificates
-* Auswahl / Option: Nextcloud Release 24.x<br>
+* Auswahl / Option: Nextcloud Release 2x.y<br>
   <small>(Nextcloud Versions less than 24 aren't compatible with PHP 8.1, configurable php version!)</small>
 * Auswahl / Option: Nextcloud Office/OnlyOffice
 * etc...
@@ -44,6 +44,7 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <code>PHONEREGION='DE'</code><br>
 <code>NEXTCLOUDOFFICE="n"</code><br>
 <code>ONLYOFFICE="n"</code><br>
+<code>UPLOADSIZE='10G'</code><br>
 
 <h3>Installation:</h3>
 <code>./zero.sh</code>
