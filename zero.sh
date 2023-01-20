@@ -337,7 +337,7 @@ wget=$(command -v wget)
 timedatectl set-timezone "$CURRENTTIMEZONE"
 ###########################
 # D: Hostdatei anpassen   #
-# E: Мodify host file     #
+# E: Modify host file     #
 ###########################
 ${cp} /etc/hosts /etc/hosts.bak
 ${sed} -i '/127.0.1.1/d' /etc/hosts
@@ -622,7 +622,7 @@ ${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/$PHPVERSIO
 ${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/$PHPVERSION/cli/php.ini
-${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = $UPLOADSIZE/' /etc/php/$PHPVERSION/cli/php.ini
+${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = '$UPLOADSIZE'/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/;cgi.fix_pathinfo.*/cgi.fix_pathinfo = 0/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/memory_limit = 128M/memory_limit = 2G/' /etc/php/$PHPVERSION/fpm/php.ini
@@ -630,7 +630,7 @@ ${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/$PHPVERSIO
 ${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/post_max_size =.*/post_max_size = 10240M/' /etc/php/$PHPVERSION/fpm/php.ini
-${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = $UPLOADSIZE/' /etc/php/$PHPVERSION/fpm/php.ini
+${sed} -i 's/upload_max_filesize =.*/upload_max_filesize = '$UPLOADSIZE'/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's|;date.timezone.*|date.timezone = $CURRENTTIMEZONE|' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;session.cookie_secure.*/session.cookie_secure = True/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;opcache.enable=.*/opcache.enable=1/' /etc/php/$PHPVERSION/fpm/php.ini
