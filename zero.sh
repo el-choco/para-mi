@@ -95,8 +95,8 @@ PHONEREGION='DE'
 # E: Should we download and enable Nextcloud office for you?
 NEXTCLOUDOFFICE="n"
 ONLYOFFICE="n"
-# D: Welche max. PHP-Uploadgroesse soll eingestellt werden?"
-# E: Which php uploadsize is to be set?"
+# D: Welche max. PHP-Uploadgroesse soll eingestellt werden ('0' « kein Limit)?"
+# E: Which php uploadsize is to be set ('0' « no limit)?"
 UPLOADSIZE='10G'
 
 #########################################################################
