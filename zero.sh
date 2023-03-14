@@ -98,10 +98,14 @@ ONLYOFFICE="n"
 # D: Welche max. PHP-Uploadgroesse soll eingestellt werden ('0' « kein Limit)?"
 # E: Which php uploadsize is to be set ('0' « no limit)?"
 UPLOADSIZE='10G'
+# D: Die Kommunikation mit REDIS wird durch dieses Passwort verschluesselt
+# E: Communication with REDIS will be encrypted by this password
+REDISPASSWORD=$(openssl rand -hex 16)
 
 #########################################################################
 ### ! DO NOT CHANGE ANYTHING FROM HERE! // KEINE ÄNDERUNGEN AB HIER ! ###
 #########################################################################
+
 ###########################
 # Start/Begin            #
 ###########################
@@ -342,8 +346,7 @@ timedatectl set-timezone "$CURRENTTIMEZONE"
 ${cp} /etc/hosts /etc/hosts.bak
 ${sed} -i '/127.0.1.1/d' /etc/hosts
 ${cat} <<EOF >> /etc/hosts
-127.0.1.1 $(hostname) $NEXTCLOUDDNS
-$NEXTCLOUDEXTIP $NEXTCLOUDDNS
+127.0.1.1 $(hostname)
 EOF
 ###########################
 # D: Systemeinstellungen  #
@@ -354,8 +357,10 @@ figlet=$(command -v figlet)
 ${touch} /etc/motd
 ${figlet} Nextcloud > /etc/motd
 ${cat} <<EOF >> /etc/motd
+
       (c) Carsten Rieger IT-Services
            https://www.c-rieger.de
+
 EOF
 ###########################
 # Logdatei / Logfile      #
@@ -651,6 +656,15 @@ ${sed} -i 's/rights=\"none\" pattern=\"PS\"/rights=\"read|write\" pattern=\"PS\"
 ${sed} -i 's/rights=\"none\" pattern=\"EPS\"/rights=\"read|write\" pattern=\"EPS\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"PDF\"/rights=\"read|write\" pattern=\"PDF\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"XPS\"/rights=\"read|write\" pattern=\"XPS\"/' /etc/ImageMagick-6/policy.xml
+${sed} -i '$a[mysql]' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+${sed} -i '$amysql.allow_local_infile=On' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+${sed} -i '$amysql.allow_persistent=On' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+${sed} -i '$amysql.cache_size=2000' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+${sed} -i '$amysql.max_persistent=-1' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+${sed} -i '$amysql.max_links=-1' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+${sed} -i '$amysql.default_port=3306' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+${sed} -i '$amysql.connect_timeout=60' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+${sed} -i '$amysql.trace_mode=Off' /etc/php/$PHPVERSION/mods-available/mysqli.ini
 if [ ! -e "/usr/bin/gs" ]; then
 ${ln} -s /usr/local/bin/gs /usr/bin/gs
 fi
@@ -789,6 +803,7 @@ sleep 3
 ${apt} install -y redis-server --allow-change-held-packages
 ${cp} /etc/redis/redis.conf /etc/redis/redis.conf.bak
 ${sed} -i 's/port 6379/port 0/' /etc/redis/redis.conf
+${sed} -i 's/# requirepass foobared/requirepass $REDISPASSWORD/' /etc/redis/redis.conf
 ${sed} -i s/\#\ unixsocket/\unixsocket/g /etc/redis/redis.conf
 ${sed} -i 's/unixsocketperm 700/unixsocketperm 770/' /etc/redis/redis.conf
 ${sed} -i 's/# maxclients 10000/maxclients 10240/' /etc/redis/redis.conf
@@ -1070,6 +1085,7 @@ ${cat} <<EOF >>/var/www/nextcloud/config/tweaks.config.php
       array (
         'host' => '/var/run/redis/redis-server.sock',
         'port' => 0,
+        'password' => '$REDISPASSWORD',
         'timeout' => 0.5,
         'dbindex' => 1,
         ),
@@ -1309,9 +1325,7 @@ ${chmod} +x /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/update.sh
 ###########################
 # Bereinigung/Clean Up    #
 ###########################
-${cat} /dev/null > ~/.bash_history
-history -c
-history -w
+${cat} /dev/null > ~/.bash_history && history -c && history -w
 ###########################
 # Laufzeit Berechnung     #
 # Calculating runtime     #
