@@ -656,15 +656,6 @@ ${sed} -i 's/rights=\"none\" pattern=\"PS\"/rights=\"read|write\" pattern=\"PS\"
 ${sed} -i 's/rights=\"none\" pattern=\"EPS\"/rights=\"read|write\" pattern=\"EPS\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"PDF\"/rights=\"read|write\" pattern=\"PDF\"/' /etc/ImageMagick-6/policy.xml
 ${sed} -i 's/rights=\"none\" pattern=\"XPS\"/rights=\"read|write\" pattern=\"XPS\"/' /etc/ImageMagick-6/policy.xml
-${sed} -i '$a[mysql]' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-${sed} -i '$amysql.allow_local_infile=On' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-${sed} -i '$amysql.allow_persistent=On' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-${sed} -i '$amysql.cache_size=2000' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-${sed} -i '$amysql.max_persistent=-1' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-${sed} -i '$amysql.max_links=-1' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-${sed} -i '$amysql.default_port=3306' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-${sed} -i '$amysql.connect_timeout=60' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-${sed} -i '$amysql.trace_mode=Off' /etc/php/$PHPVERSION/mods-available/mysqli.ini
 if [ ! -e "/usr/bin/gs" ]; then
 ${ln} -s /usr/local/bin/gs /usr/bin/gs
 fi
@@ -683,6 +674,16 @@ sleep 3
 if [ $DATABASE == "m" ]
 then
         ${apt} install -y php$PHPVERSION-mysql mariadb-server --allow-change-held-packages
+        ${cp} /etc/php/$PHPVERSION/mods-available/mysqli.ini /etc/php/$PHPVERSION/mods-available/mysqli.ini.bak
+        ${sed} -i '$a[mysql]' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+        ${sed} -i '$amysql.allow_local_infile=On' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+        ${sed} -i '$amysql.allow_persistent=On' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+        ${sed} -i '$amysql.cache_size=2000' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+        ${sed} -i '$amysql.max_persistent=-1' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+        ${sed} -i '$amysql.max_links=-1' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+        ${sed} -i '$amysql.default_port=3306' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+        ${sed} -i '$amysql.connect_timeout=60' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+        ${sed} -i '$amysql.trace_mode=Off' /etc/php/$PHPVERSION/mods-available/mysqli.ini
         ${service} mysql stop
         ${cp} /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
         ${cat} <<EOF >/etc/mysql/my.cnf
