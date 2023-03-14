@@ -1241,6 +1241,13 @@ ${date}
 ${echo} ""
 $lsbrelease -ar
 ###########################
+# D: Update-Skript anlegen#
+# E: Create Update-Script #
+###########################
+cd /home/"$BENUTZERNAME"/
+${wget} -q https://codeberg.org/criegerde/nextcloud/raw/branch/master/skripte/update.sh
+${chmod} +x /home/"$BENUTZERNAME"/update.sh
+###########################
 # D: Abschlußbildschirm   #
 # E: Final screen         #
 ###########################
@@ -1290,39 +1297,14 @@ if [ ! -f /root/.bashrc ]; then touch /root/.bashrc; fi
 cat <<EOF >> /root/.bashrc
 alias nocc="sudo -u www-data php /var/www/nextcloud/occ"
 EOF
+source /root/.bashrc
 else
 if [ ! -f /root/.bash_aliases ]; then touch /root/.bash_aliases; fi
 cat <<EOF >> /root/.bash_aliases
 alias nocc="sudo -u www-data php /var/www/nextcloud/occ"
 EOF
+source /root/.bash_aliases
 fi
-###########################
-# D: Update-Skript anlegen#
-# E: Create Update-Script #
-###########################
-${touch} /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/update.sh
-${cat} <<EOF >/home/"$BENUTZERNAME"/Nextcloud-Installationsskript/update.sh
-#!/bin/bash
-apt-get update
-apt-get upgrade -V
-apt-get autoremove
-apt-get autoclean
-chown -R www-data:www-data /var/www/nextcloud
-find /var/www/nextcloud/ -type d -exec chmod 750 {} \;
-find /var/www/nextcloud/ -type f -exec chmod 640 {} \;
-sudo -u www-data php /var/www/nextcloud/updater/updater.phar
-sudo -u www-data php /var/www/nextcloud/occ status
-sudo -u www-data php /var/www/nextcloud/occ -V
-sudo -u www-data php /var/www/nextcloud/occ db:add-missing-primary-keys
-sudo -u www-data php /var/www/nextcloud/occ db:add-missing-indices
-sudo -u www-data php /var/www/nextcloud/occ db:add-missing-columns
-sudo -u www-data php /var/www/nextcloud/occ db:convert-filecache-bigint
-sudo -u www-data sed -i "s/output_buffering=.*/output_buffering=0/" /var/www/nextcloud/.user.ini
-sudo -u www-data php /var/www/nextcloud/occ app:update --all
-if [ -e /var/run/reboot-required ]; then echo "*** NEUSTART ERFORDERLICH *** / *** REBOOT REQUIRED ***";fi
-exit 0
-EOF
-${chmod} +x /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/update.sh
 ###########################
 # Bereinigung/Clean Up    #
 ###########################
