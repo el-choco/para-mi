@@ -608,6 +608,8 @@ ${cp} /etc/php/$PHPVERSION/fpm/pool.d/www.conf /etc/php/$PHPVERSION/fpm/pool.d/w
 ${cp} /etc/php/$PHPVERSION/fpm/php-fpm.conf /etc/php/$PHPVERSION/fpm/php-fpm.conf.bak
 ${cp} /etc/php/$PHPVERSION/cli/php.ini /etc/php/$PHPVERSION/cli/php.ini.bak
 ${cp} /etc/php/$PHPVERSION/fpm/php.ini /etc/php/$PHPVERSION/fpm/php.ini.bak
+${cp} /etc/php/$PHPVERSION/mods-available/opcache.ini /etc/php/$PHPVERSION/mods-available/opcache.ini.bak
+${cp} /etc/php/$PHPVERSION/mods-available/apcu.ini /etc/php/$PHPVERSION/mods-available/apcu.ini.bak
 ${cp} /etc/php/$PHPVERSION/fpm/php-fpm.conf /etc/php/$PHPVERSION/fpm/php-fpm.conf.bak
 ${cp} /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xml.bak
 # ${sed} -i 's/pm = dynamic/pm = static/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
