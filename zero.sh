@@ -173,10 +173,10 @@ echo ""
 else
 clear
 echo ""
-echo "****************************************"
-echo "*   Sie verwenden kein Ubuntu 20/22    *"
-echo "* You aren't operating on Ubuntu 20/22 *"
-echo "****************************************"
+echo "******************************************************"
+echo "*   Sie verwenden kein Debian 11 o. Ubuntu 20/22     *"
+echo "* You aren't operating on Debian 11 nor Ubuntu 20/22 *"
+echo "******************************************************"
 echo ""
 exit 1
 fi
@@ -561,7 +561,8 @@ http {
   keepalive_timeout 65;
   reset_timedout_connection on;
   server_tokens off;
-  resolver $RESOLVER valid=30s;
+  # Failed on Debian 11: resolver $RESOLVER valid=30s;
+  resolver 127.0.0.53 valid=30s;
   resolver_timeout 5s;
   include /etc/nginx/conf.d/*.conf;
   }
