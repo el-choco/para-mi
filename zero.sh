@@ -484,10 +484,10 @@ then
 		then
 		wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
 		chmod +x mariadb_repo_setup
-		./mariadb_repo_setup --mariadb-server-version="mariadb-10.8"
+		./mariadb_repo_setup --mariadb-server-version="mariadb-10.11"
 		else
 		wget -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
-    echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.8/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
+    echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.11/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
 	fi
 else
     wget  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
