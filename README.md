@@ -7,15 +7,14 @@
 D: Installieren Sie Ihren eigenen Nextcloud-Server in weniger als 10 Minuten.<br>
 E: Install your own Nextcloud server in less than 10 minutes.
 
-* <b>Ubuntu 20.04</b> LTS [AMD x86_64] / <b>22.04 LTS</b> [AMD x86_64] / <b>Debian 11.x</b> [AMD x86_64]
-<br>Proxmox LXC-support<b><sup>new</sup></b><br>
+* <b>Ubuntu 20.04</b> LTS [AMD x86_64] <sup>deprecated/veraltet</sup> / <b>22.04 LTS</b> [AMD x86_64] / <b>Debian 11.x</b> [AMD x86_64]
+<br>Proxmox LXC-support<b></b><br>
 <small>(Be aware, Debian requires a Proxmox-option called 'nesting=1')</small><br>
 * NGINX 1.2x from nginx
-* Auswahl / Option: PHP 8.1 // PHP 8.0 // PHP 7.4
+* Auswahl / Option: PHP 8.2 // PHP 8.1 // PHP 8.0
 * Auswahl / Option: MariaDB // postgreSQL
 * Auswahl / Option: Self-signed // Let's Encrypt certificates
-* Auswahl / Option: Nextcloud Release 2x.y<br>
-  <small>(Nextcloud Versions less than 24 aren't compatible with PHP 8.1, configurable php version!)</small>
+* Auswahl / Option: Nextcloud Release ≥ 25.0.7<br>
 * Auswahl / Option: Nextcloud Office/OnlyOffice
 * etc...
 
@@ -32,7 +31,7 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <code>NEXTCLOUDADMINUSER="nc_admin"</code><br>
 <code>NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)</code><br>
 <code>NCRELEASE="latest.tar.bz2"</code><br>
-<code>PHPVERSION="8.1"</code><br>
+<code>PHPVERSION="8.2"</code><br>
 <code>NEXTCLOUDDNS="ihre.domain.de"</code><br>
 <code>LETSENCRYPT="n"</code><br>
 <code>NEXTCLOUDEXTIP=$(dig +short txt ch whoami.cloudflare @1.0.0.1)</code><br>
