@@ -32,6 +32,7 @@ NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)
 #    oder das aktuelle/letzte (latest.tar.bz2) Release:
 # E: e.g. NCRELEASE="nextcloud-25.0.7.tar.bz2"
 #    or the current/latest (latest.tar.bz2) release:
+NCRELEASE="latest.tar.bz2"
 # PHP-Release
 # D: bspw. PHPVERSION="8.1"
 #    oder PHPVERSION="8.0"
