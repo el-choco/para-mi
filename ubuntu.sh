@@ -428,10 +428,8 @@ ${echo} "System updates and software repositories"
 ${echo} ""
 sleep 3
 ${apt} upgrade -y
-${apt} install -y \
-apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript gpg gnupg gnupg2 htop jq \
-libfile-fcntllock-perl libfontconfig1 libfuse2 locate net-tools rsyslog screen smbclient socat software-properties-common \
-ssl-cert tree unzip wget zip ubuntu-keyring
+${apt} install -y apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript gpg gnupg gnupg2 htop jq \
+libfile-fcntllock-perl libfontconfig1 libfuse2 locate net-tools rsyslog screen smbclient socat software-properties-common ssl-cert tree unzip wget zip ubuntu-keyring
 ###########################
 # D: Energiesparmodus: aus#
 # E: Energy mode: off     #
@@ -957,6 +955,7 @@ ${echo} "CHECKSUM ERROR => SECURITY ALERT => ABBRUCH!"
 exit 1
 fi
 ${echo} "Extracting:" $NCRELEASE
+${apt} install -y bzip2
 ${tar} -xjf $NCRELEASE -C /var/www & CrI
 ${chown} -R www-data:www-data /var/www/
 ${rm} -f $NCRELEASE $NCRELEASE.md5
