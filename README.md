@@ -7,7 +7,7 @@
 D: Installieren Sie Ihren eigenen Nextcloud-Server in weniger als 10 Minuten.<br>
 E: Install your own Nextcloud server in less than 10 minutes.
 
-* <b>Ubuntu 20.04</b> LTS [AMD x86_64] <sup>deprecated/veraltet</sup> / <b>22.04 LTS</b> [AMD x86_64] / <b>Debian 11.x</b> [AMD x86_64]
+* <b>Ubuntu 20.04</b> LTS [AMD x86_64] <sup>deprecated/veraltet</sup> / <b>22.04 LTS</b> [AMD x86_64] / <b>Debian 11.x</b> [AMD x86_64] / <b>Debian 12</b> [AMD x86_64] 
 <br>Proxmox LXC-support<b></b><br>
 <small>(Be aware, Debian requires a Proxmox-option called 'nesting=1')</small><br>
 * NGINX ≥ 1.25 from nginx
@@ -21,9 +21,7 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <h2>INSTALLATION (Ubuntu/Debian):</h2>
 <h3>D/E: Vorbereitungen/Preparations:</h3>
 <code>sudo -s</code><br>
-<code>apt install -y git</code><br>
-<code>git clone https://codeberg.org/criegerde/nextcloud-zero</code><br>
-<code>cp nextcloud-zero/zero.sh .</code><br>
+<code>wget -O zero.sh wget -O zero.sh https://codeberg.org/criegerde/nextcloud-zero/raw/branch/master/<debian/ubuntu>.sh</code><br>
 <code>chmod +x zero.sh</code><br> <br>
 <h3>D/E: Konfigurationsvariablen anpassen / modify configuration variables:</h3></code>
 <code>nano zero.sh</code><br> <br>
