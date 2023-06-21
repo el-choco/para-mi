@@ -160,9 +160,9 @@ echo ""
 if ([ "$(lsb_release -r | awk '{ print $2 }')" = "11" ] ||  [ "$(lsb_release -r | awk '{ print $2 }')" = "12" ]);
 	then
  		echo "* Test: Debian "$(lsb_release -r | awk '{ print $2 }')" was found ........:::::::: OK *";
-        fi;
+fi;
 echo ""
-else
+else 
 clear
 echo ""
 echo "******************************************************"
