@@ -811,8 +811,9 @@ map \$arg_v \$asset_immutable {
 EOF
 ${cat} <<EOF >/etc/nginx/conf.d/nextcloud.conf
 server {
-  listen 443 ssl http2 default_server;
-  listen [::]:443 ssl http2 default_server;
+  listen 443 ssl default_server;
+  listen [::]:443 ssl default_server;
+  http2 on;
   server_name cloud.server.io;
   ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
   ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
