@@ -147,7 +147,7 @@ apt install -y iputils-ping net-tools
 fi
 # D: Systemvoraussetzungen prüfen
 # E: Check system requirements
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
 then
 clear
 echo "*************************************************"
@@ -157,10 +157,6 @@ echo "*************************************************"
 echo ""
 echo "* Test: Root ...............:::::::::::::::: OK *"
 echo ""
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
-then
-echo "* Test: Debian 11 was found ........:::::::: OK *"
-fi
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
 then
 echo "* Test: Ubuntu 20 was found ........:::::::: OK *"
@@ -292,11 +288,6 @@ if [ ! -d "/home/$BENUTZERNAME/Nextcloud-Installationsskript/" ]; then
   echo "*************************************************"
   echo ""
   sleep 3
-###########################
-# D: Resolver ermitteln   #
-# E: Identify the resolver#
-###########################
-RESOLVER=$(grep "nameserver" /etc/resolv.conf -m 1 | awk '{ print $2 }')
 ###########################
 # D: Lokale IP ermitteln  #
 # E: Identify local ip    #
@@ -440,13 +431,7 @@ ${apt} upgrade -y
 ${apt} install -y \
 apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript gpg gnupg gnupg2 htop jq \
 libfile-fcntllock-perl libfontconfig1 libfuse2 locate net-tools rsyslog screen smbclient socat software-properties-common \
-ssl-cert tree unzip wget zip
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
-then
-${apt} install -y ubuntu-keyring
-else
-${apt} install -y debian-archive-keyring debian-keyring
-fi
+ssl-cert tree unzip wget zip ubuntu-keyring
 ###########################
 # D: Energiesparmodus: aus#
 # E: Energy mode: off     #
@@ -459,40 +444,21 @@ if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ $PHPVERSION != "8
 then
 ${addaptrepository} ppa:ondrej/php -y
 fi
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
-then
-echo "deb https://packages.sury.org/php/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/php.list
-wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-fi
 ###########################
 # NGINX Repositories      #
 ###########################
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
-then
-curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
-echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
-else
 curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
 echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
-fi
 ###########################
 # DB Repositories         #
 ###########################
 if [ $DATABASE == "m" ]
 then
-	if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
-		then
-		wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-		chmod +x mariadb_repo_setup
-		./mariadb_repo_setup --mariadb-server-version="mariadb-10.8"
-		else
-		wget -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
+	wget -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
     echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.8/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
-	fi
 else
     wget  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
-    echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
-        
+    echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list      
 fi
 ###########################
 # D: Entfernen Autoupdates#
@@ -561,7 +527,7 @@ http {
   keepalive_timeout 65;
   reset_timedout_connection on;
   server_tokens off;
-  resolver $RESOLVER valid=30s;
+  resolver 127.0.0.1 valid=30s;
   resolver_timeout 5s;
   include /etc/nginx/conf.d/*.conf;
   }
@@ -722,7 +688,7 @@ innodb_file_per_table = 1
 innodb_open_files = 400
 innodb_io_capacity = 4000
 innodb_flush_method = O_DIRECT
-innodb_read_only_compressed=OFF
+innodb_read_only_compressed = OFF
 key_buffer_size = 128M
 lc_messages_dir = /usr/share/mysql
 lc_messages = en_US
@@ -768,10 +734,6 @@ quote-names
 [isamchk]
 key_buffer = 16M
 EOF
-# if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
-# then
-# sed -i '/innodb_read_only_compressed=OFF/d' /etc/mysql/my.cnf
-# fi
 ${service} mysql restart
 mysql=$(command -v mysql)
 ${mysql} -e "CREATE DATABASE nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
@@ -1295,20 +1257,11 @@ ${sudo} -u www-data ${touch} /var/log/nextcloud/nextcloud.log
 ###########################
 # occ Aliases (nocc)      #
 ###########################
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
-then
-if [ ! -f /root/.bashrc ]; then touch /root/.bashrc; fi
-cat <<EOF >> /root/.bashrc
-alias nocc="sudo -u www-data php /var/www/nextcloud/occ"
-EOF
-source /root/.bashrc
-else
 if [ ! -f /root/.bash_aliases ]; then touch /root/.bash_aliases; fi
 cat <<EOF >> /root/.bash_aliases
 alias nocc="sudo -u www-data php /var/www/nextcloud/occ"
 EOF
 source /root/.bash_aliases
-fi
 ###########################
 # Bereinigung/Clean Up    #
 ###########################
