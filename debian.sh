@@ -147,8 +147,6 @@ apt install -y iputils-ping net-tools
 fi
 # D: Systemvoraussetzungen prüfen
 # E: Check system requirements
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "12" ]
-then
 clear
 echo "*************************************************"
 echo "*  Pre-Installationschecks werden durchgefuehrt *"
@@ -160,7 +158,6 @@ echo ""
 if ([ "$(lsb_release -r | awk '{ print $2 }')" = "11" ] ||  [ "$(lsb_release -r | awk '{ print $2 }')" = "12" ]);
 	then
  		echo "* Test: Debian "$(lsb_release -r | awk '{ print $2 }')" was found ........:::::::: OK *";
-fi;
 echo ""
 else 
 clear
