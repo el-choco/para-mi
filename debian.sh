@@ -548,10 +548,10 @@ ${chown} -R www-data:www-data /var/log/nextcloud /var/www/ /etc/letsencrypt
 # D: Hinzufügen ACME-User #
 # E: Create ACME-user     #
 ###########################
-adduser --disabled-login --gecos "" acmeuser
-usermod -aG www-data acmeuser
-touch /etc/sudoers.d/acmeuser
-cat <<EOF >/etc/sudoers.d/acmeuser
+${adduser} --system --disabled-login acmeuser
+${usermod} -aG www-data acmeuser
+${touch} /etc/sudoers.d/acmeuser
+${cat} <<EOF >/etc/sudoers.d/acmeuser
 acmeuser ALL=NOPASSWD: /bin/systemctl reload nginx.service
 EOF
 ${su} - acmeuser -c "/usr/bin/curl https://get.acme.sh | sh"
