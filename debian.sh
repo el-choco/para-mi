@@ -548,7 +548,8 @@ ${chown} -R www-data:www-data /var/log/nextcloud /var/www/ /etc/letsencrypt
 # D: Hinzufügen ACME-User #
 # E: Create ACME-user     #
 ###########################
-${adduser} --system --disabled-login acmeuser
+# ${adduser} --system --disabled-login acmeuser
+${adduser} acmeuser --gecos "" --disabled-password
 ${usermod} -aG www-data acmeuser
 ${touch} /etc/sudoers.d/acmeuser
 ${cat} <<EOF >/etc/sudoers.d/acmeuser
