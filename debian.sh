@@ -290,6 +290,7 @@ IPA=$(hostname -I | awk '{print $1}')
 # E: System patches       #
 ###########################
 addaptrepository=$(command -v add-apt-repository)
+apt install -y adduser
 adduser=$(command -v adduser)
 apt=$(command -v apt-get)
 aptkey=$(command -v apt-key)
