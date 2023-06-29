@@ -290,7 +290,6 @@ IPA=$(hostname -I | awk '{print $1}')
 # E: System patches       #
 ###########################
 addaptrepository=$(command -v add-apt-repository)
-apt install -y adduser
 adduser=$(command -v adduser)
 apt=$(command -v apt-get)
 aptkey=$(command -v apt-key)
@@ -549,10 +548,10 @@ ${chown} -R www-data:www-data /var/log/nextcloud /var/www/ /etc/letsencrypt
 # D: Hinzufügen ACME-User #
 # E: Create ACME-user     #
 ###########################
-${adduser} --disabled-login --gecos "" acmeuser
-${usermod} -aG www-data acmeuser
-${touch} /etc/sudoers.d/acmeuser
-${cat} <<EOF >/etc/sudoers.d/acmeuser
+adduser --disabled-login --gecos "" acmeuser
+usermod -aG www-data acmeuser
+touch /etc/sudoers.d/acmeuser
+cat <<EOF >/etc/sudoers.d/acmeuser
 acmeuser ALL=NOPASSWD: /bin/systemctl reload nginx.service
 EOF
 ${su} - acmeuser -c "/usr/bin/curl https://get.acme.sh | sh"
