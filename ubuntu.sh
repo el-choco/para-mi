@@ -852,6 +852,10 @@ server {
   add_header X-Robots-Tag "noindex, nofollow" always;
   add_header X-XSS-Protection "1; mode=block" always;
   fastcgi_hide_header X-Powered-By;
+  include mime.types;
+  types {
+    text/javascript js mjs;
+    }
   root /var/www/nextcloud;
   index index.php index.html /index.php\$request_uri;
   location = / {
