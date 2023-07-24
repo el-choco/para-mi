@@ -563,6 +563,7 @@ ${echo} "PHP-Installation"
 ${echo} ""
 sleep 3
 ${apt} install -y php-common php$PHPVERSION-{fpm,gd,curl,xml,zip,intl,mbstring,bz2,ldap,apcu,bcmath,gmp,imagick,igbinary,redis,smbclient,cli,common,opcache,readline} imagemagick ldap-utils nfs-common cifs-utils --allow-change-held-packages
+${apt} install -y libmagickcore-6.q16-6-extra --allow-change-held-packages
 AvailableRAM=$(/usr/bin/awk '/MemAvailable/ {printf "%d", $2/1024}' /proc/meminfo)
 AverageFPM=$(/usr/bin/ps --no-headers -o 'rss,cmd' -C php-fpm$PHPVERSION | /usr/bin/awk '{ sum+=$1 } END { printf ("%d\n", sum/NR/1024,"M") }')
 FPMS=$((AvailableRAM/AverageFPM))
