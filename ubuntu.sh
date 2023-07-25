@@ -666,7 +666,7 @@ log_error=/var/log/mysql/mysql_error.log
 nice = 0
 socket = /var/run/mysqld/mysqld.sock
 [mysqld]
-performance_schema=ON
+# performance_schema=ON
 basedir = /usr
 bind-address = 127.0.0.1
 binlog_format = ROW
