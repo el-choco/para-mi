@@ -718,6 +718,8 @@ quote-names
 [isamchk]
 key_buffer = 16M
 EOF
+mkdir -p /var/log/mysql
+chown -R mysql:mysql /var/log/mysql
 ${service} mysql restart
 mysql=$(command -v mysql)
 ${mysql} -e "CREATE DATABASE nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
