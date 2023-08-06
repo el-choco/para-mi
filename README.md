@@ -25,24 +25,24 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <code>chmod +x zero.sh</code><br> <br>
 <h3>D/E: Konfigurationsvariablen anpassen / modify configuration variables:</h3></code>
 <code>nano zero.sh</code><br> <br>
-<code>NEXTCLOUDDATAPATH="/data"</code><br>
-<code>NEXTCLOUDADMINUSER="nc_admin"</code><br>
-<code>NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)</code><br>
-<code>NCRELEASE="latest.tar.bz2"</code><br>
-<code>PHPVERSION="8.2"</code><br>
-<code>NEXTCLOUDDNS="ihre.domain.de"</code><br>
-<code>LETSENCRYPT="n"</code><br>
-<code>NEXTCLOUDEXTIP=$(dig +short txt ch whoami.cloudflare @1.0.0.1)</code><br>
-<code>MARIADBROOTPASSWORD=$(openssl rand -hex 16)</code><br>
-<code>DATABASE="m"</code><br>
-<code>NCDBUSER="ncdbuser"</code><br>
-<code>NCDBPASSWORD=$(openssl rand -hex 16)</code><br>
-<code>CURRENTTIMEZONE='Europe/Berlin'</code><br>
-<code>PHONEREGION='DE'</code><br>
-<code>NEXTCLOUDOFFICE="n"</code><br>
-<code>ONLYOFFICE="n"</code><br>
-<code>UPLOADSIZE='10G'</code><br>
-<code>REDISPASSWORD=$(openssl rand -hex 16)</code><br>
+<code>##################################################
+# D: Konfigurationsvariablen - bitte anpassen!   #
+# E: Configuration variables - please configure! #
+##################################################
+
+NEXTCLOUDDATAPATH="/data"
+NEXTCLOUDADMINUSER="nc_admin"
+NCRELEASE="latest.tar.bz2"
+PHPVERSION="8.2"
+LETSENCRYPT="n"
+NEXTCLOUDDNS="ihre.domain.de"
+DATABASE="m"
+NCDBUSER="ncdbuser"
+CURRENTTIMEZONE='Europe/Berlin'
+PHONEREGION='DE'
+NEXTCLOUDOFFICE="n"
+ONLYOFFICE="n"
+UPLOADSIZE='10G'</code><br>
 
 <h3>Installation:</h3>
 <code>./zero.sh</code>
