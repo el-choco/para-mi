@@ -889,7 +889,7 @@ server {
   fastcgi_hide_header X-Powered-By;
   include mime.types;
   types {
-    text/javascript js mjs;
+    text/javascript mjs;
     }
   root /var/www/nextcloud;
   index index.php index.html /index.php\$request_uri;
