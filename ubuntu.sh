@@ -475,6 +475,7 @@ ${echo} "Systemaktualisierungen u. Rerepositories"
 ${echo} "System updates and software repositories"
 ${echo} ""
 sleep 3
+${apt} update
 ${apt} upgrade -y
 ${apt} install -y apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript gpg gnupg gnupg2 htop jq \
 libfile-fcntllock-perl libfontconfig1 libfuse2 locate net-tools rsyslog screen smbclient socat software-properties-common ssl-cert tree unzip wget zip ubuntu-keyring
