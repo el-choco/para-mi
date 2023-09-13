@@ -448,15 +448,14 @@ function setHOLD() {
 # E: Restart services     #
 ###########################
 function restart_all_services() {
-  ${service} nginx restart
+  ${systemctl} restart nginx
   if [ $DATABASE == "m" ]
   then
-        ${service} mysql restart
+        ${systemctl} restart mysql
   else
-        ${service} postgresql restart
+        ${systemctl} restart postgresql
   fi
-  ${service} redis-server restart
-  ${service} php$PHPVERSION-fpm restart
+  ${systemctl} restart redis-server php$PHPVERSION-fpm
   }
 ###########################
 # D: NC Daten indizieren  #
@@ -465,7 +464,7 @@ function restart_all_services() {
 function nextcloud_scan_data() {
   ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ files:scan --all
   ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ files:scan-app-data
-  ${service} fail2ban restart
+  ${systemctl} restart fail2ban
   }
 ###########################
 # D: Basissoftware        #
@@ -582,7 +581,7 @@ EOF
 ###########################
 # Neustart/Restart NGINX  #
 ###########################
-${service} nginx restart
+${systemctl} restart nginx
 ###########################
 # D: Verzeichnisse anlegen#
 # E: Create directories   #
@@ -681,8 +680,8 @@ fi
 ###########################
 # Neustart/Restart PHP    #
 ###########################
-${service} php$PHPVERSION-fpm restart
-${service} nginx restart
+${systemctl} restart php$PHPVERSION-fpm
+${systemctl} restart nginx
 ###########################
 # Installation DB         #
 ###########################
@@ -703,7 +702,7 @@ then
         ${sed} -i '$amysql.default_port=3306' /etc/php/$PHPVERSION/mods-available/mysqli.ini
         ${sed} -i '$amysql.connect_timeout=60' /etc/php/$PHPVERSION/mods-available/mysqli.ini
         ${sed} -i '$amysql.trace_mode=Off' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-        ${service} mysql stop
+        ${systemctl} stop mysql
         ${cp} /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
         ${cat} <<EOF >/etc/mysql/my.cnf
 [client]
@@ -765,7 +764,7 @@ quote-names
 [isamchk]
 key_buffer = 16M
 EOF
-${service} mysql restart
+${systemctl} restart mysql
 mysql=$(command -v mysql)
 ${mysql} -e "CREATE DATABASE nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
 ${mysql} -e "CREATE USER ${NCDBUSER}@localhost IDENTIFIED BY '${NCDBPASSWORD}';"
@@ -789,7 +788,7 @@ CREATE DATABASE nextcloud TEMPLATE template0 ENCODING 'UNICODE';
 ALTER DATABASE nextcloud OWNER TO ${NCDBUSER};
 GRANT ALL PRIVILEGES ON DATABASE nextcloud TO ${NCDBUSER};
 EOF
-${service} postgresql restart
+${systemctl} restart postgresql
 fi
 ###########################
 # Installation Redis      #
@@ -970,7 +969,7 @@ ${sed} -i "s/server_name cloud.server.io;/server_name $(hostname) $NEXTCLOUDDNS;
 ###########################
 # Neustart/Restart NGINX  #
 ###########################
-${service} nginx restart
+${systemctl} restart nginx
 ${clear}
 ###########################
 # Herunterladen/Download  #
@@ -1159,10 +1158,9 @@ ${ufw} logging medium && ${ufw} default deny incoming
 ${cat} <<EOF | ${ufw} enable
 y
 EOF
-${service} redis-server restart
-${service} ufw restart
-${systemctl} enable fail2ban.service
-${service} fail2ban restart
+${systemctl} restart redis-server ufw$
+{systemctl} enable fail2ban.service
+${systemctl} restart fail2ban
 ###########################
 # D: Nextcloud Anpassungen#
 # E: Nextcloud customizing#
@@ -1196,7 +1194,7 @@ ${rediscli} -s /var/run/redis/redis-server.sock <<EOF
 FLUSHALL
 quit
 EOF
-${service} nginx stop
+${systemctl} stop nginx
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ db:add-missing-primary-keys
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ db:add-missing-indices
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ db:add-missing-columns
@@ -1205,7 +1203,7 @@ ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ security:certificates:im
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ config:app:set settings profile_enabled_by_default --value="0"
 ${clear}
 nextcloud_scan_data
-${service} nginx restart
+${systemctl} restart nginx
 ${echo} ""
 ${echo} "Systemoptimierungen / System optimizations"
 ${echo} ""
@@ -1231,7 +1229,7 @@ ${sudo} -i -u acmeuser bash << EOF
 EOF
 ${sed} -i '/ssl-cert-snakeoil/d' /etc/nginx/conf.d/nextcloud.conf
 ${sed} -i s/#\ssl/\ssl/g /etc/nginx/conf.d/nextcloud.conf
-${service} nginx restart
+${systemctl} restart nginx
 fi
 ###########################
 # System information-just #
