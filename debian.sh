@@ -647,7 +647,6 @@ ${sed} -i 's/pm.min_spare_servers =.*/pm.min_spare_servers = 25/' /etc/php/$PHPV
 ${sed} -i 's/pm.max_spare_servers =.*/pm.max_spare_servers = 75/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 500/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 fi
-${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 2000/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/$PHPVERSION/cli/php.ini
