@@ -501,7 +501,7 @@ echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx
 ###########################
 if [ $DATABASE == "m" ]
 then
-	wget -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
+    wget -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
     echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.11/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
 else
     wget  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
@@ -633,13 +633,19 @@ ${sed} -i 's/;env\[TMP\] = /env[TMP] = /' /etc/php/$PHPVERSION/fpm/pool.d/www.co
 ${sed} -i 's/;env\[TMPDIR\] = /env[TMPDIR] = /' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/;env\[TEMP\] = /env[TEMP] = /' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/;env\[PATH\] = /env[PATH] = /' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
-if [ "$AvailableRAM" -ge "2048" ];then 
+if [ "$AvailableRAM" -ge "4096" ];then 
 ${sed} -i 's/pm.max_children =.*/pm.max_children = '$FPMS'/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/pm.start_servers =.*/pm.start_servers = '$PStartS'/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/pm.min_spare_servers =.*/pm.min_spare_servers = '$PMinSS'/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/pm.max_spare_servers =.*/pm.max_spare_servers = '$PMaxSS'/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
-fi
 ${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 2000/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+else
+${sed} -i 's/pm.max_children =.*/pm.max_children = 100/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm.start_servers =.*/pm.start_servers = 50/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm.min_spare_servers =.*/pm.min_spare_servers = 25/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm.max_spare_servers =.*/pm.max_spare_servers = 75/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 500/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+fi
 ${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/max_input_time =.*/max_input_time = 3600/' /etc/php/$PHPVERSION/cli/php.ini
