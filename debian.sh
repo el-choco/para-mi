@@ -908,9 +908,6 @@ server {
     log_not_found off;
     access_log off;
     }
-  location ^~ /apps/rainloop/app/data {
-    deny all;
-    }
   location ^~ /.well-known {
     location = /.well-known/carddav { return 301 /remote.php/dav/; }
     location = /.well-known/caldav  { return 301 /remote.php/dav/; }
