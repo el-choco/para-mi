@@ -487,10 +487,7 @@ ${systemctl} mask sleep.target suspend.target hibernate.target hybrid-sleep.targ
 ###########################
 # PHP 8 Repositories      #
 ###########################
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ $PHPVERSION != "8.1" ]
-then
 ${addaptrepository} ppa:ondrej/php -y
-fi
 ###########################
 # NGINX Repositories      #
 ###########################
