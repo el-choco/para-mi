@@ -615,11 +615,6 @@ sleep 3
 ${apt} install -y php-common php$PHPVERSION-{fpm,gd,curl,xml,zip,intl,mbstring,bz2,ldap,apcu,bcmath,gmp,imagick,igbinary,redis,smbclient,cli,common,opcache,readline} imagemagick ldap-utils nfs-common cifs-utils --allow-change-held-packages
 ${apt} install -y libmagickcore-6.q16-6-extra --allow-change-held-packages
 AvailableRAM=$(/usr/bin/awk '/MemAvailable/ {printf "%d", $2/1024}' /proc/meminfo)
-AverageFPM=$(/usr/bin/ps --no-headers -o 'rss,cmd' -C php-fpm$PHPVERSION | /usr/bin/awk '{ sum+=$1 } END { printf ("%d\n", sum/NR/1024,"M") }')
-FPMS=$((AvailableRAM/AverageFPM))
-PMaxSS=$((FPMS*2/3))
-PMinSS=$((PMaxSS/2))
-PStartS=$(((PMaxSS+PMinSS)/2))
 ${cp} /etc/php/$PHPVERSION/fpm/pool.d/www.conf /etc/php/$PHPVERSION/fpm/pool.d/www.conf.bak
 ${cp} /etc/php/$PHPVERSION/fpm/php-fpm.conf /etc/php/$PHPVERSION/fpm/php-fpm.conf.bak
 ${cp} /etc/php/$PHPVERSION/cli/php.ini /etc/php/$PHPVERSION/cli/php.ini.bak
@@ -635,17 +630,17 @@ ${sed} -i 's/;env\[TMPDIR\] = /env[TMPDIR] = /' /etc/php/$PHPVERSION/fpm/pool.d/
 ${sed} -i 's/;env\[TEMP\] = /env[TEMP] = /' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/;env\[PATH\] = /env[PATH] = /' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 if [ "$AvailableRAM" -ge "4096" ];then 
-${sed} -i 's/pm.max_children =.*/pm.max_children = '$FPMS'/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
-${sed} -i 's/pm.start_servers =.*/pm.start_servers = '$PStartS'/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
-${sed} -i 's/pm.min_spare_servers =.*/pm.min_spare_servers = '$PMinSS'/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
-${sed} -i 's/pm.max_spare_servers =.*/pm.max_spare_servers = '$PMaxSS'/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
-${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 2000/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm.max_children =.*/pm.max_children = 200/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm.start_servers =.*/pm.start_servers = 100/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm.min_spare_servers =.*/pm.min_spare_servers = 60/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm.max_spare_servers =.*/pm.max_spare_servers = 140/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 1000/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 else
 ${sed} -i 's/pm.max_children =.*/pm.max_children = 100/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/pm.start_servers =.*/pm.start_servers = 50/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
-${sed} -i 's/pm.min_spare_servers =.*/pm.min_spare_servers = 25/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
-${sed} -i 's/pm.max_spare_servers =.*/pm.max_spare_servers = 75/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
-${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 500/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm.min_spare_servers =.*/pm.min_spare_servers = 30/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm.max_spare_servers =.*/pm.max_spare_servers = 70/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/;pm.max_requests =.*/pm.max_requests = 1000/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 fi
 ${sed} -i 's/output_buffering =.*/output_buffering = 'Off'/' /etc/php/$PHPVERSION/cli/php.ini
 ${sed} -i 's/max_execution_time =.*/max_execution_time = 3600/' /etc/php/$PHPVERSION/cli/php.ini
