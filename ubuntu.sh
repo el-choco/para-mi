@@ -5,7 +5,19 @@
 # Based on nginx, PHP, MariaDB/postgreSQL, Redis, fail2ban, ufw
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
 ##########################################################################################
-
+if [ "$USER" != "root" ]
+then
+    clear
+    echo ""
+    echo " » KEINE ROOT-BERECHTIGUNGEN | NO ROOT PERMISSIONS"
+    echo ""
+    echo "----------------------------------------------------------"
+    echo " » Bitte starten Sie das Skript als root: 'sudo ./zero.sh'"
+    echo " » Please run this script as root using:  'sudo ./zero.sh'"
+    echo "----------------------------------------------------------"
+    echo ""
+    exit 1
+fi
 ##################################################
 # D: Konfigurationsvariablen - bitte anpassen!   #
 # E: Configuration variables - please configure! #
