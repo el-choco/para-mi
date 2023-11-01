@@ -37,7 +37,7 @@ labels:
   type: Nextcloud
 ---
 EOF
-systemctl reload crowdsec && systemctl restart crowdsecsada
+systemctl reload crowdsec && systemctl restart crowdsec.service crowdsec-firewall-bouncer.service
 clear
 echo ""
 echo " » fail2ban entfernt // removed           [OK]"
