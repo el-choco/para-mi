@@ -6,6 +6,18 @@
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
 ##########################################################################################
 clear
+if [ "$USER" != "root" ]
+then
+    echo ""
+    echo " » KEINE ROOT-BERECHTIGUNGEN | NO ROOT PERMISSIONS"
+    echo ""
+    echo "----------------------------------------------------------"
+    echo " » Bitte starten Sie das Skript als root: 'sudo ./zero.sh'"
+    echo " » Please run this script as root using:  'sudo ./zero.sh'"
+    echo "----------------------------------------------------------"
+    echo ""
+    exit 1
+fi
 echo ""
 echo " » fail2ban wird entfernt  // remove fail2ban"
 echo ""
