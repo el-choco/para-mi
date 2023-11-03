@@ -36,6 +36,8 @@ PHONEREGION='DE'
 NEXTCLOUDOFFICE="n"
 ONLYOFFICE="n"
 UPLOADSIZE='10G'
+APTIP4="n"
+RESOLVER="176.9.93.198 176.9.1.117"
 
 ##################################################
 # D: Konfigurationsvariablen - Zufallspasswörter #
@@ -157,6 +159,14 @@ NEXTCLOUDEXTIP=$(dig +short txt ch whoami.cloudflare @1.0.0.1 | tr -d \")
 # E: Which php uploadsize is to be set ('0' « no limit)?"
 # UPLOADSIZE='10G'
 #
+# D: APT nur über IPv4 [y|n]
+# E: APT using IPv4 only [y|n]
+# APTIP4="n"
+#
+# D: Webserver nutzt als DNS-Server: bspw. dnsforge.de (176.9.93.198 176.9.1.117)
+# E. Webserver is using dns-server: e.g. dnsforge.de (176.9.93.198 176.9.1.117)
+# RESOLVER="176.9.93.198 176.9.1.117"
+#
 # D: Die Kommunikation mit REDIS wird durch dieses Passwort verschluesselt
 # E: Communication with REDIS will be encrypted by this password
 # REDISPASSWORD=$(openssl rand -hex 16)
@@ -187,7 +197,13 @@ echo "*****************************"
 echo ""
 exit 1
 fi
-
+###########################
+# IPv4 für "APT'          #
+###########################
+if [ $APTIP4 == "y" ] 
+then
+${echo} 'Acquire::ForceIPv4 "true";' >> /etc/apt/apt.conf.d/99force-ipv4
+fi
 # D: Sicherstellen, dass Basissoftware verfügbar ist
 # E: Ensure, admin software is available on the server
 if [ -z "$(command -v lsb_release)" ]
@@ -580,7 +596,7 @@ http {
   keepalive_timeout 65;
   reset_timedout_connection on;
   server_tokens off;
-  resolver 127.0.0.1 valid=30s;
+  resolver $RESOLVER valid=30s;
   resolver_timeout 5s;
   include /etc/nginx/conf.d/*.conf;
   }
@@ -1292,6 +1308,7 @@ fi
 ${echo} ""
 ${echo} "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 ${echo} ""
+${cat} /etc/motd
 ###########################
 # Nextcloud-Log           #
 ###########################
