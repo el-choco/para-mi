@@ -42,7 +42,15 @@ CURRENTTIMEZONE='Europe/Berlin'
 PHONEREGION='DE'
 NEXTCLOUDOFFICE="n"
 ONLYOFFICE="n"
-UPLOADSIZE='10G'</code><br>
+UPLOADSIZE='10G'
+APTIP4="n"
+RESOLVER="176.9.93.198 176.9.1.117"</code><br>
+Optional:<br>
+<code>MARIADBROOTPASSWORD=$(openssl rand -hex 16)
+NCDBPASSWORD=$(openssl rand -hex 16)
+NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)
+REDISPASSWORD=$(openssl rand -hex 16)
+NEXTCLOUDEXTIP=$(dig +short txt ch whoami.cloudflare @1.0.0.1 | tr -d \")</code><br>
 
 <h3>Installation:</h3>
 <code>./zero.sh</code>
