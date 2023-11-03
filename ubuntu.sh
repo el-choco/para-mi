@@ -361,7 +361,6 @@ IPA=$(hostname -I | awk '{print $1}')
 addaptrepository=$(command -v add-apt-repository)
 adduser=$(command -v adduser)
 apt=$(command -v apt-get)
-aptkey=$(command -v apt-key)
 aptmark=$(command -v apt-mark)
 cat=$(command -v cat)
 chmod=$(command -v chmod)
@@ -371,14 +370,12 @@ cp=$(command -v cp)
 curl=$(command -v curl)
 date=$(command -v date)
 echo=$(command -v echo)
-ip=$(command -v ip)
 lsbrelease=$(command -v lsb_release)
 ln=$(command -v ln)
 mkdir=$(command -v mkdir)
 mv=$(command -v mv)
 rm=$(command -v rm)
 sed=$(command -v sed)
-service=$(command -v service)
 sudo=$(command -v sudo)
 su=$(command -v su)
 systemctl=$(command -v systemctl)
@@ -390,7 +387,7 @@ wget=$(command -v wget)
 ###########################
 # Timezone
 ###########################
-timedatectl set-timezone "$CURRENTTIMEZONE"
+${timedatectl} set-timezone "$CURRENTTIMEZONE"
 ###########################
 # D: Hostdatei anpassen   #
 # E: Modify host file     #
@@ -503,17 +500,17 @@ ${addaptrepository} ppa:ondrej/php -y
 ###########################
 # NGINX Repositories      #
 ###########################
-curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
 echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
 ###########################
 # DB Repositories         #
 ###########################
 if [ $DATABASE == "m" ]
 then
-    wget -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
+    ${wget} -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
     echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://mirror.kumi.systems/mariadb/repo/10.11/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
 else
-    wget  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
+    ${wget}  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
     echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list      
 fi
 ###########################
@@ -1170,7 +1167,7 @@ ${cat} <<EOF | ${ufw} enable
 y
 EOF
 ${systemctl} restart redis-server ufw$
-{systemctl} enable fail2ban.service
+${systemctl} enable fail2ban.service
 ${systemctl} restart fail2ban
 ###########################
 # D: Nextcloud Anpassungen#

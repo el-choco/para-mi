@@ -352,7 +352,6 @@ IPA=$(hostname -I | awk '{print $1}')
 addaptrepository=$(command -v add-apt-repository)
 adduser=$(command -v adduser)
 apt=$(command -v apt-get)
-aptkey=$(command -v apt-key)
 aptmark=$(command -v apt-mark)
 cat=$(command -v cat)
 chmod=$(command -v chmod)
@@ -362,14 +361,12 @@ cp=$(command -v cp)
 curl=$(command -v curl)
 date=$(command -v date)
 echo=$(command -v echo)
-ip=$(command -v ip)
 lsbrelease=$(command -v lsb_release)
 ln=$(command -v ln)
 mkdir=$(command -v mkdir)
 mv=$(command -v mv)
 rm=$(command -v rm)
 sed=$(command -v sed)
-service=$(command -v service)
 sudo=$(command -v sudo)
 su=$(command -v su)
 systemctl=$(command -v systemctl)
@@ -381,7 +378,7 @@ wget=$(command -v wget)
 ###########################
 # Timezone
 ###########################
-timedatectl set-timezone "$CURRENTTIMEZONE"
+${timedatectl} set-timezone "$CURRENTTIMEZONE"
 ###########################
 # D: Hostdatei anpassen   #
 # E: Modify host file     #
@@ -499,11 +496,11 @@ ${systemctl} mask sleep.target suspend.target hibernate.target hybrid-sleep.targ
 # PHP 8 Repositories      #
 ###########################
 echo "deb https://packages.sury.org/php/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/php.list
-wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+${wget} -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 ###########################
 # NGINX Repositories      #
 ###########################
-curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+${curl} https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
 echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/debian `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
 ###########################
 # DB Repositories         #
@@ -512,12 +509,12 @@ if [ $DATABASE == "m" ]
 then
 	if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 		then
-		wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+		${wget} https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
 		chmod +x mariadb_repo_setup
 		./mariadb_repo_setup --mariadb-server-version="mariadb-10.11"
 	fi
 else
-	curl -fsSl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql.gpg > /dev/null
+	${curl} -fsSl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql.gpg > /dev/null
 	echo deb [signed-by=/usr/share/keyrings/postgresql.gpg] http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main | sudo tee /etc/apt/sources.list.d/postgresql.list        
 fi
 ###########################
