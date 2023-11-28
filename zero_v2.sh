@@ -2,7 +2,7 @@
 ##########################################################################################
 # Ubuntu 22.04+ LTS x86_64
 # Nextcloud latest (or older Versions)
-# Based on nginx, PHP, MariaDB/postgreSQL, Redis, crowdsec / fail2ban, ufw
+# Based on nginx, PHP, MariaDB/postgreSQL, Redis, crowdsec or fail2ban, ufw ...
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
 ##########################################################################################
 CONFIGFILE="zero_v2.cfg"
@@ -11,6 +11,8 @@ INSTALLATIONFILE="zero_v2.sh"
 if [ "$USER" != "root" ]
 then
     clear
+    echo ""
+    echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
     echo ""
     echo " » KEINE ROOT-BERECHTIGUNGEN | NO ROOT PERMISSIONS"
     echo ""
