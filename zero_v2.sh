@@ -177,6 +177,8 @@ apt autoremove -y
 apt autoclean -y
 sed -i '/vm.overcommit_memory = 1/d' /etc/sysctl.conf
 echo ""
+cd /home/"$BENUTZERNAME"
+rm -Rf /home/"$BENUTZERNAME"/"$NEXTCLOUDDNS"/Nextcloud-Installationsskript
 echo "Done!"
 exit 0
 EOF
