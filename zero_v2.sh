@@ -7,7 +7,7 @@
 ##########################################################################################
 CONFIGFILE="zero_v2.cfg"
 INSTALLATIONFILE="zero_v2.sh"
-
+##########################################################################################
 if [ "$USER" != "root" ]
 then
     clear
@@ -1003,7 +1003,7 @@ restart_all_services
 # Installation crowdsec or fail2ban #
 #####################################
 ${clear}
-if [ crowdsec == "y" ]
+if [ CROWDSEC == "y" ]
 then
 ### CROWDSEC ###
 #${systemctl} stop fail2ban.service
