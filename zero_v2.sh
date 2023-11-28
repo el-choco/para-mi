@@ -1012,7 +1012,8 @@ ${echo} " » Crowdsec wird heruntergeladen+installiert // crowdsec will be downl
 sleep 2
 ${echo} ""
 ${curl} -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
-${apt} install -y crowdsec -y
+${apt} install -y crowdsec
+read -p "Press Enter to continue" </dev/tty
 ${apt} install -y crowdsec-firewall-bouncer-nftables
 ${systemctl} enable --now crowdsec.service crowdsec-firewall-bouncer-nftables
 cscli collections install crowdsecurity/nextcloud
