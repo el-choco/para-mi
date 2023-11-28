@@ -2,7 +2,7 @@
 ##########################################################################################
 # Ubuntu 22.04+ LTS x86_64
 # Nextcloud latest (or older Versions)
-# Based on nginx, PHP, MariaDB/postgreSQL, Redis, fail2ban, ufw
+# Based on nginx, PHP, MariaDB/postgreSQL, Redis, crowdsec / fail2ban, ufw
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
 ##########################################################################################
 CONFIGFILE="zero_v2.cfg"
@@ -165,8 +165,8 @@ while [ \$seconds -gt 0 ]; do
 done
 rm -Rf $NEXTCLOUDDATAPATH
 mv /etc/hosts.bak /etc/hosts
-apt remove --purge --allow-change-held-packages -y nginx* php* mariadb-* mysql-common libdbd-mariadb-perl galera-* postgresql-* redis* fail2ban ufw
-rm -Rf /etc/ufw /etc/fail2ban /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/"$BENUTZERNAME"/"$NEXTCLOUDDNS"/Nextcloud-Installationsskript/install.log /home/"$BENUTZERNAME"/"$NEXTCLOUDDNS"/Nextcloud-Installationsskript/update.sh
+apt remove --purge --allow-change-held-packages -y nginx* php* mariadb-* mysql-common libdbd-mariadb-perl galera-* postgresql-* redis* fail2ban crowdsec crowdsec-firewall-bouncer-nftables  ufw
+rm -Rf /etc/ufw /etc/fail2ban /etc/crowdsec /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/"$BENUTZERNAME"/"$NEXTCLOUDDNS"/Nextcloud-Installationsskript/install.log /home/"$BENUTZERNAME"/"$NEXTCLOUDDNS"/Nextcloud-Installationsskript/update.sh
 rm -Rf /etc/nginx /usr/share/keyrings/nginx-archive-keyring.gpg /usr/share/keyrings/postgresql-archive-keyring.gpg
 add-apt-repository ppa:ondrej/php -ry
 rm -f /etc/ssl/certs/dhparam.pem /etc/apt/sources.list.d/* /etc/motd /root/.bash_aliases
@@ -995,15 +995,43 @@ ${chown} -R www-data:www-data /var/www
 # Neustart/Restart        #
 ###########################
 restart_all_services
-###########################
-# Installation fail2ban   #
-###########################
+#####################################
+# Installation crowdsec or fail2ban #
+#####################################
 ${clear}
-#RIEGER#
-### Fail2ban or crowdsec ###
+if [ crowdsec == "y" ]
+then
+### CROWDSEC ###
+#${systemctl} stop fail2ban.service
+#${systemctl} disable fail2ban.service
+#${systemctl} mask fail2ban.service
+#${apt} remove fail2ban --purge -y
+${echo} " » Crowdsec wird heruntergeladen+installiert // crowdsec will be downloaded+installed"
+sleep 2
+${echo} ""
+${curl} -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
+${apt} install -y crowdsec -y
+${apt} install -y crowdsec-firewall-bouncer-nftables
+${systemctl} enable --now crowdsec.service crowdsec-firewall-bouncer-nftables
+cscli collections install crowdsecurity/nextcloud
+cscli collections install crowdsecurity/nginx
+cscli collections install crowdsecurity/sshd
+${systemctl} reload crowdsec && systemctl restart crowdsec
+${cp} /etc/crowdsec/acquis.yaml /etc/crowdsec/acquis.yaml.bak
+${cat} <<EOF >>/etc/crowdsec/acquis.yaml
+#Nextcloud by c-rieger.de
+filenames:
+ - /var/log/nextcloud/nextcloud.log
+labels:
+  type: Nextcloud
+---
+EOF
+${systemctl} reload crowdsec
+${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service
+else
 ${echo} "fail2ban-Installation"
 ${echo} ""
-sleep 3
+sleep 2
 ${apt} install -y fail2ban --allow-change-held-packages
 ${touch} /etc/fail2ban/filter.d/$NEXTCLOUDDNS.conf
 ${cat} <<EOF >/etc/fail2ban/filter.d/$NEXTCLOUDDNS.conf
@@ -1030,6 +1058,8 @@ logpath = /var/log/nextcloud/$NEXTCLOUDDNS.log
 [nginx-http-auth]
 enabled = true
 EOF
+${systemctl} enable --now fail2ban.service && ${systemctl} restart fail2ban.service
+fi
 ###########################
 # Installation ufw        #
 ###########################
@@ -1137,9 +1167,6 @@ $lsbrelease -ar
 cd /home/"$BENUTZERNAME"/
 ${wget} -q https://codeberg.org/criegerde/nextcloud/raw/branch/master/skripte/update.sh
 ${chmod} +x /home/"$BENUTZERNAME"/update.sh
-### RIEGER ###
-### fail2ban / crowdsec ###
-${systemctl} enable --now fail2ban.service && ${systemctl} restart fail2ban.service
 ###########################
 # D: Abschlußbildschirm   #
 # E: Final screen         #
