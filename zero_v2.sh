@@ -2,7 +2,7 @@
 ##########################################################################################
 # Ubuntu 22.04+ LTS x86_64
 # Nextcloud latest (or older Versions)
-# Based on nginx, PHP, MariaDB/postgreSQL, Redis, crowdsec or fail2ban, ufw ...
+# Based on nginx, PHP, MariaDB/postgreSQL, Redis, crowdsec, ufw ...
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
 ##########################################################################################
 CONFIGFILE="zero_v2.cfg"
@@ -168,7 +168,7 @@ done
 rm -Rf $NEXTCLOUDDATAPATH
 mv /etc/hosts.bak /etc/hosts
 apt remove --purge --allow-change-held-packages -y nginx* php* mariadb-* mysql-common libdbd-mariadb-perl galera-* postgresql-* redis* fail2ban crowdsec crowdsec-firewall-bouncer-nftables  ufw
-rm -Rf /etc/ufw /etc/fail2ban /etc/crowdsec /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/"$BENUTZERNAME"/"$NEXTCLOUDDNS"/Nextcloud-Installationsskript/install.log /home/"$BENUTZERNAME"/"$NEXTCLOUDDNS"/Nextcloud-Installationsskript/update.sh
+rm -Rf /etc/ufw /etc/crowdsec /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/"$BENUTZERNAME"/"$NEXTCLOUDDNS"/Nextcloud-Installationsskript/install.log /home/"$BENUTZERNAME"/"$NEXTCLOUDDNS"/Nextcloud-Installationsskript/update.sh
 rm -Rf /etc/nginx /usr/share/keyrings/nginx-archive-keyring.gpg /usr/share/keyrings/postgresql-archive-keyring.gpg
 add-apt-repository ppa:ondrej/php -ry
 rm -f /etc/ssl/certs/dhparam.pem /etc/apt/sources.list.d/* /etc/motd /root/.bash_aliases
@@ -999,20 +999,14 @@ ${chown} -R www-data:www-data /var/www
 # Neustart/Restart        #
 ###########################
 restart_all_services
-#####################################
-# Installation crowdsec or fail2ban #
-#####################################
+###########################
+# Installation crowdsec   #
+###########################
 ${clear}
-if [ CROWDSEC == "y" ]
-then
-### CROWDSEC ###
-#${systemctl} stop fail2ban.service
-#${systemctl} disable fail2ban.service
-#${systemctl} mask fail2ban.service
-#${apt} remove fail2ban --purge -y
-${echo} " » Crowdsec wird heruntergeladen+installiert // crowdsec will be downloaded+installed"
-sleep 2
+echo ""
+${echo} " » Crowdsec-Installation"
 ${echo} ""
+sleep 2
 ${curl} -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
 ${apt} install -y crowdsec
 read -p "Press Enter to continue" </dev/tty
@@ -1033,45 +1027,14 @@ labels:
 EOF
 ${systemctl} reload crowdsec
 ${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service
-else
-${echo} "fail2ban-Installation"
-${echo} ""
-sleep 2
-${apt} install -y fail2ban --allow-change-held-packages
-${touch} /etc/fail2ban/filter.d/$NEXTCLOUDDNS.conf
-${cat} <<EOF >/etc/fail2ban/filter.d/$NEXTCLOUDDNS.conf
-[Definition]
-_groupsre = (?:(?:,?\s*"\w+":(?:"[^"]+"|\w+))*)
-failregex = ^\{%(_groupsre)s,?\s*"remoteAddr":"<HOST>"%(_groupsre)s,?\s*"message":"Login failed:
-            ^\{%(_groupsre)s,?\s*"remoteAddr":"<HOST>"%(_groupsre)s,?\s*"message":"Trusted domain error.
-datepattern = ,?\s*"time"\s*:\s*"%%Y-%%m-%%d[T ]%%H:%%M:%%S(%%z)?"
-EOF
-${touch} /etc/fail2ban/jail.d/$NEXTCLOUDDNS.local
-${cat} <<EOF >/etc/fail2ban/jail.d/$NEXTCLOUDDNS.local
-[DEFAULT]
-maxretry=3
-bantime=1800
-findtime = 1800
-[$NEXTCLOUDDNS]
-backend = auto
-enabled = true
-port = 80,443
-protocol = tcp
-filter = $NEXTCLOUDDNS
-maxretry = 5
-logpath = /var/log/nextcloud/$NEXTCLOUDDNS.log
-[nginx-http-auth]
-enabled = true
-EOF
-${systemctl} enable --now fail2ban.service && ${systemctl} restart fail2ban.service
-fi
 ###########################
 # Installation ufw        #
 ###########################
 ${clear}
-${echo} "ufw-Installation"
 ${echo} ""
-sleep 3
+${echo} " » ufw-Installation"
+${echo} ""
+sleep 2
 ${apt} install -y ufw --allow-change-held-packages
 ufw=$(command -v ufw)
 ${ufw} allow 80/tcp comment "LetsEncrypt(http)"
