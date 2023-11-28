@@ -1020,7 +1020,7 @@ ${cp} /etc/crowdsec/acquis.yaml /etc/crowdsec/acquis.yaml.bak
 ${cat} <<EOF >>/etc/crowdsec/acquis.yaml
 #Nextcloud by c-rieger.de
 filenames:
- - /var/log/nextcloud/nextcloud.log
+ - /var/log/nextcloud/$NEXTCLOUDDNS.log
 labels:
   type: Nextcloud
 ---
