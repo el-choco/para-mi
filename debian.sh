@@ -967,7 +967,7 @@ server {
     fastcgi_read_timeout 3600;
     fastcgi_send_timeout 3600;
     fastcgi_connect_timeout 3600;
-    fastcgi_max_temp_file_size 0
+    fastcgi_max_temp_file_size 0;
     }
   location ~ \.(?:css|js|mjs|svg|gif|png|jpg|ico|wasm|tflite|map|ogg|flac)\$ {
     try_files \$uri /index.php\$request_uri;
