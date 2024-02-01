@@ -1122,6 +1122,7 @@ ${cat} <<EOF >>/var/www/nextcloud/config/tweaks.config.php
         'share_folder' => '/Freigaben',
         'skeletondirectory' => '',
         'trashbin_retention_obligation' => 'auto, 7',
+        'maintenance_window_start' => 1,
         );
 EOF
 ${sed} -i 's/^[ ]*//' /var/www/nextcloud/config/config.php
