@@ -522,7 +522,7 @@ ${cp} /etc/php/$PHPVERSION/mods-available/opcache.ini /etc/php/$PHPVERSION/mods-
 ${cp} /etc/php/$PHPVERSION/mods-available/apcu.ini /etc/php/$PHPVERSION/mods-available/apcu.ini.bak
 ${cp} /etc/php/$PHPVERSION/fpm/php-fpm.conf /etc/php/$PHPVERSION/fpm/php-fpm.conf.bak
 ${cp} /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xml.bak
-# ${sed} -i 's/pm = dynamic/pm = static/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
+${sed} -i 's/pm = dynamic/pm = ondemand/' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/;env\[HOSTNAME\] = /env[HOSTNAME] = /' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/;env\[TMP\] = /env[TMP] = /' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
 ${sed} -i 's/;env\[TMPDIR\] = /env[TMPDIR] = /' /etc/php/$PHPVERSION/fpm/pool.d/www.conf
