@@ -39,7 +39,7 @@ ONLYOFFICE="n"
 UPLOADSIZE='10G'
 APTIP4="n"
 RESOLVER="176.9.93.198 176.9.1.117"
-REMOVEUA="y"
+REMOVEUAU="y"
 
 ##################################################
 # D: Konfigurationsvariablen - Zufallspasswörter #
@@ -175,7 +175,7 @@ NEXTCLOUDEXTIP=$(dig +short txt ch whoami.cloudflare @1.0.0.1 | tr -d \")
 #
 # D: Soll die Funktion "Automatischen Updates" entfernt werden [y|n]
 # E: Shoul "unattended upgrades" be removed [y|n]
-# REMOVEUA="y"
+# REMOVEUAU="y"
 #
 #########################################################################
 ### ! DO NOT CHANGE ANYTHING FROM HERE! // KEINE ÄNDERUNGEN AB HIER ! ###
@@ -539,7 +539,7 @@ fi
 # D: Entfernen Autoupdates#
 # E: Remove unatt.upgrades#
 ###########################
-if [ $REMOVEUA == "y" ]
+if [ $REMOVEUAU == "y" ]
 then
 ${apt} purge -y unattended-upgrades
 fi
