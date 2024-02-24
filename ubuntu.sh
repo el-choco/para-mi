@@ -38,6 +38,7 @@ ONLYOFFICE="n"
 UPLOADSIZE='10G'
 APTIP4="n"
 RESOLVER="176.9.93.198 176.9.1.117"
+REMOVEUA="y"
 
 ##################################################
 # D: Konfigurationsvariablen - Zufallspasswörter #
@@ -170,6 +171,10 @@ NEXTCLOUDEXTIP=$(dig +short txt ch whoami.cloudflare @1.0.0.1 | tr -d \")
 # D: Die Kommunikation mit REDIS wird durch dieses Passwort verschluesselt
 # E: Communication with REDIS will be encrypted by this password
 # REDISPASSWORD=$(openssl rand -hex 16)
+#
+# D: Soll die Funktion "Automatischen Updates" entfernt werden [y|n]
+# E: Shoul "unattended upgrades" be removed [y|n]
+# REMOVEUA="y"
 #
 #########################################################################
 ### ! DO NOT CHANGE ANYTHING FROM HERE! // KEINE ÄNDERUNGEN AB HIER ! ###
@@ -533,7 +538,10 @@ fi
 # D: Entfernen Autoupdates#
 # E: Remove unatt.upgrades#
 ###########################
+if [ $REMOVEUA == "y" ]
+then
 ${apt} purge -y unattended-upgrades
+fi
 ###########################
 # D: Systemaktualisierung #
 # E: System update        #
