@@ -4,6 +4,7 @@
 # Nextcloud latest (or older Versions)
 # Based on nginx, PHP, MariaDB, Redis, fail2ban, ufw
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
+# Nextcloud 26.x - 28.x
 ##########################################################################################
 if [ "$USER" != "root" ]
 then
