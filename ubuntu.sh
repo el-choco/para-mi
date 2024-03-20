@@ -1092,7 +1092,7 @@ ${cat} <<EOF >>/var/www/nextcloud/config/tweaks.config.php
     'default_phone_region' => '$PHONEREGION',
     'enable_previews' => true,
     'enabledPreviewProviders' =>
-    array (
+        array (
       0 => 'OC\\Preview\\PNG',
       1 => 'OC\\Preview\\JPEG',
       2 => 'OC\\Preview\\GIF',
@@ -1103,6 +1103,11 @@ ${cat} <<EOF >>/var/www/nextcloud/config/tweaks.config.php
       7 => 'OC\\Preview\\MP3',
       8 => 'OC\\Preview\\TXT',
       9 => 'OC\\Preview\\MarkDown',
+      10 => 'OC\\Preview\\HEIC',
+      11 => 'OC\\Preview\\Movie',
+      12 => 'OC\\Preview\\MKV',
+      13 => 'OC\\Preview\\MP4',
+      14 => 'OC\\Preview\\AVI',
       ),
       'filesystem_check_changes' => 0,
       'filelocking.enabled' => 'true',
