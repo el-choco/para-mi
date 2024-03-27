@@ -12,8 +12,8 @@ then
     echo " » KEINE ROOT-BERECHTIGUNGEN | NO ROOT PERMISSIONS"
     echo ""
     echo "----------------------------------------------------------"
-    echo " » Bitte starten Sie das Skript als root: 'sudo ./zero.sh'"
-    echo " » Please run this script as root using:  'sudo ./zero.sh'"
+    echo " » Bitte starten Sie das Skript als root: 'sudo ./ips.sh'"
+    echo " » Please run this script as root using:  'sudo ./ips.sh'"
     echo "----------------------------------------------------------"
     echo ""
     exit 1
@@ -54,6 +54,6 @@ clear
 echo ""
 echo " » fail2ban entfernt // removed           [OK]"
 echo " » crowdsec installiert // installed      [OK]"
-echo " » https://www.c-rieger.de"
+echo " » Carsten Rieger IT-Services, https://www.c-rieger.de"
 echo ""
 exit 0
