@@ -606,17 +606,19 @@ ${echo} ""
 sleep 3
 if [ $DATABASE == "m" ]
 then
-        ${apt} install -y php$PHPVERSION-mysql mariadb-server --allow-change-held-packages
-        ${cp} /etc/php/$PHPVERSION/mods-available/mysqli.ini /etc/php/$PHPVERSION/mods-available/mysqli.ini.bak
-        ${sed} -i '$a[mysql]' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-        ${sed} -i '$amysql.allow_local_infile=On' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-        ${sed} -i '$amysql.allow_persistent=On' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-        ${sed} -i '$amysql.cache_size=2000' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-        ${sed} -i '$amysql.max_persistent=-1' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-        ${sed} -i '$amysql.max_links=-1' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-        ${sed} -i '$amysql.default_port=3306' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-        ${sed} -i '$amysql.connect_timeout=60' /etc/php/$PHPVERSION/mods-available/mysqli.ini
-        ${sed} -i '$amysql.trace_mode=Off' /etc/php/$PHPVERSION/mods-available/mysqli.ini
+        ${apt} install -y php$PHPVERSION-mysql libdbd-mysql-perl libmariadb3 mariadb-common mysql-common mariadb-server mariadb-client --allow-change-held-packages
+        ${cp} /etc/php/$PHPVERSION/fpm/conf.d/20-mysqli.ini /etc/php/$PHPVERSION/fpm/conf.d/20-mysqli.ini.bak
+        ${cat} <<EOF >>/etc/php/$PHPVERSION/fpm/conf.d/20-mysqli.ini
+[mysql]
+mysql.allow_local_infile=On
+mysql.allow_persistent=On
+mysql.cache_size=2000
+mysql.max_persistent=-1
+mysql.max_links=-1
+mysql.default_port=3306
+mysql.connect_timeout=60
+mysql.trace_mode=Off
+EOF
         ${systemctl} stop mysql
         ${cp} /etc/mysql/my.cnf /etc/mysql/my.cnf.bak
         ${cat} <<EOF >/etc/mysql/my.cnf
@@ -700,11 +702,19 @@ EOF
         mysql -u root -e "SET PASSWORD FOR root@'localhost' = PASSWORD('$MARIADBROOTPASSWORD'); FLUSH PRIVILEGES;"
 else
 ${apt} install -y php$PHPVERSION-pgsql postgresql-15 --allow-change-held-packages
-sudo -u postgres psql <<EOF
-CREATE USER ${NCDBUSER} WITH PASSWORD '${NCDBPASSWORD}';
-CREATE DATABASE ${NCDBNAME} TEMPLATE template0 ENCODING 'UNICODE';
-ALTER DATABASE ${NCDBNAME} OWNER TO ${NCDBUSER};
-GRANT ALL PRIVILEGES ON DATABASE ${NCDBNAME} TO ${NCDBUSER};
+sudo -u postgres psql -c "CREATE USER ${NCDBUSER} WITH PASSWORD '${NCDBPASSWORD}';"
+sudo -u postgres psql -c "CREATE DATABASE ${NCDBNAME} TEMPLATE template0 ENCODING 'UNICODE';"
+sudo -u postgres psql -c "ALTER DATABASE ${NCDBNAME} OWNER TO ${NCDBUSER};"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE ${NCDBNAME} TO ${NCDBUSER};"
+${systemctl} restart postgresql
+cat <<EOF >>/etc/php/$PHPVERSION/fpm/conf.d/20-pgsql.ini
+[PostgresSQL]
+pgsql.allow_persistent = On
+pgsql.auto_reset_persistent = Off
+pgsql.max_persistent = -1
+pgsql.max_links = -1
+pgsql.ignore_notice = 0
+pgsql.log_notice = 0
 EOF
 ${systemctl} restart postgresql
 fi
