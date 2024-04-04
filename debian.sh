@@ -688,11 +688,11 @@ mkdir -p /var/log/mysql
 chown -R mysql:mysql /var/log/mysql
 ${systemctl} restart mysql
 mysql=$(command -v mysql)
-${mysql} -e "CREATE DATABASE nextcloud CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
+${mysql} -e "CREATE DATABASE ${NCDBNAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
 ${mysql} -e "CREATE USER ${NCDBUSER}@localhost IDENTIFIED BY '${NCDBPASSWORD}';"
 ${mysql} -e "CREATE USER ${NCDBUSER}@127.0.0.1 IDENTIFIED BY '${NCDBPASSWORD}';"
-${mysql} -e "GRANT ALL PRIVILEGES ON nextcloud.* TO '${NCDBUSER}'@'localhost';"
-${mysql} -e "GRANT ALL PRIVILEGES ON nextcloud.* TO '${NCDBUSER}'@'127.0.0.1';"
+${mysql} -e "GRANT ALL PRIVILEGES ON ${NCDBNAME}.* TO '${NCDBUSER}'@'localhost';"
+${mysql} -e "GRANT ALL PRIVILEGES ON ${NCDBNAME}.* TO '${NCDBUSER}'@'127.0.0.1';"
 ${mysql} -e "FLUSH PRIVILEGES;"
 mysql_secure_installation=$(command -v mysql_secure_installation)
 cat <<EOF | ${mysql_secure_installation}
@@ -708,9 +708,9 @@ else
 ${apt} install -y php$PHPVERSION-pgsql postgresql-15 --allow-change-held-packages
 sudo -u postgres psql <<EOF
 CREATE USER ${NCDBUSER} WITH PASSWORD '${NCDBPASSWORD}';
-CREATE DATABASE nextcloud TEMPLATE template0 ENCODING 'UNICODE';
-ALTER DATABASE nextcloud OWNER TO ${NCDBUSER};
-GRANT ALL PRIVILEGES ON DATABASE nextcloud TO ${NCDBUSER};
+CREATE DATABASE ${NCDBNAME} TEMPLATE template0 ENCODING 'UNICODE';
+ALTER DATABASE ${NCDBNAME} OWNER TO ${NCDBUSER};
+GRANT ALL PRIVILEGES ON DATABASE ${NCDBNAME} TO ${NCDBUSER};
 EOF
 ${systemctl} restart postgresql
 fi
