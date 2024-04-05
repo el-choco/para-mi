@@ -54,6 +54,7 @@ if [ -f "$CONFIGFILE" ]; then
         echo " » Die Konfigurationsdatei '$CONFIGFILE' wird eingelesen."
         . ./$CONFIGFILE
         NCDBNAME="${NCDBNAME,,}"
+        NCDBUSER="${NCDBUSER,,}"
         sleep 2
 else
         clear
