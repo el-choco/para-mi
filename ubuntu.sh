@@ -965,12 +965,8 @@ ${echo} "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ${cp} /var/www/nextcloud/.user.ini /usr/local/src/.user.ini.bak
 ${sudo} -u www-data ${sed} -i 's/output_buffering=.*/output_buffering=0/' /var/www/nextcloud/.user.ini
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ background:cron
-# ${sed} -i '/);/d' /var/www/nextcloud/config/config.php
-# ${cat} <<EOF >>/var/www/nextcloud/config/config.php
-${sudo} -u www-data ${touch} /var/www/nextcloud/config/tweaks.config.php
-${cat} <<EOF >>/var/www/nextcloud/config/tweaks.config.php
-<?php
-\$CONFIG = array (
+${sed} -i '/);/d' /var/www/nextcloud/config/config.php
+${cat} <<EOF >>/var/www/nextcloud/config/config.php
   'activity_expire_days' => 14,
   'allow_local_remote_servers' => true,
   'auth.bruteforce.protection.enabled' => true,
