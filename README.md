@@ -29,7 +29,7 @@ NEXTCLOUDADMINUSER="nextcloud"
 NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)
 NCRELEASE="latest.tar.bz2"
 PHPVERSION="8.2"
-NEXTCLOUDDNS="ihre.clouddomain.de"
+NEXTCLOUDDNS="ihre.clouddomain.de" oder NEXTCLOUDDNS="192.168.178.x"
 LETSENCRYPT="n"
 NEXTCLOUDEXTIP=$(curl -s -4 'https://it-services.c-rieger.de/remoteip.php')
 DATABASE="m"
