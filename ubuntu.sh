@@ -264,7 +264,7 @@ IPA=$(hostname -I | awk '{print $1}')
 # D: Systempfade auslesen #
 # E: System patches       #
 ###########################
-addaptrepository=$(command -v add-apt-repository)
+addaptrepository="add-apt-repository"
 adduser=$(command -v adduser)
 apt=$(command -v apt-get)
 aptmark=$(command -v apt-mark)
