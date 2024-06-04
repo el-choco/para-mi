@@ -1,10 +1,10 @@
 #!/bin/bash
 ##########################################################################################
-# Ubuntu 22.04+ LTS x86_64
+# Ubuntu 22/24.x+ LTS x86_64
 # Nextcloud latest (or older Versions)
 # Based on nginx, PHP, MariaDB/postgreSQL, Redis, crowdsec, ufw ...
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
-# Nextcloud 26.x - 29.x
+# Nextcloud 27.x - 29.x
 ##########################################################################################
 CONFIGFILE="zero.cfg"
 INSTALLATIONFILE="zero.sh"
@@ -105,7 +105,7 @@ apt install -y iputils-ping net-tools
 fi
 # D: Systemvoraussetzungen prüfen
 # E: Check system requirements
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ] || [ "$(lsb_release -r | awk '{ print $2 }')" = "24.04" ]
 then
 clear
 echo "*************************************************"
@@ -115,13 +115,13 @@ echo "*************************************************"
 echo ""
 echo -e "* Test: Root ...............::::::::::::::::\033[32m OK\033[0m *"
 echo ""
-if [ "$(lsb_release -r | awk '{ print $2 }')" = "20.04" ]
-then
-echo -e "* Test: Ubuntu 20 was found ........::::::::\033[32m OK\033[0m *"
-fi
 if [ "$(lsb_release -r | awk '{ print $2 }')" = "22.04" ]
 then
 echo -e "* Test: Ubuntu 22 was found ........::::::::\033[32m OK\033[0m *"
+fi
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "24.04" ]
+then
+echo -e "* Test: Ubuntu 24 was found ........::::::::\033[32m OK\033[0m *"
 fi
 echo ""
 else
