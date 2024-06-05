@@ -33,6 +33,11 @@ echo " » Crowdsec wird heruntergeladen+installiert // crowdsec will be download
 echo ""
 sleep 2
 curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "24.04" ]
+then
+sed -i 's/noble/jammy/' /etc/apt/sources.list.d/crowdsec_crowdsec.list
+fi
+apt update
 apt install crowdsec -y
 apt install crowdsec-firewall-bouncer-nftables -y
 systemctl enable --now crowdsec.service
