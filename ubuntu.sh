@@ -653,6 +653,7 @@ lc_messages_dir = /usr/share/mysql
 lc_messages = en_US
 log_bin = /var/log/mysql/mariadb-bin
 log_bin_index = /var/log/mysql/mariadb-bin.index
+log_bin_trust_function_creators = true
 log_error = /var/log/mysql/mysql_error.log
 log_slow_verbosity = query_plan
 log_warnings = 2
