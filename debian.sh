@@ -369,7 +369,6 @@ function restart_all_services() {
 function nextcloud_scan_data() {
   ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ files:scan --all
   ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ files:scan-app-data
-  ${systemctl} restart fail2ban
   }
 ###########################
 # D: Basissoftware        #
@@ -1094,8 +1093,6 @@ ${cat} <<EOF | ${ufw} enable
 y
 EOF
 ${systemctl} restart redis-server ufw
-${systemctl} enable fail2ban.service
-${systemctl} restart fail2ban
 ###########################
 # D: Nextcloud Anpassungen#
 # E: Nextcloud customizing#
