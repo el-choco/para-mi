@@ -815,8 +815,9 @@ server {
   fastcgi_hide_header X-Powered-By;
   include mime.types;
   types {
-    text/javascript mjs;
-    }
+  text/javascript js mjs;
+	application/wasm wasm;
+  }
   root /var/www/nextcloud;
   index index.php index.html /index.php\$request_uri;
   location = / {
