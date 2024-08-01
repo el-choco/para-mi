@@ -400,6 +400,17 @@ ${systemctl} mask sleep.target suspend.target hibernate.target hybrid-sleep.targ
 # PHP 8 Repositories      #
 ###########################
 ${addaptrepository} ppa:ondrej/php -y
+if [ "$(lsb_release -r | awk '{ print $2 }')" = "24.04" ]
+then
+curl "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xB8DC7E53946656EFBCE4C1DD71DAEAAB4AD4CAB6" | gpg --dearmor | sudo tee /usr/share/keyrings/ondrej-ubuntu-php.gpg >/dev/null
+${cat} <<EOF > /etc/apt/sources.list.d/ondrej-ubuntu-php-noble.sources
+Types: deb
+URIs: https://ppa.launchpadcontent.net/ondrej/php/ubuntu/
+Suites: noble
+Components: main
+Signed-By: /usr/share/keyrings/ondrej-ubuntu-php.gpg
+EOF
+fi
 ###########################
 # NGINX Repositories      #
 ###########################
