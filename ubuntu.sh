@@ -32,7 +32,7 @@ if [ -f /tmp/installation ]; then
         clear
         echo " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
         echo ""
-        echo -e " » Das Updateskript war/ist bereits aktiv  - *\e[1;31mABBRUCH\033[0m*"
+        echo -e " » Die Installation war/ist bereits aktiv  - *\e[1;31mABBRUCH\033[0m*"
         echo -e " » Installation is/was already in progress - *\e[1;31mEXIT\033[0m*"
         echo " » "$(ls -lsha /tmp/installation)
 	      echo ""
@@ -534,7 +534,7 @@ ${clear}
 ${echo} "PHP-Installation"
 ${echo} ""
 sleep 3
-${apt} install -y php-common php$PHPVERSION-{fpm,gd,curl,xml,zip,intl,mbstring,bz2,ldap,apcu,bcmath,gmp,imagick,igbinary,redis,smbclient,cli,common,opcache,readline} imagemagick ldap-utils nfs-common cifs-utils --allow-change-held-packages
+${apt} install -y php-common php$PHPVERSION-{fpm,gd,curl,xml,zip,intl,mbstring,bz2,ldap,apcu,bcmath,gmp,imagick,igbinary,redis,smbclient,sqlite3,cli,common,opcache,readline} imagemagick ldap-utils nfs-common cifs-utils --allow-change-held-packages
 ${apt} install -y libmagickcore-6.q16-6-extra --allow-change-held-packages
 AvailableRAM=$(/usr/bin/awk '/MemAvailable/ {printf "%d", $2/1024}' /proc/meminfo)
 ${cp} /etc/php/$PHPVERSION/fpm/pool.d/www.conf /etc/php/$PHPVERSION/fpm/pool.d/www.conf.bak
