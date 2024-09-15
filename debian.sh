@@ -166,7 +166,7 @@ while [ \$seconds -gt 0 ]; do
 done
 rm -Rf $NEXTCLOUDDATAPATH
 mv /etc/hosts.bak /etc/hosts
-apt remove --purge --allow-change-held-packages -y nginx-common nginx-* nginx* php* mariadb-* mysql-common libdbd-mariadb-perl galera-* postgresql-* redis* crowdsec crowdsec-firewall-bouncer-nftables ufw
+apt remove --purge --allow-change-held-packages -y lsb-release curl wget iputils-ping net-tools figlet apt-transport-https bash-completion bzip2 ca-certificates cron curl dialog dirmngr ffmpeg ghostscript gpg gnupg gnupg2 htop jq libfile-fcntllock-perl libfontconfig1 libfuse2 locate net-tools rsyslog screen smbclient socat software-properties-common ssl-cert tree unzip wget zip nginx php-common php$PHPVERSION-* imagemagick ldap-utils nfs-common cifs-utils libmagickcore-6.q16-6-extra redis-* ssl-cert bzip2 crowdsec crowdsec-firewall-bouncer-nftables ufw mariadb-* mysql-* galera-*
 rm -Rf /etc/ufw /etc/crowdsec /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/$BENUTZERNAME/Nextcloud-Installationsskript/install.log /home/$BENUTZERNAME/Nextcloud-Installationsskript/update.sh
 rm -Rf /etc/nginx /usr/share/keyrings/nginx-archive-keyring.gpg /usr/share/keyrings/postgresql-archive-keyring.gpg
 add-apt-repository ppa:ondrej/php -ry
