@@ -672,7 +672,7 @@ log_warnings = 2
 long_query_time = 1
 max_connections = 100
 max_heap_table_size = 64M
-max_allowed_packet = 128M
+max_allowed_packet = 512M
 myisam_sort_buffer_size = 512M
 port = 3306
 pid-file = /var/run/mysqld/mysqld.pid
@@ -691,7 +691,7 @@ transaction_isolation = READ-COMMITTED
 user = mysql
 wait_timeout = 600
 [mysqldump]
-max_allowed_packet = 128M
+max_allowed_packet = 512M
 quick
 quote-names
 [isamchk]
