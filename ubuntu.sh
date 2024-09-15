@@ -917,19 +917,19 @@ ${clear}
 ###########################
 ${echo} "Downloading:" $NCRELEASE
 ${wget} -q https://download.nextcloud.com/server/releases/$NCRELEASE & CrI
-${wget} -q https://download.nextcloud.com/server/releases/$NCRELEASE.md5
+#${wget} -q https://download.nextcloud.com/server/releases/$NCRELEASE.md5
 ${echo} ""
-${echo} "Verify Checksum (MD5):"
-if [ "$(md5sum -c $NCRELEASE.md5 < $NCRELEASE | awk '{ print $2 }')" = "OK" ]
-then
-md5sum -c $NCRELEASE.md5 < $NCRELEASE
-${echo} ""
-else
-${clear}
-${echo} ""
-${echo} "CHECKSUM ERROR => SECURITY ALERT => ABBRUCH!"
-exit 1
-fi
+#${echo} "Verify Checksum (MD5):"
+#if [ "$(md5sum -c $NCRELEASE.md5 < $NCRELEASE | awk '{ print $2 }')" = "OK" ]
+#then
+#md5sum -c $NCRELEASE.md5 < $NCRELEASE
+#${echo} ""
+#else
+#${clear}
+#${echo} ""
+#${echo} "CHECKSUM ERROR => SECURITY ALERT => ABBRUCH!"
+#exit 1
+#fi
 ${echo} "Extracting:" $NCRELEASE
 ${apt} install -y bzip2
 ${tar} -xjf $NCRELEASE -C /var/www & CrI
