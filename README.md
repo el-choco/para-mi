@@ -7,8 +7,8 @@
 D: Installieren Sie Ihren eigenen Nextcloud-Server in weniger als 10 Minuten.<br>
 E: Install your own Nextcloud server in less than 10 minutes.
 
-* <b>Ubuntu 22/24.x LTS</b> [AMD x86_64] / <b>Debian 12</b> [AMD x86_64] 
-* NGINX ≥ 1.25 from nginx
+* <b>Ubuntu 24.x LTS</b> [AMD x86_64] / <b>Debian 12</b> [AMD x86_64] 
+* NGINX ≥ 1.27 from nginx
 * Auswahl / Option: PHP 8.3 // PHP 8.2 // PHP 8.1
 * Auswahl / Option: MariaDB 10.11 // postgreSQL 15
 * Auswahl / Option: Self-signed // Let's Encrypt certificates
@@ -28,7 +28,7 @@ E: Install your own Nextcloud server in less than 10 minutes.
 NEXTCLOUDADMINUSER="nextcloud"
 NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)
 NCRELEASE="latest.tar.bz2"
-PHPVERSION="8.2"
+PHPVERSION="8.3"
 NEXTCLOUDDNS="ihre.clouddomain.de" oder NEXTCLOUDDNS="192.168.178.x"
 LETSENCRYPT="n"
 NEXTCLOUDEXTIP=$(curl -s -4 'https://it-services.c-rieger.de/remoteip.php')
