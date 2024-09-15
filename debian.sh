@@ -177,6 +177,7 @@ rm -f /etc/sudoers.d/acmeuser
 apt autoremove -y
 apt autoclean -y
 sed -i '/vm.overcommit_memory = 1/d' /etc/sysctl.conf
+rm -f /tmp/installation
 echo ""
 echo "Done!"
 exit 0
