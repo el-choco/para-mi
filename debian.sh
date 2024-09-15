@@ -1135,6 +1135,7 @@ ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ db:add-missing-columns
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ db:convert-filecache-bigint
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ security:certificates:import /etc/ssl/certs/ssl-cert-snakeoil.pem
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ config:app:set settings profile_enabled_by_default --value="0"
+${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ maintenance:repair --include-expensive
 ${clear}
 nextcloud_scan_data
 ${systemctl} restart nginx
