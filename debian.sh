@@ -1011,7 +1011,7 @@ ${cat} <<EOF >>/var/www/nextcloud/config/config.php
       'integrity.check.disabled' => false,
       'knowledgebaseenabled' => false,
       'log_rotate_size' => '104857600',
-      'logfile' => '/var/log/nextcloud/nextcloud.log',
+      'logfile' => '/var/log/nextcloud/$NEXTCLOUDDNS.log',
       'loglevel' => 2,
       'logtimezone' => '$CURRENTTIMEZONE',
       'memcache.local' => '\\\\OC\\\\Memcache\\\\APCu',
@@ -1225,8 +1225,8 @@ ${cat} /etc/motd
 ###########################
 # Nextcloud-Log           #
 ###########################
-${rm} -f /var/log/nextcloud/nextcloud.log
-${sudo} -u www-data ${touch} /var/log/nextcloud/nextcloud.log
+${rm} -f /var/log/nextcloud/$NEXTCLOUDDNS.log
+${sudo} -u www-data ${touch} /var/log/nextcloud/$NEXTCLOUDDNS.log
 ###########################
 # occ Aliases (nocc)      #
 ###########################
