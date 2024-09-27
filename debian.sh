@@ -4,7 +4,7 @@
 # Nextcloud latest (or older Versions)
 # Based on nginx, PHP, MariaDB/postgreSQL, Redis, crowdsec, ufw ...
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
-# Nextcloud 26.x - 29.x
+# Nextcloud 28.x - 30.x
 ##########################################################################################
 CONFIGFILE="zero.cfg"
 INSTALLATIONFILE="zero.sh"
@@ -823,9 +823,8 @@ server {
   fastcgi_hide_header X-Powered-By;
   include mime.types;
   types {
-  text/javascript js mjs;
-	application/wasm wasm;
-  }
+  text/javascript mjs;
+	  }
   root /var/www/nextcloud;
   index index.php index.html /index.php\$request_uri;
   location = / {
