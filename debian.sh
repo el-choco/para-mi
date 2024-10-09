@@ -778,7 +778,7 @@ map \$arg_v \$asset_immutable {
    }
 EOF
 ${cat} <<EOF >/etc/nginx/conf.d/nextcloud.conf
-limit_req_zone $binary_remote_addr zone=NextcloudRateLimit:10m rate=2r/s;
+limit_req_zone \$binary_remote_addr zone=NextcloudRateLimit:10m rate=2r/s;
 server {
   listen 443 ssl default_server;
   listen [::]:443 ssl default_server;
