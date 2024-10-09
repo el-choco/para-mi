@@ -886,7 +886,7 @@ server {
   location /login {
     limit_req zone=NextcloudRateLimit burst=5 nodelay;
     limit_req_status 429;
-    try_files $uri $uri/ /index.php$request_uri;
+    try_files \$uri \$uri/ /index.php\$request_uri;
     }    
   location / {
     try_files \$uri \$uri/ /index.php\$request_uri;
