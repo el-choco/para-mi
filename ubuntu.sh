@@ -783,6 +783,7 @@ map \$arg_v \$asset_immutable {
    }
 EOF
 ${cat} <<EOF >/etc/nginx/conf.d/nextcloud.conf
+limit_req_zone $binary_remote_addr zone=NextcloudRateLimit:10m rate=2r/s;
 server {
   listen 443 ssl default_server;
   listen [::]:443 ssl default_server;
@@ -886,6 +887,11 @@ server {
     }
   location /remote {
     return 301 /remote.php\$request_uri;
+    }
+  location /login {
+    limit_req zone=NextCloudRateLimit burst=5 nodelay;
+    limit_req_status 429;
+    try_files $uri $uri/ /index.php$request_uri;
     }
   location / {
     try_files \$uri \$uri/ /index.php\$request_uri;
