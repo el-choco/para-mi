@@ -683,7 +683,7 @@ tmpdir = /tmp
 transaction_isolation = READ-COMMITTED
 user = mysql
 wait_timeout = 600
-[mysqldump]
+[mariadb-dump]
 max_allowed_packet = 512M
 quick
 quote-names
