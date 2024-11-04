@@ -693,14 +693,14 @@ EOF
 mkdir -p /var/log/mysql
 chown -R mysql:mysql /var/log/mysql
 ${systemctl} restart mysql
-mysql=$(command -v mysql)
+mysql=$(command -v mariadb)
 ${mysql} -e "CREATE DATABASE ${NCDBNAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
 ${mysql} -e "CREATE USER ${NCDBUSER}@localhost IDENTIFIED BY '${NCDBPASSWORD}';"
 ${mysql} -e "CREATE USER ${NCDBUSER}@127.0.0.1 IDENTIFIED BY '${NCDBPASSWORD}';"
 ${mysql} -e "GRANT ALL PRIVILEGES ON ${NCDBNAME}.* TO '${NCDBUSER}'@'localhost';"
 ${mysql} -e "GRANT ALL PRIVILEGES ON ${NCDBNAME}.* TO '${NCDBUSER}'@'127.0.0.1';"
 ${mysql} -e "FLUSH PRIVILEGES;"
-mysql_secure_installation=$(command -v mysql_secure_installation)
+mysql_secure_installation=$(command -v mariadb-secure-installation)
 cat <<EOF | ${mysql_secure_installation}
 \n
 n
@@ -709,7 +709,7 @@ y
 y
 y
 EOF
-        mysql -u root -e "SET PASSWORD FOR root@'localhost' = PASSWORD('$MARIADBROOTPASSWORD'); FLUSH PRIVILEGES;"
+        mariadb -u root -e "SET PASSWORD FOR root@'localhost' = PASSWORD('$MARIADBROOTPASSWORD'); FLUSH PRIVILEGES;"
 else
 ${apt} install -y php$PHPVERSION-pgsql postgresql-15 --allow-change-held-packages
 sudo -u postgres psql -c "CREATE USER ${NCDBUSER} WITH PASSWORD '${NCDBPASSWORD}';"
