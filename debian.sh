@@ -587,7 +587,7 @@ ${sed} -i 's/;opcache.huge_code_pages=.*/opcache.huge_code_pages=0/' /etc/php/$P
 ${sed} -i 's/allow_url_fopen =.*/allow_url_fopen = 1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;cgi.fix_pathinfo.*/cgi.fix_pathinfo = 0/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i '$aapc.enable_cli=1' /etc/php/$PHPVERSION/mods-available/apcu.ini
-${sed} -i 's/opcache.jit=off/; opcache.jit=off/' /etc/php/"$PHPVERSION"/mods-available/opcache.ini
+${sed} -i 's/opcache.jit=off/; opcache.jit=on/' /etc/php/"$PHPVERSION"/mods-available/opcache.ini
 ${sed} -i '$aopcache.jit=1255' /etc/php/"$PHPVERSION"/mods-available/opcache.ini
 ${sed} -i '$aopcache.jit_buffer_size=256M' /etc/php/$PHPVERSION/mods-available/opcache.ini
 ${sed} -i 's|;emergency_restart_threshold.*|emergency_restart_threshold = 10|g' /etc/php/$PHPVERSION/fpm/php-fpm.conf
