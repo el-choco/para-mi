@@ -818,14 +818,17 @@ server {
   gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
   gzip_types application/atom+xml text/javascript application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/wasm application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
   add_header Strict-Transport-Security "max-age=15768000; includeSubDomains; preload;" always;
-  add_header Permissions-Policy "interest-cohort=()";
-  add_header Referrer-Policy "no-referrer" always;
-  add_header X-Content-Type-Options "nosniff" always;
-  add_header X-Download-Options "noopen" always;
-  add_header X-Frame-Options "SAMEORIGIN" always;
-  add_header X-Permitted-Cross-Domain-Policies "none" always;
-  add_header X-Robots-Tag "noindex, nofollow" always;
-  add_header X-XSS-Protection "1; mode=block" always;
+  add_header Permissions-Policy                   "interest-cohort=()";
+  add_header Referrer-Policy                      "no-referrer"   always;
+  add_header X-Content-Type-Options               "nosniff"       always;
+  add_header X-Download-Options                   "noopen"        always;
+  add_header X-Frame-Options                      "SAMEORIGIN"    always;
+  add_header X-Permitted-Cross-Domain-Policies    "none"          always;
+  add_header X-Robots-Tag                         "noindex, nofollow" always;
+  add_header X-XSS-Protection                     "1; mode=block" always;
+  add_header Alt-Svc                              "h3=":\$server_port"; ma=86400";
+  add_header x-quic                               "h3";
+  add_header Alt-Svc                              "h3-29=":\$server_port"";
   fastcgi_hide_header X-Powered-By;
   include mime.types;
   types {
@@ -871,16 +874,27 @@ server {
     fastcgi_connect_timeout 3600;
     fastcgi_max_temp_file_size 0;
     }
-  location ~ \.(?:css|js|mjs|svg|gif|png|jpg|ico|wasm|tflite|map|ogg|flac)\$ {
+    location ~ \.(?:css|js|mjs|svg|gif|ico|jpg|png|webp|wasm|tflite|map|ogg|flac)$ {
     try_files \$uri /index.php\$request_uri;
-    add_header Cache-Control "public, max-age=15778463, \$asset_immutable";
+    add_header Cache-Control                        "public, max-age=15778463, \$asset_immutable";
+    add_header Permissions-Policy                   "interest-cohort=()";
+    add_header Referrer-Policy                      "no-referrer"   always;
+    add_header X-Content-Type-Options               "nosniff"       always;
+    add_header X-Download-Options                   "noopen"        always;
+    add_header X-Frame-Options                      "SAMEORIGIN"    always;
+    add_header X-Permitted-Cross-Domain-Policies    "none"          always;
+    add_header X-Robots-Tag                         "noindex, nofollow" always;
+    add_header X-XSS-Protection                     "1; mode=block" always;
+    add_header Alt-Svc                              "h3=":\$server_port"; ma=86400";
+    add_header x-quic                               "h3";
+    add_header Alt-Svc                              "h3-29=":\$server_port"";
     expires 6M;
     access_log off;
     location ~ \.wasm\$ {
       default_type application/wasm;
       }
     }
-  location ~ \.woff2?\$ {
+  location ~ \.(otf|woff2?)$ {
     try_files \$uri /index.php\$request_uri;
     expires 7d;
     access_log off;
@@ -892,7 +906,7 @@ server {
     limit_req zone=NextcloudRateLimit burst=5 nodelay;
     limit_req_status 429;
     try_files \$uri \$uri/ /index.php\$request_uri;
-    }
+    }    
   location / {
     try_files \$uri \$uri/ /index.php\$request_uri;
     }
