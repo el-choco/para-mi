@@ -821,9 +821,9 @@ server {
   add_header X-Permitted-Cross-Domain-Policies    "none"          always;
   add_header X-Robots-Tag                         "noindex, nofollow" always;
   add_header X-XSS-Protection                     "1; mode=block" always;
-  add_header Alt-Svc                              "h3=":\$server_port"; ma=86400";
+  add_header Alt-Svc                              'h3=":\$server_port"; ma=86400';
   add_header x-quic                               "h3";
-  add_header Alt-Svc                              "h3-29=":\$server_port"";
+  add_header Alt-Svc                              'h3-29=":\$server_port"';
   fastcgi_hide_header X-Powered-By;
   include mime.types;
   types {
@@ -880,9 +880,9 @@ server {
     add_header X-Permitted-Cross-Domain-Policies    "none"          always;
     add_header X-Robots-Tag                         "noindex, nofollow" always;
     add_header X-XSS-Protection                     "1; mode=block" always;
-    add_header Alt-Svc                              "h3=":\$server_port"; ma=86400";
+    add_header Alt-Svc                              'h3=":\$server_port"; ma=86400';
     add_header x-quic                               "h3";
-    add_header Alt-Svc                              "h3-29=":\$server_port"";
+    add_header Alt-Svc                              'h3-29=":\$server_port"';
     expires 6M;
     access_log off;
     location ~ \.wasm\$ {
