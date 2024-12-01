@@ -1107,6 +1107,7 @@ ${apt} install -y ufw --allow-change-held-packages
 ufw=$(command -v ufw)
 ${ufw} allow 80/tcp comment "LetsEncrypt(http)"
 ${ufw} allow 443/tcp comment "TLS(https)"
+${ufw} allow 443/udp comment "http/3 (https)"
 SSHPORT=$(grep -w Port /etc/ssh/sshd_config | awk '/Port/ {print $2}')
 ${ufw} allow "$SSHPORT"/tcp comment "SSH"
 ${ufw} logging medium && ${ufw} default deny incoming
