@@ -923,11 +923,11 @@ EOF
 ###########################
 if [ $HTTP3ON == "y" ] 
 then
-${sed}  -i "s/#listen 443 quic reuseport;/listen 443 quic reuseport;/" /etc/nginx/conf.d/nextcloud.conf
-${sed}  -i "s/#listen [::]:443 quic reuseport;/listen [::]:443 quic reuseport;/" /etc/nginx/conf.d/nextcloud.conf
-${sed}  -i "s/#http3 on;/http3 on;/" /etc/nginx/conf.d/nextcloud.conf
-${sed}  -i "s/#http3_hq on;/http3_hq on;/" /etc/nginx/conf.d/nextcloud.conf
-${sed}  -i "s/#quic_retry on;/quic_retry on;/" /etc/nginx/conf.d/nextcloud.conf
+${sed} -i "s/#listen 443 quic reuseport;/listen 443 quic reuseport;/" /etc/nginx/conf.d/nextcloud.conf
+${sed} -i "s/#listen \[\:\:\]\:443 quic reuseport;/listen \[\:\:\]\:443 quic reuseport;/" /etc/nginx/conf.d/nextcloud.conf
+${sed} -i "s/#http3 on;/http3 on;/" /etc/nginx/conf.d/nextcloud.conf
+${sed} -i "s/#http3_hq on;/http3_hq on;/" /etc/nginx/conf.d/nextcloud.conf
+${sed} -i "s/#quic_retry on;/quic_retry on;/" /etc/nginx/conf.d/nextcloud.conf
 fi
 ${clear}
 ${echo} "Diffie-Hellman key:"
