@@ -788,7 +788,12 @@ limit_req_zone \$binary_remote_addr zone=NextcloudRateLimit:10m rate=2r/s;
 server {
   listen 443 ssl default_server;
   listen [::]:443 ssl default_server;
+  listen 443 quic reuseport;
+  listen [::]:443 quic reuseport;
   http2 on;
+  http3 on;
+  http3_hq on;
+  quic_retry on;
   server_name cloud.server.io;
   ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
   ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
