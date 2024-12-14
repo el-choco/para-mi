@@ -87,6 +87,12 @@ ${echo} 'Acquire::ForceIPv4 "true";' >> /etc/apt/apt.conf.d/99force-ipv4
 fi
 # D: Sicherstellen, dass Basissoftware verfügbar ist
 # E: Ensure, admin software is available on the server
+if [ $TCP_OPT == "y" ] 
+then
+${wget} -O /etc/sysctl.d/100-nextcloud.conf -q https://codeberg.org/criegerde/nextcloud/raw/branch/master/etc/sysctl.d/100-nextcloud.conf
+fi
+# D: TCP-Optimierungen
+# E: TCP Optimizations
 if [ -z "$(command -v lsb_release)" ]
 then
 apt install -y lsb-release
