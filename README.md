@@ -46,7 +46,8 @@ MARIADBROOTPASSWORD=$(openssl rand -hex 16)
 NCDBPASSWORD=nextcloud
 REDISPASSWORD=$(openssl rand -hex 16)
 REMOVEUAU="y"
-TCP_OPT="n"</code>
+TCP_OPT="n"
+HTTP3ON="n"</code>
 <h3>Installation:</h3>
 <code>./zero.sh</code>
 <h2>D/E: DEINSTALLATION/UNINSTALL:</h2>
