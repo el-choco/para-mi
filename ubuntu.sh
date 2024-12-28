@@ -1160,7 +1160,7 @@ ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:disable survey_clien
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:disable firstrunwizard
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:disable federation
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:disable support
-${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:disable logreader
+# ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:disable logreader
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ config:app:set settings profile_enabled_by_default --value="0"
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable admin_audit
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable files_pdfviewer
