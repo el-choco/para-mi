@@ -7,12 +7,12 @@
 D: Installieren Sie Ihren eigenen Nextcloud-Server in weniger als 10 Minuten.<br>
 E: Install your own Nextcloud server in less than 10 minutes.
 
-* <b>Ubuntu 24.x LTS</b> [AMD x86_64] / <b>Debian 12</b> [AMD x86_64] 
+* <b>Ubuntu 24 LTS</b> [x86_64] / <b>Debian 12</b> [x86_64] 
 * NGINX ≥ 1.27 from nginx
 * Auswahl / Option: PHP 8.3 // PHP 8.2 // PHP 8.1
-* Auswahl / Option: MariaDB 10.11 // postgreSQL 15
+* Auswahl / Option: MariaDB 10.11 // postgreSQL 16
 * Auswahl / Option: Self-signed // Let's Encrypt certificates
-* Auswahl / Option: Nextcloud Release ≥ 26.0.13<br>
+* Auswahl / Option: Nextcloud Release ≥ 29<br>
 * Auswahl / Option: Nextcloud Office/OnlyOffice
 * etc...
 
@@ -41,7 +41,7 @@ NEXTCLOUDOFFICE="n"
 ONLYOFFICE="n"
 UPLOADSIZE='10G'
 APTIP4="n"
-RESOLVER="176.9.93.198 176.9.1.117"
+RESOLVER="127.0.0.53 176.9.93.198 176.9.1.117"
 MARIADBROOTPASSWORD=$(openssl rand -hex 16)
 NCDBPASSWORD=nextcloud
 REDISPASSWORD=$(openssl rand -hex 16)
