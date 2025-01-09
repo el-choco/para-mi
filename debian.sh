@@ -528,6 +528,7 @@ ${cat} <<EOF >/etc/sudoers.d/acmeuser
 acmeuser ALL=NOPASSWD: /bin/systemctl reload nginx.service
 EOF
 ${su} - acmeuser -c "/usr/bin/curl https://get.acme.sh | sh"
+${su} - acmeuser -c ".acme.sh/acme.sh --upgrade --auto-upgrade"
 ${su} - acmeuser -c ".acme.sh/acme.sh --set-default-ca --server letsencrypt"
 ###########################
 # Installation PHP        #
