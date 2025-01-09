@@ -1,6 +1,6 @@
 #!/bin/bash
 ##########################################################################################
-# Ubuntu 22/24.x+ LTS x86_64
+# Ubuntu 24 LTS x86_64
 # Nextcloud latest (or older Versions)
 # Based on nginx, PHP, MariaDB/postgreSQL, Redis, crowdsec, ufw ...
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
