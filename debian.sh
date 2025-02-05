@@ -1102,8 +1102,10 @@ ${apt} install -y crowdsec-firewall-bouncer-nftables
 ${systemctl} reload crowdsec.service crowdsec-firewall-bouncer.service
 ${systemctl} enable crowdsec.service crowdsec-firewall-bouncer.service
 ${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service
-cscli collections install crowdsecurity/nextcloud
 cscli collections install crowdsecurity/nginx
+cscli parsers install crowdsecurity/nginx-logs
+cscli scenarios install crowdsecurity/nginx-req-limit-exceeded
+cscli collections install crowdsecurity/nextcloud
 cscli collections install crowdsecurity/nextcloud
 cscli scenarios install crowdsecurity/nextcloud-bf
 cscli parsers install crowdsecurity/nextcloud-logs
