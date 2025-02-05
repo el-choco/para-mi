@@ -1115,8 +1115,15 @@ ${systemctl} enable crowdsec.service crowdsec-firewall-bouncer.service
 ${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service
 cscli collections install crowdsecurity/nextcloud
 cscli collections install crowdsecurity/nginx
+cscli collections install crowdsecurity/nextcloud
+cscli scenarios install crowdsecurity/nextcloud-bf
+cscli parsers install crowdsecurity/nextcloud-logs
+cscli parsers install crowdsecurity/nextcloud-whitelist
 cscli collections install crowdsecurity/sshd
-cscli parsers install crowdsecurity/geoip-enrich
+cscli scenarios install crowdsecurity/ssh-bf
+cscli scenarios install crowdsecurity/ssh-slow-bf
+cscli parsers install crowdsecurity/sshd-success-logs
+cscli parsers install crowdsecurity/sshd-logs
 ${systemctl} reload crowdsec.service crowdsec-firewall-bouncer.service
 ${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service
 ${cp} /etc/crowdsec/acquis.yaml /etc/crowdsec/acquis.yaml.bak
