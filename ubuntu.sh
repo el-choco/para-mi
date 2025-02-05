@@ -1082,7 +1082,11 @@ ${cat} <<EOF >>/var/www/nextcloud/config/config.php
         'skeletondirectory' => '',
         'trashbin_retention_obligation' => 'auto, 7',
         'maintenance_window_start' => 1,
-        );
+      'remember_login_cookie_lifetime' => 432000,
+      'session_lifetime' => 6000,
+      'session_keepalive' => false,
+      'auto_logout' => true,
+      );
 EOF
 ${sed} -i 's/^[ ]*//' /var/www/nextcloud/config/config.php
 ###########################
