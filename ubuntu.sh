@@ -1114,7 +1114,7 @@ fi
 ${apt} update
 ${apt} install -y crowdsec
 ${apt} install -y crowdsec-firewall-bouncer
-${systemctl} reload crowdsec.service crowdsec-firewall-bouncer.service
+${systemctl} reload crowdsec.service
 ${systemctl} enable crowdsec.service crowdsec-firewall-bouncer.service
 ${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service
 cscli collections install crowdsecurity/nginx
@@ -1130,7 +1130,7 @@ cscli scenarios install crowdsecurity/ssh-bf
 cscli scenarios install crowdsecurity/ssh-slow-bf
 cscli parsers install crowdsecurity/sshd-success-logs
 cscli parsers install crowdsecurity/sshd-logs
-${systemctl} reload crowdsec.service crowdsec-firewall-bouncer.service
+${systemctl} reload crowdsec.service
 ${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service
 ${cp} /etc/crowdsec/acquis.yaml /etc/crowdsec/acquis.yaml.bak
 ${cat} <<EOF >>/etc/crowdsec/acquis.yaml
@@ -1141,7 +1141,7 @@ labels:
   type: Nextcloud
 ---
 EOF
-${systemctl} reload crowdsec.service crowdsec-firewall-bouncer.service
+${systemctl} reload crowdsec.service
 ${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service
 ###########################
 # Installation ufw        #
