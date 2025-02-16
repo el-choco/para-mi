@@ -1113,7 +1113,7 @@ sed -i 's/noble/jammy/' /etc/apt/sources.list.d/crowdsec_crowdsec.list
 fi
 ${apt} update
 ${apt} install -y crowdsec
-${apt} install -y crowdsec-firewall-bouncer-nftables
+${apt} install -y crowdsec-firewall-bouncer
 ${systemctl} reload crowdsec.service crowdsec-firewall-bouncer.service
 ${systemctl} enable crowdsec.service crowdsec-firewall-bouncer.service
 ${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service

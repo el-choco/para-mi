@@ -1102,7 +1102,7 @@ ${echo} ""
 sleep 2
 ${curl} -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
 ${apt} install -y crowdsec
-${apt} install -y crowdsec-firewall-bouncer-nftables
+${apt} install -y crowdsec-firewall-bouncer
 ${systemctl} reload crowdsec.service crowdsec-firewall-bouncer.service
 ${systemctl} enable crowdsec.service crowdsec-firewall-bouncer.service
 ${systemctl} restart crowdsec.service crowdsec-firewall-bouncer.service
