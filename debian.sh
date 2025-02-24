@@ -261,7 +261,7 @@ if [ ! -d "/home/$BENUTZERNAME/Nextcloud-Installationsskript/" ]; then
 IPA=$(hostname -I | awk '{print $1}')
 ###########################
 # D: Systempfade auslesen #
-# E: System patches       #
+# E: Read system pathes   #
 ###########################
 addaptrepository="add-apt-repository"
 adduser=$(command -v adduser)
