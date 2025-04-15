@@ -430,7 +430,7 @@ echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx
 if [ $DATABASE == "m" ]
 then
     ${curl} -o /usr/share/keyrings/mariadb-keyring.pgp 'https://mariadb.org/mariadb_release_signing_key.pgp'
-    echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.pgp] https://mirror1.hs-esslingen.de/pub/Mirrors/mariadb/repo/10.11/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
+    echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.pgp] https://mirror1.hs-esslingen.de/pub/Mirrors/mariadb/repo/11.4/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
 else
     ${wget}  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
     echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list      
@@ -662,7 +662,7 @@ datadir = /var/lib/mysql
 default_storage_engine = InnoDB
 expire_logs_days = 2
 general_log_file = /var/log/mysql/mysql.log
-innodb_buffer_pool_size = 2G
+innodb_buffer_pool_size = 1G
 innodb_log_buffer_size = 32M
 innodb_log_file_size = 512M
 innodb_read_only_compressed=OFF
@@ -680,6 +680,8 @@ long_query_time = 1
 max_connections = 100
 max_heap_table_size = 64M
 max_allowed_packet = 512M
+max-binlog-size = 512M
+max_binlog_total_size = 2G
 myisam_sort_buffer_size = 512M
 port = 3306
 pid-file = /var/run/mysqld/mysqld.pid

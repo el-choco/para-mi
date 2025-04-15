@@ -423,7 +423,7 @@ then
 		then
 		${wget} https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
 		chmod +x mariadb_repo_setup
-		./mariadb_repo_setup --mariadb-server-version="mariadb-10.11"
+		./mariadb_repo_setup --mariadb-server-version="mariadb-11.4"
 	fi
 else
 	${curl} -fsSl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql.gpg > /dev/null
@@ -655,7 +655,7 @@ datadir = /var/lib/mysql
 default_storage_engine = InnoDB
 expire_logs_days = 2
 general_log_file = /var/log/mysql/mysql.log
-innodb_buffer_pool_size = 2G
+innodb_buffer_pool_size = 1G
 innodb_log_buffer_size = 32M
 innodb_log_file_size = 512M
 innodb_read_only_compressed=OFF
@@ -673,6 +673,8 @@ long_query_time = 1
 max_connections = 100
 max_heap_table_size = 64M
 max_allowed_packet = 512M
+max-binlog-size = 512M
+max_binlog_total_size = 2G
 myisam_sort_buffer_size = 512M
 port = 3306
 pid-file = /var/run/mysqld/mysqld.pid
