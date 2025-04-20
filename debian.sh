@@ -247,7 +247,7 @@ if [ ! -d "/home/$BENUTZERNAME/Nextcloud-Installationsskript/" ]; then
   echo "*************************************************"
   echo ""
   echo -e "* Press Ctrl+C To abort  // Drücke STRG+C um abzubrechen"
-  seconds=10
+  seconds=5
   while [ $seconds -gt 0 ]; do
    echo -ne "* INSTALLATION STARTET IN $seconds\033[0K\r"
    sleep 1
