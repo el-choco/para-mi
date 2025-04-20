@@ -426,7 +426,7 @@ X-Repolib-Name: MariaDB
 Types: deb
 # deb.mariadb.org is a dynamic mirror if your preferred mirror goes offline. See https://mariadb.org/mirrorbits/ for details.
 # URIs: https://deb.mariadb.org/11.1/debian
-URIs: https://mirrors.aliyun.com/mariadb/repo/11.4/debian
+URIs: https://dlm.mariadb.com/repo/mariadb-server/11.4/repo/debian
 Suites: bookworm
 Components: main
 Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp
