@@ -417,10 +417,7 @@ echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 
 ###########################
 # DB Repositories         #
 ###########################
-if [ $DATABASE == "m" ]
-then
-	if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
-		then
+if [ $DATABASE == "m" ] then
     ${cat} <<EOF >/etc/apt/sources.list.d/mariadb.sources
     # MariaDB 11.4 repository list - created 2023-11-20 07:47 UTC
     # https://mariadb.org/download/
