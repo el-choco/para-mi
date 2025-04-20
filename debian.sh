@@ -421,11 +421,20 @@ if [ $DATABASE == "m" ]
 then
 	if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 		then
-    ${cat} <<EOF >/etc/apt/sources.list.d/mariadb.list
-    deb [arch=amd64,arm64] https://dlm.mariadb.com/repo/mariadb-server/11.4/repo/debian bookworm main
+    ${cat} <<EOF >/etc/apt/sources.list.d/mariadb.sources
+    # MariaDB 11.4 repository list - created 2023-11-20 07:47 UTC
+    # https://mariadb.org/download/
+    X-Repolib-Name: MariaDB
+    Types: deb
+    # deb.mariadb.org is a dynamic mirror if your preferred mirror goes offline. See https://mariadb.org/mirrorbits/ for details.
+    # URIs: https://deb.mariadb.org/11.1/debian
+    URIs: https://mirrors.aliyun.com/mariadb/repo/11.4/debian
+    Suites: bookworm
+    Components: main
+    Signed-By: /etc/apt/keyrings/mariadb-keyring.pgp
     EOF
     ${curl} -o /etc/apt/keyrings/mariadb-keyring.pgp 'https://mariadb.org/mariadb_release_signing_key.pgp'
-	fi
+    fi
 else
 	${curl} -fsSl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql.gpg > /dev/null
 	echo deb [signed-by=/usr/share/keyrings/postgresql.gpg] http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main | sudo tee /etc/apt/sources.list.d/postgresql.list        
