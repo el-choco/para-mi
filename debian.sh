@@ -421,9 +421,10 @@ if [ $DATABASE == "m" ]
 then
 	if [ "$(lsb_release -r | awk '{ print $2 }')" = "11" ]
 		then
-		${wget} https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-		chmod +x mariadb_repo_setup
-		./mariadb_repo_setup --mariadb-server-version="mariadb-11.4"
+    ${cat} <<EOF >/etc/apt/sources.list.d/mariadb.list
+    deb [arch=amd64,arm64] https://dlm.mariadb.com/repo/mariadb-server/11.4/repo/debian bookworm main
+    EOF
+    ${curl} -o /etc/apt/keyrings/mariadb-keyring.pgp 'https://mariadb.org/mariadb_release_signing_key.pgp'
 	fi
 else
 	${curl} -fsSl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql.gpg > /dev/null
