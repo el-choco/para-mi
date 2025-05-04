@@ -751,7 +751,11 @@ ${clear}
 ${echo} "REDIS-Installation"
 ${echo} ""
 sleep 1
-${apt} install -y redis-server --allow-change-held-packages
+${curl} -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+${chmod} 644 /usr/share/keyrings/redis-archive-keyring.gpg
+${echo} "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list
+${apt} update
+${apt} install -y redis-server redis-tools --allow-change-held-packages
 ${cp} /etc/redis/redis.conf /etc/redis/redis.conf.bak
 ${sed} -i 's/port 6379/port 0/' /etc/redis/redis.conf
 ${sed} -i s/\#\ unixsocket/\unixsocket/g /etc/redis/redis.conf
