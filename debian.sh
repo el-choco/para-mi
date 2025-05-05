@@ -750,18 +750,17 @@ fi
 ${clear}
 ${echo} "REDIS-Installation"
 ${echo} ""
-sleep 1
 ${curl} -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
 ${chmod} 644 /usr/share/keyrings/redis-archive-keyring.gpg
-${echo} "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb bookworm main" | tee /etc/apt/sources.list.d/redis.list
+${echo} "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb noble main" | tee /etc/apt/sources.list.d/redis.list
 ${apt} update
 ${apt} install -y redis-server redis-tools --allow-change-held-packages
 ${cp} /etc/redis/redis.conf /etc/redis/redis.conf.bak
 ${sed} -i 's/port 6379/port 0/' /etc/redis/redis.conf
 ${sed} -i 's/\# unixsocket \/run\/redis.sock/unixsocket \/var\/run\/redis\/redis-server.sock/' /etc/redis/redis.conf
 ${sed} -i 's/\# unixsocketperm 700/unixsocketperm 770/' /etc/redis/redis.conf
-${sed} -i "s/\# requirepass foobared/requirepass $REDISPASSWORD/" /etc/redis/redis.conf
 ${sed} -i 's/\# maxclients 10000/maxclients 10240/' /etc/redis/redis.conf
+${sed} -i "s/\# requirepass foobared/requirepass $REDISPASSWORD/" /etc/redis/redis.conf
 ${cp} /etc/sysctl.conf /etc/sysctl.conf.bak
 ${sed} -i '$avm.overcommit_memory = 1' /etc/sysctl.conf
 ${usermod} -a -G redis www-data
