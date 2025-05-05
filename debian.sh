@@ -752,7 +752,7 @@ ${echo} "REDIS-Installation"
 ${echo} ""
 ${curl} -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
 ${chmod} 644 /usr/share/keyrings/redis-archive-keyring.gpg
-${echo} "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb noble main" | tee /etc/apt/sources.list.d/redis.list
+${echo} "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb bookworm main" | tee /etc/apt/sources.list.d/redis.list
 ${apt} update
 ${apt} install -y redis-server redis-tools --allow-change-held-packages
 ${cp} /etc/redis/redis.conf /etc/redis/redis.conf.bak
