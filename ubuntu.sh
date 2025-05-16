@@ -822,8 +822,8 @@ server {
   ssl_ciphers 'TLS-CHACHA20-POLY1305-SHA256:TLS-AES-256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384';
   ssl_ecdh_curve X448:secp521r1:secp384r1;
   ssl_prefer_server_ciphers on;
-  ssl_stapling on;
-  ssl_stapling_verify on;
+  # ssl_stapling on;
+  # ssl_stapling_verify on;
   client_max_body_size 10G;
   client_body_timeout 3600s;
   client_body_buffer_size 512k;
