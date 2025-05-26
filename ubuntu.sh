@@ -1186,6 +1186,7 @@ ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable files_pdfview
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable contacts
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable calendar
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:enable groupfolders
+${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ config:app:set files_sharing hide_disabled_user_shares --value yes
 if [ $NEXTCLOUDOFFICE == "y" ]
 then
 ${sudo} -u www-data /usr/bin/php /var/www/nextcloud/occ app:install richdocuments
