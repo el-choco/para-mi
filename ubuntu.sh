@@ -661,6 +661,7 @@ collation-server = utf8mb4_general_ci
 datadir = /var/lib/mysql
 default_storage_engine = InnoDB
 expire_logs_days = 2
+slave_connections_needed_for_purge = 0
 general_log_file = /var/log/mysql/mysql.log
 innodb_buffer_pool_size = 1G
 innodb_log_buffer_size = 32M
