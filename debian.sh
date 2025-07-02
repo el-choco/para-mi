@@ -600,6 +600,7 @@ ${sed} -i 's/;opcache.save_comments=.*/opcache.save_comments=1/' /etc/php/$PHPVE
 ${sed} -i 's/;opcache.huge_code_pages=.*/opcache.huge_code_pages=0/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/allow_url_fopen =.*/allow_url_fopen = 1/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i 's/;cgi.fix_pathinfo.*/cgi.fix_pathinfo = 0/' /etc/php/$PHPVERSION/fpm/php.ini
+${sed} -i 's/session.gc_maxlifetime =.*/session.gc_maxlifetime = 36000/' /etc/php/$PHPVERSION/fpm/php.ini
 ${sed} -i '$aapc.enable_cli=1' /etc/php/$PHPVERSION/mods-available/apcu.ini
 ${sed} -i 's/opcache.jit=off/opcache.jit=on/' /etc/php/"$PHPVERSION"/mods-available/opcache.ini
 ${sed} -i '$aopcache.jit=1255' /etc/php/"$PHPVERSION"/mods-available/opcache.ini
@@ -1067,6 +1068,10 @@ ${cat} <<EOF >>/var/www/nextcloud/config/config.php
       'logfile' => '/var/log/nextcloud/$NEXTCLOUDDNS.log',
       'loglevel' => 2,
       'logtimezone' => '$CURRENTTIMEZONE',
+      'remember_login_cookie_lifetime' => '36000',
+      'session_lifetime' => '36000',
+      'session_keepalive' => true,
+      'auto_logout' => true,
       'memcache.local' => '\\\\OC\\\\Memcache\\\\APCu',
       'memcache.locking' => '\\\\OC\\\\Memcache\\\\Redis',
       'overwriteprotocol' => 'https',
