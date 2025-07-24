@@ -20,7 +20,7 @@ E: Install your own Nextcloud server in less than 10 minutes.
 <h3>D/E: Vorbereitungen/Preparations:</h3>
 <code>sudo -s</code><br>
 <code>wget -O zero.sh https://github.com/el-choco/Nextcloud-Install-Zero/blob/master/debian.sh</code><br>
-<code>wget -O zero.sh https://raw.githubusercontent.com/el-choco/Nextcloud-Install-Zero/refs/heads/master/ubuntu.sh?token=GHSAT0AAAAAADHYTDISDKHGM2TPC4Y2Y3742ECKIDQ</code><br>
+<code>wget -O zero.sh https://github.com/el-choco/para-mi/blob/master/zero_v2.cfg</code><br>
 <code>wget -O zero.cfg https://github.com/el-choco/Nextcloud-Install-Zero/blob/master/zero_v2.cfg</code><br>
 <code>chmod +x zero.sh</code><br> <br>
 <h3>D/E: Konfigurationsvariablen anpassen / modify configuration variables:</h3></code>
